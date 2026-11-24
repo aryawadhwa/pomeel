@@ -11,7 +11,7 @@ import warnings
 
 from data_loader import load_findex_data
 from econometrics import run_full_econometric_suite
-from explainability import run_shap_analysis
+from explainability import generate_econometric_figures, run_shap_analysis
 from models import (
     compare_models,
     make_calibrated_stack,
@@ -135,6 +135,7 @@ def main():
     # 8. Econometric Suite (AMEs, Fairlie Decomposition, Heterogeneity, 2024 Tracker)
     print("\n[Step 9] Running Full Econometric & Behavioral Audit Suite...")
     run_full_econometric_suite(capable_df, output_dir='figures')
+    generate_econometric_figures(capable_df, output_dir='figures')
 
     print("\n" + "=" * 80)
     print("LEAK-FREE 2-WAVE EMPIRICAL PIPELINE COMPLETED SUCCESSFULLY!")
