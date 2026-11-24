@@ -1,7 +1,9 @@
 """
-Data Loader Module for World Bank Global Findex 2021 India Microdata.
+Data Loader Module for World Bank Global Findex Microdata (India).
 STRICT REQUIREMENT: NO SYNTHETIC VALUES, NO DUMMY DATA.
 Loads authentic, official microdata files exclusively.
+Supports both Global Findex 2021 (IND_2021_FINDEX) and the newly released
+Global Findex 2025 / 2024 wave (IND_2024_FINDEX).
 """
 
 import os
@@ -9,19 +11,21 @@ from typing import Optional
 import pandas as pd
 
 
-OFFICIAL_PORTAL_URL = "https://microdata.worldbank.org/index.php/catalog/4651"
-OFFICIAL_STUDY_ID = "IND_2021_FINDEX_v02_M"
+OFFICIAL_PORTAL_URL_2021 = "https://microdata.worldbank.org/index.php/catalog/4651"
+OFFICIAL_STUDY_ID_2021 = "IND_2021_FINDEX_v02_M"
+
+OFFICIAL_PORTAL_URL_2025 = "https://microdata.worldbank.org/index.php/catalog/findex"
+OFFICIAL_STUDY_ID_2025 = "IND_2024_FINDEX_v02_M"
 
 
 def load_findex_data(data_dir: str = 'data/raw') -> pd.DataFrame:
     """
-    Loads authentic, official World Bank Global Findex 2021 India microdata.
+    Loads authentic, official World Bank Global Findex microdata for India.
     
-    Checks for the official World Bank microdata files:
-      - IND_2021_FINDEX.dta (Stata format)
-      - IND_2021_FINDEX.csv
-      - micro_world.dta (Global microdata filtered to economycode == 'IND')
-      - micro_world.csv (Global microdata filtered to economycode == 'IND')
+    Checks for official World Bank microdata files in order of priority:
+      - IND_2024_FINDEX.dta / .csv (Newest 2024/2025 wave)
+      - IND_2021_FINDEX.dta / .csv (2021 benchmark wave)
+      - micro_world.dta / .csv (Global microdata filtered to economycode == 'IND')
       
     If no official microdata file is found, raises FileNotFoundError with explicit
     instructions on how to obtain the official file from the World Bank repository.
@@ -45,9 +49,13 @@ def load_findex_data(data_dir: str = 'data/raw') -> pd.DataFrame:
     os.makedirs(data_dir, exist_ok=True)
     
     candidate_files = [
+        'IND_2024_FINDEX.dta',
+        'IND_2024_FINDEX.csv',
         'IND_2021_FINDEX.dta',
         'IND_2021_FINDEX.csv',
         'micro_world_india.csv',
+        'micro_world_2024.csv',
+        'micro_world_2024.dta',
         'micro_world.dta',
         'micro_world.csv'
     ]
@@ -82,15 +90,15 @@ def load_findex_data(data_dir: str = 'data/raw') -> pd.DataFrame:
         f"{'='*75}\n"
         f"No authentic World Bank Global Findex microdata file was detected in:\n"
         f"  '{os.path.abspath(data_dir)}/'\n\n"
-        f"To execute the empirical pipeline on official data:\n"
-        f"1. Navigate to the official World Bank Microdata Library portal:\n"
-        f"   URL: {OFFICIAL_PORTAL_URL}\n"
-        f"   Study Reference ID: {OFFICIAL_STUDY_ID}\n"
-        f"2. Sign in with a World Bank account and download the microdata file:\n"
-        f"   - 'IND_2021_FINDEX.dta' OR 'IND_2021_FINDEX.csv'\n"
-        f"   (or the global 'micro_world.dta' / 'micro_world.csv')\n"
-        f"3. Place the downloaded file into '{data_dir}/'\n"
-        f"4. Re-run this script.\n"
+        f"To execute the empirical pipeline on official data, obtain either:\n"
+        f"A) Global Findex 2025 Edition (2024 survey wave with Digital Connectivity Tracker):\n"
+        f"   - Study Reference ID: {OFFICIAL_STUDY_ID_2025}\n"
+        f"   - File name: 'IND_2024_FINDEX.dta' or 'IND_2024_FINDEX.csv'\n"
+        f"B) Global Findex 2021 Benchmark Wave:\n"
+        f"   - URL: {OFFICIAL_PORTAL_URL_2021}\n"
+        f"   - Study Reference ID: {OFFICIAL_STUDY_ID_2021}\n"
+        f"   - File name: 'IND_2021_FINDEX.dta' or 'IND_2021_FINDEX.csv'\n\n"
+        f"Place the downloaded file into '{data_dir}/' and re-run.\n"
         f"{'='*75}"
     )
     raise FileNotFoundError(error_msg)
