@@ -41,8 +41,8 @@ Rather than relying strictly on classical parametric regressions—which assume 
 ```mermaid
 flowchart TD
     subgraph Macro [1. Macroeconomic Context]
-        CiC["Currency in Circulation: ₹42.8L Cr<br/>(RBI, 2024; Awasthy et al., 2023)"]
-        UPI["UPI Volume: 14.96B txn/mo<br/>(NPCI, 2024)"]
+        CiC["Banknotes: ₹41.24L Cr (Mar 2026)<br/>Total CiC > ₹43L Cr (RBI, 2026)"]
+        UPI["UPI Volume: 25.47B txn/mo<br/>₹31.53L Cr (NPCI, Oct 2026)"]
         Paradox["Currency Demand Paradox<br/>(Goodhart & Ashworth, 2020)"]
         CiC --- Paradox
         UPI --- Paradox
@@ -50,9 +50,9 @@ flowchart TD
 
     subgraph Micro [2. Microeconomic & Behavioral Realities]
         Findex["670M Banked Indians Pay Only Cash<br/>(Demirgüç-Kunt et al., 2022)"]
-        Habit["78.0% Habit Persistence ('Used to it')<br/>(Samuelson & Zeckhauser, 1988)"]
+        Habit["77.4% Habit Persistence (2024 fin25e4)<br/>(Samuelson & Zeckhauser, 1988)"]
         Loop["The 'Cash-Out Loop'<br/>(CGAP, 2021; Sutradhar, 2024)"]
-        Trust["4.9% Trust & Scam Anxiety<br/>(Talwar et al., 2020; Goyal, 2026)"]
+        Trust["6.5% Distrust & 9.8% Merchant Cash-Only<br/>(Talwar et al., 2020; World Bank, 2025)"]
         Tax["Merchant Tax Scrutiny<br/>(AIS/TIS Tracking & GST Section 63)"]
         Findex --> Habit
         Findex --> Loop
@@ -106,8 +106,8 @@ Gradient Tree Boosting (XGBoost) (Chen & Guestrin, 2016) natively models non-lin
 
 ## III. Data Operationalization: World Bank Global Findex (India)
 
-### A. Data Source & Survey Architecture
-The empirical analysis utilizes microdata from the **World Bank Global Financial Inclusion (Global Findex) Database 2021** for India (Study Reference ID: `IND_2021_FINDEX_v02_M`) (Demirgüç-Kunt et al., 2022). Furthermore, the methodology is structured to be forward-compatible with the newly cataloged **Global Findex 2025 Edition** (incorporating the 2024 survey wave and Digital Connectivity Tracker under Study Reference ID: `IND_2024_FINDEX_v02_M`). The benchmark dataset comprises $N = 3,000$ face-to-face, nationally representative surveyed adult respondents (aged 15+) across all Indian states and Union Territories, capturing 199 survey indicators.
+### A. Data Source & Pooled Two-Wave Survey Architecture
+The empirical analysis pools authentic India microdata from two official World Bank survey waves: **Global Findex 2021** (`IND_2021_FINDEX_v02_M`, $N = 3,000$, 119 indicators) (Demirgüç-Kunt et al., 2022) and the **Global Findex 2025 Edition / 2024 Wave** (`IND_2024_FINDEX_v02_M`, $N = 3,000$, 199 indicators including the Digital Connectivity Tracker) (World Bank, 2025). Pooling both waves yields $N = 6,000$ nationally representative surveyed Indian adults (aged 15+) across all Indian states and Union Territories.
 
 ### B. Operational Definition of the "Capable" Cohort
 To isolate the paradox of non-adoption despite technical readiness, we explicitly filter out infrastructural exclusion. The eligible cohort is mathematically formulated as:
@@ -195,11 +195,11 @@ $$I_j = \frac{1}{N} \sum_{i=1}^N \left| \phi_j^{(i)} \right|$$
 
 Based on the cited literature, the empirical pipeline is structured to test five core hypotheses:
 
-* **Hypothesis 1 ($H_1$ - The Habit Primacy Hypothesis):** Consistent with Samuelson & Zeckhauser (1988) and baseline Findex indicators (78.0%), habit persistence and age will demonstrate higher feature importance ($I_j$) in predicting cash reliance than technological or infrastructure variables.
-* **Hypothesis 2 ($H_2$ - The Cash-Out Loop Hypothesis):** Supported by Demirgüç-Kunt et al. (2022) and Sutradhar (2024), individuals receiving wages or government transfers in cash (`wage_cash = 1`, `gov_cash = 1`) will display significantly higher probability of in-store cash reliance.
-* **Hypothesis 3 ($H_3$ - The Age Inflection Hypothesis):** Rather than exhibiting a strictly linear log-odds decay, age will display a sharp non-linear threshold beyond age 40 where digital capability fails to displace physical cash habits.
-* **Hypothesis 4 ($H_4$ - The Irrelevance of Direct Costs):** Because UPI operates under zero-MDR regulations, direct cost barriers (`barrier_cost`) will exhibit negligible feature attribution ($I_j \approx 0$), whereas psychological trust and scam concerns (`barrier_trust`, 4.9% baseline) will rank substantially higher.
-* **Hypothesis 5 ($H_5$ - The Gender Usage Gap):** Despite parity in baseline account ownership (78% for both genders in Findex 2021), female gender will positively contribute to cash reliance due to intra-household cash budgeting dynamics and shared device constraints.
+* **Hypothesis 1 ($H_1$ - The Habit & Literacy Primacy Hypothesis):** Consistent with Samuelson & Zeckhauser (1988) and 2024 Findex `fin25e4` indicators (77.4% habit), age inertia and functional digital literacy (`can_read_sms` / `educ`) will exert substantial impact on cash reliance beyond basic infrastructure access.
+* **Hypothesis 2 ($H_2$ - The Cash-Out Loop Hypothesis):** Supported by Demirgüç-Kunt et al. (2022) and Sutradhar (2024), individuals receiving wages or agricultural payments in physical cash (`wage_cash = 1`, `ag_cash = 1`, `cash_inflow_intensity`) will display significantly higher probability of in-store cash reliance, whereas bank-deposited income (`wage_bank = 1`) reduces cash reliance.
+* **Hypothesis 3 ($H_3$ - The Age Inflection Hypothesis):** Rather than exhibiting a strictly linear log-odds decay, age will display a sharp non-linear inflection threshold beyond age 40 where digital capability fails to displace physical cash habits.
+* **Hypothesis 4 ($H_4$ - Cost Irrelevance vs. Trust & Refusal):** Because UPI operates under zero-MDR mandates, direct cost barriers (`fin25e4 == 2`, 2.3%) represent a negligible obstacle relative to distrust (6.5%) and systemic merchant cash-only refusal (9.8%).
+* **Hypothesis 5 ($H_5$ - The Gender Usage Gap):** Despite parity in baseline account ownership (77.5% in Findex 2021), female gender will positively contribute to cash reliance due to intra-household cash budgeting dynamics and shared device constraints.
 
 ---
 
@@ -308,7 +308,7 @@ To address habit persistence among older demographics (Samuelson & Zeckhauser, 1
 
 1. **Cross-Sectional Observational Data:** The Global Findex survey is cross-sectional. While TreeSHAP values isolate empirical associations and predictive contributions, they do not establish causal relationships in the absence of exogenous experimental variation.
 2. **Survey Measurement Limitations:** Psychological constructs such as habit persistence and scam anxiety are evaluated via discrete self-reported survey indicators rather than continuous psychometric psychophysical instruments.
-3. **Temporal Dynamics:** The 2021 survey wave captured adoption during the COVID-19 pandemic recovery. The subsequent release of the **Global Findex 2025 Database** (`IND_2024_FINDEX_v02_M`) provides a key opportunity for future comparative validation across the post-soundbox digital payments timeline.
+3. **Temporal & Ecosystem Coverage:** While pooling the 2021 and 2024 survey waves ($N = 6,000$) captures the post-soundbox and Digital Connectivity Tracker era, ongoing post-2024 expansion of UPI Lite and offline CBDC pilots motivates continued evaluation in future survey waves.
 
 ---
 

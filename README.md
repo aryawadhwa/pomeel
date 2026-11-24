@@ -54,10 +54,11 @@
 │   ├── RESEARCH_PAPER.md                               # Complete research paper manuscript (100% cited)
 │   └── paper.tex                                       # IEEE-format conference manuscript for Overleaf
 └── src/
-    ├── data_loader.py                                  # Strict loader supporting 2021 & 2025 Findex microdata
-    ├── preprocessor.py                                 # Cohort screening (Account & Phone & Internet)
-    ├── models.py                                       # Survey-weighted Logit & regularized XGBoost
-    ├── explainability.py                               # TreeSHAP game-theoretic interpretability engine
+    ├── data_loader.py                                  # Strict 2-wave loader pooling 2021 & 2025 Findex microdata
+    ├── preprocessor.py                                 # Cohort screening & strictly leak-free feature engineering
+    ├── models.py                                       # Spline-Logit, XGBoost, LightGBM, 4-family Stack & 5x3 CV
+    ├── econometrics.py                                 # Wave AMEs, Fairlie decomposition, subgroup & 2024 tracker audits
+    ├── explainability.py                               # TreeSHAP interpretability & econometric figure suite
     └── main.py                                         # Master pipeline orchestrator
 ```
 

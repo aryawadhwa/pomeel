@@ -7,7 +7,7 @@
 
 ## 1. Introduction and Scope of the Review
 
-Over the past decade, India has engineered one of the most comprehensive digital public infrastructure (DPI) ecosystems in the world—colloquially referred to as the "India Stack" (Aadhaar biometrics, Unified Payments Interface [UPI], and Pradhan Mantri Jan Dhan Yojana [PMJDY] financial accounts). Despite the exponential growth of UPI (processing over 14.96 billion monthly retail transactions valued at over ₹20.64 lakh crore), physical Currency in Circulation (CiC) continues to rise relentlessly, surpassing ₹42.8 lakh crore ($42.8 \times 10^{12}$ INR) in 2026.
+Over the past decade, India has engineered one of the most comprehensive digital public infrastructure (DPI) ecosystems in the world—colloquially referred to as the "India Stack" (Aadhaar biometrics, Unified Payments Interface [UPI], and Pradhan Mantri Jan Dhan Yojana [PMJDY] financial accounts). Despite the exponential growth of UPI (scaling from 16.58 billion monthly transactions worth ₹23.49 lakh crore in October 2024 to 25.47 billion monthly transactions worth ₹31.53 lakh crore in October 2026), physical banknotes in circulation rose 11.9% YoY to ₹41.24 lakh crore in March 2026, with total Currency in Circulation (CiC) exceeding ₹43 lakh crore later in 2026.
 
 This empirical divergence poses a fundamental macroeconomic, behavioral, and regulatory question: **Why do millions of Indian adults who possess all requisite technological endowments (a formal bank account, a smartphone, and active internet connectivity) continue to rely exclusively on physical cash for in-store purchases?**
 
