@@ -1,129 +1,221 @@
 """
 Preprocessor module for isolating the 'Capable-but-Cash' cohort,
-feature engineering, survey weight handling, and stratified train/test partitioning.
+strictly leak-free feature engineering, survey weight handling,
+and stratified train/test partitioning.
 """
 
-from typing import Tuple, Dict, Any
-import os
+from typing import Dict, Any, List
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
+
+
+BASELINE_FEATURE_COLS: List[str] = [
+    'age',
+    'female',
+    'educ',
+    'inc_q',
+    'is_urban',
+    'wage_cash',
+    'gov_cash',
+    'emergency_possible',
+    'wave_2024',
+]
+
+ENHANCED_FEATURE_COLS: List[str] = [
+    # Socio-demographics
+    'age',
+    'female',
+    'educ',
+    'inc_q',
+    'is_urban',
+    'emp_in',
+    'wave_2024',
+    # Cash-Out Loop & Income Inflows (upstream, strictly leak-free)
+    'wage_cash',
+    'wage_bank',
+    'gov_cash',
+    'gov_bank',
+    'ag_cash',
+    # Upstream Structural Financial Instruments & Resilience
+    'has_debit_card',
+    'saved_formal',
+    'saved_any',
+    'borrowed_any',
+    'emergency_possible',
+    # Engineered Domain & Temporal Interactions
+    'cash_inflow_intensity',
+    'bank_inflow_intensity',
+    'wave_x_urban',
+    'wave_x_female',
+    'wave_x_age40',
+    'age_over_40',
+    'educ_x_inc',
+]
+
+
+def _coalesce_flag(df: pd.DataFrame, checks: list) -> pd.Series:
+    """Evaluates a list of (column, condition_fn) pairs across waves cleanly."""
+    mask = pd.Series(False, index=df.index)
+    for col, fn in checks:
+        if col in df.columns:
+            mask = mask | fn(df[col]).fillna(False)
+    return mask.astype(int)
+
+
+def harmonize_findex_features(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Harmonizes raw World Bank Findex question codes (2021 & 2024) to strictly
+    leak-free upstream predictors and domain interactions.
+
+    EXCLUDED (to prevent simultaneous digital-payment target leakage):
+    pay_utilities, anydigpayment, fin4, fin5, fin8, fin14a.
+    """
+    clean_df = pd.DataFrame(index=df.index)
+
+    # Track survey wave (2021 vs 2024)
+    if 'survey_wave' in df.columns:
+        clean_df['survey_wave'] = df['survey_wave']
+    elif 'year' in df.columns:
+        clean_df['survey_wave'] = df['year']
+    else:
+        clean_df['survey_wave'] = 2021
+
+    if 'wave_2024' in df.columns:
+        clean_df['wave_2024'] = pd.to_numeric(df['wave_2024'], errors='coerce').fillna(0).astype(int)
+    else:
+        clean_df['wave_2024'] = (clean_df['survey_wave'] == 2024).astype(int)
+
+    # Survey sampling weights
+    clean_df['wgt'] = pd.to_numeric(df['wgt'], errors='coerce').fillna(1.0) if 'wgt' in df.columns else 1.0
+
+    # 1. Core Capability Indicators (Account + Mobile + Internet)
+    clean_df['account'] = _coalesce_flag(df, [('account', lambda s: s == 1), ('fin2', lambda s: s == 1)])
+    clean_df['mobileowner'] = _coalesce_flag(df, [('mobileowner', lambda s: s == 1), ('con1', lambda s: s == 1)])
+    clean_df['internet'] = _coalesce_flag(
+        df,
+        [
+            ('internet', lambda s: s == 1),
+            ('internetaccess', lambda s: s == 1),
+            ('internet_use', lambda s: s == 1),
+        ],
+    )
+
+    # 2. Target Variable (Cash-Reliant at In-Store Merchants)
+    clean_df['merchantpay_dig'] = _coalesce_flag(df, [('merchantpay_dig', lambda s: s == 1)])
+    if 'cash_reliant' in df.columns:
+        clean_df['cash_reliant'] = pd.to_numeric(df['cash_reliant'], errors='coerce').fillna(0).astype(int)
+    else:
+        clean_df['cash_reliant'] = (clean_df['merchantpay_dig'] == 0).astype(int)
+
+    # 3. Socio-Demographics (1=Female, 2=Urban in Findex)
+    clean_df['female'] = _coalesce_flag(df, [('female', lambda s: s == 1)])
+    clean_df['age'] = pd.to_numeric(df['age'], errors='coerce').fillna(35.0).clip(15, 90) if 'age' in df.columns else 35.0
+    clean_df['educ'] = pd.to_numeric(df['educ'], errors='coerce').fillna(2).clip(1, 3).astype(int) if 'educ' in df.columns else 2
+    clean_df['inc_q'] = pd.to_numeric(df['inc_q'], errors='coerce').fillna(3).clip(1, 5).astype(int) if 'inc_q' in df.columns else 3
+
+    if 'is_urban' in df.columns:
+        clean_df['is_urban'] = pd.to_numeric(df['is_urban'], errors='coerce').fillna(0).astype(int)
+    else:
+        clean_df['is_urban'] = _coalesce_flag(
+            df,
+            [('urbanicity_f2f', lambda s: s == 2), ('urbanicity', lambda s: s == 2)],
+        )
+
+    clean_df['emp_in'] = _coalesce_flag(df, [('emp_in', lambda s: s == 1)])
+
+    # 4. Verified Cash-Out Loop & Income Inflow Channels (World Bank Standardized)
+    clean_df['wage_cash'] = _coalesce_flag(df, [('wage_cash', lambda s: s == 1), ('receive_wages', lambda s: s == 2)])
+    clean_df['wage_bank'] = _coalesce_flag(df, [('wage_bank', lambda s: s == 1), ('receive_wages', lambda s: s == 1)])
+    clean_df['gov_cash'] = _coalesce_flag(df, [('gov_cash', lambda s: s == 1), ('receive_transfers', lambda s: s == 2)])
+    clean_df['gov_bank'] = _coalesce_flag(df, [('gov_bank', lambda s: s == 1), ('receive_transfers', lambda s: s == 1)])
+    clean_df['ag_cash'] = _coalesce_flag(df, [('ag_cash', lambda s: s == 1), ('receive_agriculture', lambda s: s == 2)])
+
+    # 5. Upstream Structural Financial Instruments & Resilience
+    clean_df['has_debit_card'] = _coalesce_flag(df, [('has_debit_card', lambda s: s == 1), ('fin2', lambda s: s == 1)])
+    clean_df['saved_formal'] = _coalesce_flag(df, [('saved_formal', lambda s: s == 1), ('fin17a', lambda s: s == 1)])
+    clean_df['saved_any'] = _coalesce_flag(df, [('saved_any', lambda s: s == 1), ('saved', lambda s: s == 1)])
+    clean_df['borrowed_any'] = _coalesce_flag(df, [('borrowed_any', lambda s: s == 1), ('borrowed', lambda s: s == 1)])
+    clean_df['emergency_possible'] = _coalesce_flag(
+        df,
+        [('emergency_possible', lambda s: s == 1), ('fin24', lambda s: s <= 2)],
+    )
+
+    # 6. Engineered Behavioral & Temporal Interactions
+    clean_df['cash_inflow_intensity'] = clean_df['wage_cash'] + clean_df['gov_cash'] + clean_df['ag_cash']
+    clean_df['bank_inflow_intensity'] = clean_df['wage_bank'] + clean_df['gov_bank']
+    clean_df['wave_x_urban'] = clean_df['wave_2024'] * clean_df['is_urban']
+    clean_df['wave_x_female'] = clean_df['wave_2024'] * clean_df['female']
+    clean_df['age_over_40'] = (clean_df['age'] >= 40).astype(int)
+    clean_df['wave_x_age40'] = clean_df['wave_2024'] * clean_df['age_over_40']
+    clean_df['educ_x_inc'] = clean_df['educ'] * clean_df['inc_q']
+
+    return clean_df
 
 
 def filter_capable_cohort(df: pd.DataFrame) -> pd.DataFrame:
     """
     Isolates the 'Capable' segment: respondents possessing an active bank account,
     mobile phone ownership, and internet access.
-    
-    Parameters
-    ----------
-    df : pd.DataFrame
-        Full surveyed sample.
-        
-    Returns
-    -------
-    pd.DataFrame
-        Filtered sub-population of digitally capable adults.
     """
-    condition = (df['account'] == 1) & (df['mobileowner'] == 1) & (df['internet'] == 1)
-    capable_df = df[condition].copy()
-    
-    # Formulate binary target:
-    # 1 = Cash-Reliant (Capable but relies exclusively on cash in-store)
-    # 0 = Digital User (Made a digital merchant payment)
+    df_clean = harmonize_findex_features(df)
+    condition = (df_clean['account'] == 1) & (df_clean['mobileowner'] == 1) & (df_clean['internet'] == 1)
+    capable_df = df_clean[condition].copy()
     capable_df['cash_reliant'] = (capable_df['merchantpay_dig'] == 0).astype(int)
-    
     return capable_df
 
 
 def prepare_features_and_targets(
     df: pd.DataFrame,
     test_size: float = 0.20,
-    random_state: int = 42
+    random_state: int = 42,
 ) -> Dict[str, Any]:
     """
-    Extracts predictor feature matrix, target vector, and survey sampling weights.
-    Performs stratified train/test split.
-    
-    Parameters
-    ----------
-    df : pd.DataFrame
-        Capable cohort dataframe.
-    test_size : float
-        Fraction of cohort reserved for held-out evaluation.
-    random_state : int
-        Seed for reproducibility.
-        
-    Returns
-    -------
-    dict
-        Dictionary containing X_train, X_test, y_train, y_test, w_train, w_test, and feature_names.
+    Extracts strictly leak-free feature matrices (both baseline & enhanced),
+    target vector, and survey sampling weights with stratified train/test split.
     """
-    feature_cols = [
-        'age',
-        'female',
-        'educ',
-        'inc_q',
-        'urbanicity',
-        'fin2',
-        'fin3',
-        'wage_cash',
-        'gov_cash',
-        'withdrew_atm',
-        'emergency_cost',
-        'barrier_complexity',
-        'barrier_trust',
-        'barrier_cost',
-        'barrier_dist'
-    ]
-    
-    # Verify presence of all columns
+    df = harmonize_findex_features(df)
+    feature_cols = list(ENHANCED_FEATURE_COLS)
+
     for col in feature_cols:
         if col not in df.columns:
-            raise ValueError(f"Required feature '{col}' missing from dataframe.")
-            
+            df[col] = 0
+        df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
+
     X = df[feature_cols].copy()
     y = df['cash_reliant'].values
     weights = df['wgt'].values if 'wgt' in df.columns else np.ones(len(df))
-    
-    # Stratified split preserving class balance and weights
+
     indices = np.arange(len(df))
     train_idx, test_idx = train_test_split(
         indices,
         test_size=test_size,
         random_state=random_state,
-        stratify=y
+        stratify=y,
     )
-    
-    X_train = X.iloc[train_idx].reset_index(drop=True)
-    X_test = X.iloc[test_idx].reset_index(drop=True)
-    y_train = y[train_idx]
-    y_test = y[test_idx]
-    w_train = weights[train_idx]
-    w_test = weights[test_idx]
-    
+
     return {
-        'X_train': X_train,
-        'X_test': X_test,
-        'y_train': y_train,
-        'y_test': y_test,
-        'w_train': w_train,
-        'w_test': w_test,
+        'X_full': X.reset_index(drop=True),
+        'y_full': y,
+        'w_full': weights,
+        'X_train': X.iloc[train_idx].reset_index(drop=True),
+        'X_test': X.iloc[test_idx].reset_index(drop=True),
+        'y_train': y[train_idx],
+        'y_test': y[test_idx],
+        'w_train': weights[train_idx],
+        'w_test': weights[test_idx],
         'feature_names': feature_cols,
-        'full_capable_df': df
+        'baseline_features': list(BASELINE_FEATURE_COLS),
+        'full_capable_df': df,
     }
 
 
 if __name__ == '__main__':
     from data_loader import load_findex_data
-    
+
     raw_df = load_findex_data()
     capable_df = filter_capable_cohort(raw_df)
-    print(f"Total surveyed: {len(raw_df)}")
-    print(f"Capable segment: {len(capable_df)} ({len(capable_df)/len(raw_df)*100:.2f}%)")
-    print(f"Target distribution (1 = Cash-Reliant, 0 = Digital User):")
-    print(capable_df['cash_reliant'].value_counts(normalize=True))
-    
+    print(f"Total surveyed: {len(raw_df):,}")
+    print(f"Capable segment: {len(capable_df):,} ({len(capable_df)/len(raw_df)*100:.2f}%)")
     data = prepare_features_and_targets(capable_df)
-    print(f"\nTrain set size: {len(data['X_train'])}, Test set size: {len(data['X_test'])}")
-    print("Features:", data['feature_names'])
+    print(f"Enhanced leak-free features ({len(data['feature_names'])}):", data['feature_names'])

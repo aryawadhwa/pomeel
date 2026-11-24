@@ -195,7 +195,66 @@ Based on the cited literature, the empirical pipeline is structured to test five
 
 ---
 
-## VI. Policy & Product Interventions
+## VI. Empirical Results & Discussion
+
+### A. Two-Wave Cohort Dynamics (2021 vs. 2024)
+Table II summarizes the microdata sample and the evolution of the digitally capable sub-population between the 2021 Global Findex wave and the 2024 Connectivity Tracker wave ($N = 6,000$ total surveyed Indian adults).
+
+**Table II: Capable Cohort Dynamics across Survey Waves (India)**
+| Indicator | Wave 1 (2021) | Wave 2 (2024) | Pooled Two-Wave Sample |
+| :--- | :---: | :---: | :---: |
+| **Total Surveyed Adults ($N$)** | 3,000 | 3,000 | 6,000 |
+| **Formal Bank Account Ownership** | 79.1% (2,372) | 90.3% (2,710) | 84.7% (5,082) |
+| **Mobile Phone Ownership** | 69.6% (2,088) | 71.5% (2,145) | 70.6% (4,233) |
+| **Active Internet Access** | 31.6% (947) | 51.6% (1,547) | 41.6% (2,494) |
+| **Digitally Capable Cohort ($N_{\text{cap}}$)** | **837 (27.9%)** | **1,335 (44.5%)** | **2,172 (36.2%)** |
+| **- Digital Adopters (Store Digital Pay)** | 348 (41.6%) | 614 (46.0%) | 962 (44.3%) |
+| **- Cash-Reliant ("Capable-but-Cash")** | **489 (58.4%)** | **721 (54.0%)** | **1,210 (55.7%)** |
+
+Despite substantial expansion in smartphone connectivity and formal banking between 2021 and 2024, **54.0% of technologically equipped Indian adults remain strictly cash-reliant for in-store retail purchases**, demonstrating the stubborn persistence of the paradox.
+
+### B. Predictive Model Performance & Leak-Free Ablation
+To prevent ecological or simultaneous-outcome leakage, all concurrent digital payment variables (such as utility bill pay `pay_utilities`, online bill pay `fin14a`, and card purchase usage `fin4`) were strictly excluded. Table III reports the **5×3 Repeated Stratified K-Fold Cross-Validation** (15 survey-weighted evaluations) alongside the held-out stratified test set ($n = 435$).
+
+**Table III: Leak-Free Repeated Stratified K-Fold CV Ablation (Survey-Weighted, $N_{\text{cap}} = 2,172$)**
+| Model Configuration | ROC-AUC (Mean $\pm$ SD) | PR-AUC | Brier Score | F1-Score | Balanced Acc. |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Baseline XGBoost (9 Core Vars)** | $0.7365 \pm 0.028$ | 0.7861 | 0.2049 | 0.7276 | 0.6649 |
+| **Ablation XGBoost (No Debit Card)** | $0.7915 \pm 0.028$ | 0.8315 | 0.1832 | 0.7619 | 0.7023 |
+| **Spline + OneHot Logit (Enhanced)** | $0.8470 \pm 0.026$ | 0.8794 | 0.1574 | **0.7973** | 0.7623 |
+| **Regularized XGBoost (Enhanced)** | **$0.8477 \pm 0.025$** | **0.8824** | **0.1571** | 0.7924 | **0.7695** |
+| **Regularized LightGBM (Enhanced)** | $0.8468 \pm 0.025$ | 0.8799 | 0.1579 | 0.7933 | 0.7629 |
+| **4-Family Stacked + Platt Cal.** | $0.8470 \pm \mathbf{0.022}$ | **0.8824** | 0.1593 | 0.7847 | 0.7621 |
+
+On the held-out test split ($n = 435$), the **Platt-Calibrated 4-Family Stacked Ensemble** achieves the highest discrimination (**ROC-AUC = 0.8400**) and lowest calibration error (**Brier Score = 0.1614**), while **Spline-Logit** with out-of-fold threshold tuning reaches **PR-AUC = 0.8588** and **F1 = 0.7913**.
+
+### C. TreeSHAP Attribution & Econometric Odds Ratios
+Applying cooperative game-theoretic TreeSHAP to the leak-free Regularized XGBoost ensemble and cross-checking against survey-weighted GLM Odds Ratios yields consistent behavioral drivers (Table IV).
+
+**Table IV: Top Leak-Free Predictors (TreeSHAP Importance & GLM Odds Ratios)**
+| Rank | Feature Code | Description | Mean $|SHAP|$ ($I_j$) | GLM Odds Ratio ($p$-value) |
+| :---: | :--- | :--- | :---: | :---: |
+| **1** | `has_debit_card` | Possesses an ATM/debit card (`fin2`) | **0.9089** | 0.12 ($p < 0.001$) |
+| **2** | `borrowed_any` | Active borrowing behavior (`borrowed`) | **0.3153** | 0.42 ($p < 0.001$) |
+| **3** | `educ_x_inc` | Education $\times$ Income interaction | **0.3020** | — |
+| **4** | `saved_any` | Active saving behavior (`saved`) | **0.2928** | 0.42 ($p < 0.001$) |
+| **5** | `wage_bank` | Wages deposited into bank account | **0.2006** | 0.42 ($p < 0.001$) |
+| **6** | `educ` | Educational attainment level | **0.1622** | 0.50 ($p < 0.001$) |
+| **7** | `bank_inflow_intensity` | Count of formal digital income channels | **0.1616** | — |
+| **8** | `inc_q` | Household income quintile | **0.1589** | 0.73 ($p < 0.001$) |
+| **9** | `female` | Female gender indicator (Gender Gap) | **0.1572** | **1.96 ($p = 0.010$)** |
+| **10** | `cash_inflow_intensity` | Cash income channels (`wage+gov+ag`) | **0.1073** | `wage_cash`: **2.31 ($p < 0.001$)** |
+| **11** | `wave_x_urban` | 2024 $\times$ Urban shift interaction | **0.0750** | **0.46 ($p = 0.007$)** |
+| **12** | `wave_2024` | Survey wave shift (2021 $\rightarrow$ 2024) | **0.0627** | 1.12 ($p = 0.623$) |
+
+### D. Hypothesis Verification
+1. **$H_2$ (The Cash-Out Loop) is Strongly Confirmed:** Receiving wages in physical cash (`wage_cash`, `receive_wages == 2`) more than **doubles** the odds of retail cash reliance ($\text{OR} = 2.31, p < 0.001$), whereas receiving wages directly into a bank account (`wage_bank`) cuts cash-reliance odds by **58%** ($\text{OR} = 0.42, p < 0.001$).
+2. **$H_5$ (The Gender Usage Gap) is Confirmed:** `female` nearly doubles the odds of remaining cash-reliant ($\text{OR} = 1.96, p = 0.010$; TreeSHAP $I_j = 0.1572$) despite formal account parity.
+3. **Upstream Instrument & Spatial Divergence:** Possessing an ATM/debit card (`has_debit_card`, $\text{OR} = 0.12$) is the strongest upstream onboarding enabler, while the `wave_x_urban` interaction ($\text{OR} = 0.46, p = 0.007$) confirms that post-2021 digitization accelerated significantly faster in urban India than in rural pockets.
+
+---
+
+## VII. Policy & Product Interventions
 
 The empirical evidence and behavioral theories demonstrate that expanding baseline infrastructure (more accounts or smartphones) cannot resolve the "Capable-but-Cash" paradox. Policy interventions must directly address the identified behavioral barriers:
 

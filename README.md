@@ -1,6 +1,6 @@
 # Capable-but-Cash: Explainable ML on India's Currency Demand Paradox
 
-[![World Bank Findex](https://img.shields.io/badge/Data-World%20Bank%20Global%20Findex%202021-blue.svg)](https://microdata.worldbank.org/index.php/catalog/4651)
+[![World Bank Findex](https://img.shields.io/badge/Data-World%20Bank%20Global%20Findex%202021-blue.svg)](https://microdata.worldbank.org/index.php/catalog/4653)
 [![RBI Statistics](https://img.shields.io/badge/Monetary%20Data-Reserve%20Bank%20of%20India-green.svg)](https://www.rbi.org.in/)
 [![NPCI Statistics](https://img.shields.io/badge/Retail%20Payments-NPCI%20UPI-orange.svg)](https://www.npci.org.in/)
 
@@ -65,7 +65,7 @@
 ## 🚀 Running the Empirical Pipeline on Official Data
 
 Due to World Bank privacy terms, official survey microdata must be downloaded directly by the researcher:
-1. Visit the [World Bank Microdata Library - India: Global Findex 2021](https://microdata.worldbank.org/index.php/catalog/4651) (Study Reference ID: `IND_2021_FINDEX_v02_M`).
+1. Visit the [World Bank Microdata Library - India: Global Findex 2021](https://microdata.worldbank.org/index.php/catalog/4653) (Study Reference ID: `IND_2021_FINDEX_v02_M`).
 2. Download `IND_2021_FINDEX.dta` or `IND_2021_FINDEX.csv` (or the global `micro_world.dta` / `micro_world.csv`).
 3. Place the file into `data/raw/`.
 4. Run the master pipeline:

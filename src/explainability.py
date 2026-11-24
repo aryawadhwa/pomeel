@@ -24,7 +24,7 @@ def run_shap_analysis(
     Executes complete TreeSHAP interpretability pipeline and generates publication-grade plots.
     """
     os.makedirs(output_dir, exist_ok=True)
-    plt.rcParams.update({'font.sans-serif': 'Helvetica', 'font.size': 11})
+    plt.rcParams.update({'font.sans-serif': 'DejaVu Sans', 'font.size': 11})
     
     # Initialize TreeSHAP explainer
     explainer = shap.TreeExplainer(xgb_model)
@@ -55,13 +55,38 @@ def run_shap_analysis(
     plt.savefig(os.path.join(output_dir, 'shap_summary_beeswarm.png'), dpi=300)
     plt.close()
     
-    # 3. Dependence Plot: Age vs SHAP Value (colored by Education or Wage Cash)
+    # 3. Dependence Plot: Age vs SHAP Value (colored by Cash Inflow Intensity / Wage Cash)
+    color_col = "cash_inflow_intensity" if "cash_inflow_intensity" in X_test.columns else "wage_cash"
     plt.figure(figsize=(8, 6))
-    shap.plots.scatter(shap_values[:, "age"], color=shap_values[:, "wage_cash"], show=False)
-    plt.title('SHAP Dependence: Age Non-Linearity & Wage Cash Interaction', fontsize=12, fontweight='bold')
+    shap.plots.scatter(shap_values[:, "age"], color=shap_values[:, color_col], show=False)
+    plt.title(f'SHAP Dependence: Age Non-Linearity & {color_col} Interaction', fontsize=12, fontweight='bold')
     plt.tight_layout()
     plt.savefig(os.path.join(output_dir, 'shap_dependence_age.png'), dpi=300)
     plt.close()
+
+    # 3b. Wave Comparison Bar Chart (2021 vs 2024 Barrier Shift)
+    if "wave_2024" in X_test.columns and len(X_test["wave_2024"].unique()) > 1:
+        mask_21 = (X_test["wave_2024"] == 0).values
+        mask_24 = (X_test["wave_2024"] == 1).values
+        imp_21 = np.abs(shap_values.values[mask_21]).mean(axis=0)
+        imp_24 = np.abs(shap_values.values[mask_24]).mean(axis=0)
+        wave_df = pd.DataFrame({
+            'Feature': feature_names,
+            'SHAP_2021': imp_21,
+            'SHAP_2024': imp_24,
+        }).sort_values(by='SHAP_2024', ascending=True).tail(10)
+
+        y_pos = np.arange(len(wave_df))
+        plt.figure(figsize=(9, 6))
+        plt.barh(y_pos - 0.18, wave_df['SHAP_2021'], height=0.35, label='2021 Wave (Pre-Soundbox)', color='#7f7f7f')
+        plt.barh(y_pos + 0.18, wave_df['SHAP_2024'], height=0.35, label='2024 Wave (Soundbox Era)', color='#1f77b4')
+        plt.yticks(y_pos, wave_df['Feature'])
+        plt.xlabel('Mean |SHAP Value| (Impact on Cash Reliance)', fontsize=11, fontweight='bold')
+        plt.title('Temporal Barrier Shift: Global Findex 2021 vs. 2024 (TreeSHAP)', fontsize=13, fontweight='bold')
+        plt.legend()
+        plt.tight_layout()
+        plt.savefig(os.path.join(output_dir, 'shap_wave_shift_2021_vs_2024.png'), dpi=300)
+        plt.close()
     
     # 4. Local Explanations: Representative Personas
     # Persona A: High probability of cash reliance (Cash-reliant archetype)

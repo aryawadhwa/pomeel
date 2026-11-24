@@ -161,6 +161,17 @@ To extract transparent, mathematically robust feature attributions, we implement
 \end{equation}
 Global barrier importance is formalized as the mean absolute Shapley value: $I_j = \frac{1}{N} \sum_{i=1}^N |\phi_j^{(i)}|$.
 
+\section{Empirical Results \& Comparative Findings}
+
+\subsection{Two-Wave Cohort Isolation (2021 vs. 2024)}
+Across $N = 6,000$ surveyed adults, the digitally capable segment grew from 837 in 2021 (27.9\%) to 1,335 in 2024 (44.5\%), providing a pooled cohort of $N_{\text{cap}} = 2,172$ observations. Within this capable sub-population, \textbf{55.7\% remain strictly cash-reliant} (58.4\% in 2021, 54.0\% in 2024), confirming the persistence of the paradox despite massive payment infrastructure diffusion.
+
+\subsection{Comparative Model Performance (Leak-Free 5x3 CV \& Calibrated Stack)}
+To prevent simultaneous-outcome leakage, concurrent digital payment proxies (\texttt{pay\_utilities}, \texttt{fin4}, \texttt{fin14a}) were strictly excluded. Across survey-weighted 5$\times$3 Repeated Stratified K-Fold CV ($N_{\text{cap}} = 2,172$), adding domain cash-inflow intensities, debit card ownership (\texttt{fin2}), B-spline age encoding, and wave-shift interactions lifts ROC-AUC from $0.7365 \pm 0.028$ (9-var baseline; $0.7915$ without debit card) to $0.8477 \pm 0.025$ (XGBoost; PR-AUC $0.8824$, Brier $0.1571$) and $0.8470 \pm 0.022$ (4-family Stacked Ensemble + Platt Sigmoid calibration). On the held-out test set ($n = 435$), the calibrated stack achieves ROC-AUC $0.8400$ and Brier $0.1614$, while Spline-Logit with out-of-fold threshold optimization achieves PR-AUC $0.8588$ and F1 $0.7913$.
+
+\subsection{TreeSHAP Attributions \& Econometric Odds Ratios}
+TreeSHAP attributions identify upstream debit/ATM card possession (\texttt{has\_debit\_card}, $I_j = 0.9089$, OR $= 0.12, p < 0.001$), active financial engagement (\texttt{borrowed\_any} $0.3153$, \texttt{saved\_any} $0.2928$), education--income interaction ($0.3020$), and formal bank wage inflows (\texttt{wage\_bank} $0.2006$, OR $= 0.42, p < 0.001$) as primary digital catalysts. Conversely, cash wage receipt (\texttt{wage\_cash}) more than doubles retail cash-reliance odds (OR $= 2.31, p < 0.001$), female gender nearly doubles cash-reliance odds (OR $= 1.96, p = 0.010$; $I_j = 0.1572$), and the \texttt{wave\_x\_urban} interaction (OR $= 0.46, p = 0.007$) confirms significantly faster cash displacement in urban India between 2021 and 2024.
+
 \section{Policy \& Product Interventions}
 The empirical evidence and behavioral theories demonstrate that expanding baseline infrastructure (more accounts or smartphones) cannot resolve the ``Capable-but-Cash'' paradox:
 \begin{itemize}
