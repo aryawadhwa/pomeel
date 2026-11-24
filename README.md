@@ -21,21 +21,20 @@
 
 | Metric | Empirical Value | Primary Scholarly / Institutional Source |
 | :--- | :---: | :--- |
-| **India Absolute Currency in Circulation (CiC)** | **₹42.8 Lakh Crore** | Reserve Bank of India (RBI, 2024) *Weekly Statistical Supplement* |
-| **Annualized CiC Growth Rate** | **11.2%** | Reserve Bank of India (RBI, 2024) *Money Stock Measures* |
-| **Monthly UPI Transaction Volume** | **14.96 Billion** | NPCI (2024) *UPI Product Statistics* (October 2024) |
-| **Monthly UPI Transaction Value** | **₹20.64 Lakh Crore** | NPCI (2024) *UPI Product Statistics* (October 2024) |
-| **Adult Account Ownership in India** | **77.5% ($\approx$78%)** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 25) |
-| **Share of Inactive Accounts in India** | **35.0%** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 32) |
-| **Banked Adults Paying Merchants Only in Cash** | **670 Million** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 58) |
-| **Banked Women Paying Merchants Only in Cash** | **350 Million** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 58) |
-| **Adult Mobile Phone Ownership** | **72.0%** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 28) |
-| **Adults Making Digital Merchant Payments** | **12.0%** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 56) |
-| **Wage Earners Receiving Wages in Cash** | **62.4%** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 64) |
-| **Stated Barrier: Habit / "Used to it"** | **78.0%** | Global Findex 2021 Survey / Project Baseline Survey |
-| **Stated Barrier: Merchant Accepts Cash Only** | **10.0%** | Global Findex 2021 Survey / Project Baseline Survey |
-| **Stated Barrier: Distrust & Scam Anxiety** | **4.9%** | Global Findex 2021 Survey / Project Baseline Survey |
-| **Stated Barrier: Higher Digital Costs** | **2.1%** | Global Findex 2021 Survey / Project Baseline Survey |
+| **India Banknotes in Circulation (Mar 2026)** | **₹41.24 Lakh Crore** | Reserve Bank of India (RBI, 2026) *Annual Report 2025–26* (Total CiC ₹41.7–43.5L Cr) |
+| **Annualized Banknote Value Growth (FY25–26)** | **11.9%** | Reserve Bank of India (RBI, 2026) *Annual Report 2025–26* |
+| **Monthly UPI Volume / Value (Oct 2026)** | **25.47B / ₹31.53L Cr** | NPCI (2026) *UPI Product Statistics* (Oct 2024: 16.58B / ₹23.49L Cr) |
+| **Adult Account Ownership in India (2021 $\rightarrow$ 2024)** | **77.5% $\rightarrow$ 89.0%** | World Bank Global Findex (2021 p. 25; 2025 India Microdata) |
+| **Share of Inactive Accounts in India (2021)** | **35.0%** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 32) |
+| **Banked Adults Paying Merchants Only in Cash (2021)** | **670 Million** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 58) |
+| **Banked Women Paying Merchants Only in Cash (2021)** | **350 Million** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 58) |
+| **Adult Mobile Phone Ownership (2021 $\rightarrow$ 2024)** | **65.6% $\rightarrow$ 66.5%** | World Bank Global Findex India Microdata (Weighted) |
+| **Adults Making Digital Merchant Payments (2021 $\rightarrow$ 2024)** | **11.9% $\rightarrow$ 18.3%** | World Bank Global Findex India Microdata (Weighted) |
+| **Wage Earners Paid Cash-Only (2021 $\rightarrow$ 2024)** | **39.9% $\rightarrow$ 57.4%** | World Bank Global Findex India Microdata (`receive_wages == 2`) |
+| **Stated Barrier (`fin25e4`): Habit / "Used to it"** | **77.4%** *(78.6% all)* | World Bank Global Findex 2025 (2024 India Microdata, Capable / All) |
+| **Stated Barrier (`fin25e4`): Merchant Accepts Cash Only** | **9.8%** *(9.0% all)* | World Bank Global Findex 2025 (2024 India Microdata, Capable / All) |
+| **Stated Barrier (`fin25e4`): Distrust & Scam Anxiety** | **6.5%** *(4.4% all)* | World Bank Global Findex 2025 (2024 India Microdata, Capable / All) |
+| **Stated Barrier (`fin25e4`): Higher Digital Costs** | **2.3%** *(2.2% all)* | World Bank Global Findex 2025 (2024 India Microdata, Capable / All) |
 
 ---
 

@@ -10,6 +10,7 @@ import sys
 import warnings
 
 from data_loader import load_findex_data
+from econometrics import run_full_econometric_suite
 from explainability import run_shap_analysis
 from models import (
     compare_models,
@@ -130,6 +131,10 @@ def main():
 
     print("\n[Step 8] Top Ranked Leak-Free Drivers (TreeSHAP):")
     print(shap_results['importance_df'].head(12).to_string(index=False))
+
+    # 8. Econometric Suite (AMEs, Fairlie Decomposition, Heterogeneity, 2024 Tracker)
+    print("\n[Step 9] Running Full Econometric & Behavioral Audit Suite...")
+    run_full_econometric_suite(capable_df, output_dir='figures')
 
     print("\n" + "=" * 80)
     print("LEAK-FREE 2-WAVE EMPIRICAL PIPELINE COMPLETED SUCCESSFULLY!")

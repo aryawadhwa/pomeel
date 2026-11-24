@@ -7,7 +7,7 @@
 ---
 
 ## Abstract
-Despite the exponential proliferation of India's Unified Payments Interface (UPI)—which processes over 14.96 billion monthly retail transactions valued at over ₹20.64 lakh crore (NPCI, 2024)—India's absolute Currency in Circulation (CiC) has persistently expanded, growing by over 11% annually to exceed ₹42.8 lakh crore ($42.8 \times 10^{12}$ INR) in 2026 (Reserve Bank of India, 2024). This macroeconomic divergence reveals a pronounced micro-level behavioral puzzle: millions of Indian adults who possess all foundational prerequisites for digital transacting (a formal bank account, smartphone ownership, and active internet connectivity) continue to transact exclusively in physical cash for retail purchases. According to the World Bank Global Findex Database (Demirgüç-Kunt et al., 2022), approximately 670 million banked adults in India—including 350 million women—paid merchants exclusively in cash, representing over 40% of the world's cash-only banked population. We define and isolate this sub-population as the **"Capable-but-Cash"** cohort. Survey baseline data indicates that among digitally equipped adults who remain cash-reliant, **78.0%** self-report habit persistence ("used to it"), **10.0%** cite merchant acceptance constraints ("merchant accepts only cash"), **4.9%** cite distrust, fraud anxiety, or scam exposure, and only **2.1%** cite higher transaction fees. Crucially, this consumer inertia is strongly reinforced by merchant-side tax compliance behavior: automated Income Tax reporting under the Annual Information Statement (AIS) and mandatory GST turnover thresholds (₹20L/₹40L under Section 63) create a powerful incentive for informal merchants to suppress digital receipts and mandate cash-only transactions. This paper formulates an empirical, explainable machine learning architecture to evaluate this paradox. We specify a survey-weighted Logistic Regression baseline alongside a regularized Gradient Boosted Decision Tree (XGBoost) classifier, coupled with cooperative game-theoretic interpretability via TreeSHAP. Our framework translates empirical attributions into targeted policy and FinTech product architectures, specifically designed to intercept the **"Cash-Out Loop,"** mitigate cognitive switching costs, and eliminate tax-trail friction for informal micro-merchants.
+Despite the exponential proliferation of India's Unified Payments Interface (UPI)—which grew from 16.58 billion transactions worth ₹23.49 lakh crore in October 2024 to 25.47 billion monthly transactions worth ₹31.53 lakh crore in October 2026 (NPCI, 2026)—India's physical banknotes in circulation expanded by 11.9% in FY 2025–26 to ₹41.24 lakh crore as of March 2026, with total Currency in Circulation (CiC) exceeding ₹43 lakh crore later in 2026 (Reserve Bank of India, 2026). This macroeconomic divergence reveals a pronounced micro-level behavioral puzzle: millions of Indian adults who possess all foundational prerequisites for digital transacting (a formal bank account, mobile phone ownership, and active internet connectivity) continue to transact exclusively in physical cash for retail purchases. According to the World Bank Global Findex Database 2021 (Demirgüç-Kunt et al., 2022, p. 58), approximately 670 million banked adults in India—including 350 million women—paid merchants exclusively in cash. Pooling official World Bank Global Findex India microdata across the 2021 and 2025 (2024 survey wave) editions ($N = 6,000$), we isolate the **"Capable-but-Cash"** cohort ($N_{\text{cap}} = 2,172$), finding that 55.7% (58.4% in 2021; 54.0% in 2024) remain cash-only at point of sale. In the 2024 Findex wave (`fin25e4`), **77.4%** of cash-reliant capable adults cite habit persistence (*"used to paying cash"*), **9.8%** cite merchant cash-only acceptance, **6.5%** cite distrust, and only **2.3%** cite higher costs. Crucially, merchant-side resistance interacts with tax compliance behavior: automated SFT reporting under Section 285BA into the Annual Information Statement (AIS) and GST registration thresholds (₹20L/₹40L under Sections 22/63) incentivize informal micro-merchants to suppress digital turnover. We develop a strictly leak-free empirical architecture combining survey-weighted Spline-Logit, Regularized XGBoost/LightGBM, a Platt-Calibrated 4-Family Stacking Ensemble (5×3 CV ROC-AUC = 0.8470 ± 0.022), Fairlie non-linear decompositions, and TreeSHAP interpretability, translating empirical attributions into policies that intercept the **"Cash-Out Loop"** and harmonize micro-merchant tax safe-harbors.
 
 **Keywords:** Financial Inclusion, Digital Payments, Unified Payments Interface (UPI), Currency Demand Paradox, Tax Compliance Friction, AIS/TIS Tracking, Explainable Artificial Intelligence (XAI), TreeSHAP, XGBoost, Behavioral Economics, Global Findex.
 
@@ -20,8 +20,8 @@ The modern Indian retail payment ecosystem is recognized globally as a pioneerin
 Under orthodox monetary theory and classical payment adoption models (e.g., the Baumol-Tobin cash inventory framework), the near-zero marginal cost of electronic transactions should substitute physical currency as a medium of exchange, triggering a structural contraction in banknote demand (Baumol, 1952; Tobin, 1956). 
 
 However, empirical data from the Reserve Bank of India (RBI) reveals an enduring macroeconomic divergence:
-1. **The Digital Surge:** Monthly UPI retail transaction volumes have expanded at compound annual growth rates exceeding 50%, routinely surpassing **14.96 billion transactions monthly**, with annualized transaction values exceeding **₹240 lakh crore**—a volume rivaling India's nominal Gross Domestic Product (NPCI, 2024).
-2. **The Currency Demand Paradox:** Concurrently, India's absolute Currency in Circulation (CiC) continues to rise at an annual rate of 8% to 12%, climbing from ₹17.7 lakh crore immediately following the 2016 demonetization to over **₹42.8 lakh crore ($42.8 \times 10^{12}$ INR)** in mid-2026 (Reserve Bank of India, 2024; Awasthy, Misra, & Dhal, 2023).
+1. **The Digital Surge:** Monthly UPI retail transaction volumes climbed from **14.96 billion** in August 2024 (16.58 billion worth ₹23.49 lakh crore in October 2024) to **25.47 billion** transactions worth **₹31.53 lakh crore** in October 2026, totaling ₹314.23 lakh crore in FY 2025–26 while average ticket size fell to ~₹1,238 (NPCI, 2026).
+2. **The Currency Demand Paradox:** Concurrently, India's banknotes in circulation grew by **11.9%** YoY from ₹36.87 lakh crore (March 2025) to **₹41.24 lakh crore** (March 2026), with total CiC exceeding ₹43 lakh crore later in 2026—overwhelmingly concentrated in ₹500 notes (~85%–86% of total note value) (RBI, 2026; Awasthy, Misra, & Dhal, 2023).
 
 While central bank economists decouple this aggregate trend into transactional velocity versus precautionary/store-of-value holdings in the informal economy (Goodhart & Ashworth, 2020; Awasthy et al., 2023), macroeconomic indicators obscure granular individual-level behavioral decision-making.
 
@@ -132,24 +132,23 @@ Formally, $Y_i = 1 - \text{merchantpay\_dig}_i$. In the Global Findex codebook, 
 ### D. Benchmark Empirical Metrics from Published Literature
 Table I documents the directly cited, published empirical metrics establishing the baseline for our investigation.
 
-**Table I: Key Empirical Baseline Data from Published Sources**
+**Table I: Key Empirical Baseline Data from Official Institutional Sources**
 | Empirical Metric | Value | Primary Official Citation |
 | :--- | :---: | :--- |
-| **India Absolute Currency in Circulation (CiC)** | **₹42.8 Lakh Crore** | Reserve Bank of India (RBI, 2024) *Weekly Statistical Supplement* |
-| **Annualized CiC Growth Rate** | **11.2%** | Reserve Bank of India (RBI, 2024) *Money Stock Measures* |
-| **Monthly UPI Transaction Volume** | **14.96 Billion** | NPCI (2024) *UPI Product Statistics* (October 2024) |
-| **Monthly UPI Transaction Value** | **₹20.64 Lakh Crore** | NPCI (2024) *UPI Product Statistics* (October 2024) |
-| **Adult Account Ownership in India** | **77.5% (approx. 78%)** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 25) |
-| **Share of Inactive Accounts in India** | **35.0%** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 32) |
-| **Banked Adults Paying Merchants Only in Cash** | **670 Million** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 58) |
-| **Banked Women Paying Merchants Only in Cash** | **350 Million** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 58) |
-| **Adult Mobile Phone Ownership** | **72.0%** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 28) |
-| **Adults Making Digital Merchant Payments** | **12.0%** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 56) |
-| **Wage Earners Receiving Wages in Cash** | **62.4%** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 64) |
-| **Stated Barrier: Habit / "Used to it"** | **78.0%** | Global Findex 2021 Survey / Project Baseline Data |
-| **Stated Barrier: Merchant Accepts Only Cash** | **10.0%** | Global Findex 2021 Survey / Project Baseline Data |
-| **Stated Barrier: Distrust & Scam Anxiety** | **4.9%** | Global Findex 2021 Survey / Project Baseline Data |
-| **Stated Barrier: Higher Digital Costs** | **2.1%** | Global Findex 2021 Survey / Project Baseline Data |
+| **India Banknotes in Circulation (Mar 2026)** | **₹41.24 Lakh Crore** | Reserve Bank of India (RBI, 2026) *Annual Report 2025–26* |
+| **Banknote Value Growth Rate (FY25–26)** | **11.9%** | Reserve Bank of India (RBI, 2026) *Annual Report 2025–26* |
+| **₹500 Note Share of Currency Value** | **~85%–86%** | Reserve Bank of India (RBI, 2026) *Annual Report 2025–26* |
+| **Monthly UPI Volume / Value (Oct 2026)** | **25.47B / ₹31.53L Cr** | NPCI (2026) *UPI Product Statistics* (Oct 2024: 16.58B / ₹23.49L Cr) |
+| **Adult Account Ownership (2021 $\rightarrow$ 2024)** | **77.5% $\rightarrow$ 89.0%** | Global Findex (2021 p. 25; 2025 India Microdata) |
+| **Share of Inactive Accounts in India (2021)** | **35.0%** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 32) |
+| **Banked Adults Paying Merchants Only in Cash (2021)** | **670 Million** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 58) |
+| **Banked Women Paying Merchants Only in Cash (2021)** | **350 Million** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 58) |
+| **Adults Making Digital Merchant Payments (2021 $\rightarrow$ 2024)** | **11.9% $\rightarrow$ 18.3%** | Global Findex India Microdata (Weighted) |
+| **Wage Earners Paid Cash-Only (2021 $\rightarrow$ 2024)** | **39.9% $\rightarrow$ 57.4%** | Global Findex India Microdata (`receive_wages == 2`) |
+| **Stated Barrier (`fin25e4`): Habit / "Used to it"** | **77.4%** *(78.6% all)* | Global Findex 2025 (2024 India Microdata, Capable / All) |
+| **Stated Barrier (`fin25e4`): Merchant Accepts Cash Only** | **9.8%** *(9.0% all)* | Global Findex 2025 (2024 India Microdata, Capable / All) |
+| **Stated Barrier (`fin25e4`): Distrust in Card/Phone Pay** | **6.5%** *(4.4% all)* | Global Findex 2025 (2024 India Microdata, Capable / All) |
+| **Stated Barrier (`fin25e4`): Higher Digital Costs** | **2.3%** *(2.2% all)* | Global Findex 2025 (2024 India Microdata, Capable / All) |
 
 ---
 
@@ -261,6 +260,22 @@ Applying cooperative game-theoretic TreeSHAP to the leak-free Regularized XGBoos
 2. **$H_5$ (The Gender Usage Gap) is Confirmed:** `female` nearly doubles the odds of remaining cash-reliant ($\text{OR} = 1.96, p = 0.010$; TreeSHAP $I_j = 0.1572$) despite formal account parity.
 3. **Upstream Instrument & Spatial Divergence:** Possessing an ATM/debit card (`has_debit_card`, $\text{OR} = 0.12$) is the strongest upstream onboarding enabler, while the `wave_x_urban` interaction ($\text{OR} = 0.46, p = 0.007$) confirms that post-2021 digitization accelerated significantly faster in urban India than in rural pockets.
 
+### E. Econometric Extensions: Marginal Effects, Fairlie Decomposition & 2024 Tracker Audit
+To satisfy rigorous econometric identification standards beyond predictive AUC, we estimate survey-weighted **Average Marginal Effects (AMEs)**, **Non-Linear Fairlie / Blinder-Oaxaca Decompositions**, **Subgroup Heterogeneity**, and a **2024 Digital Connectivity Tracker Deep-Dive**:
+
+1. **Wave-Separated Average Marginal Effects (2021 vs. 2024):**
+   * **Urban-Rural Divergence:** Urban residency (`is_urban`) shifted from statistically insignificant in 2021 ($+4.8$ pp, $p = 0.123$) to significantly reducing cash reliance in 2024 (**$-6.0$ pp**, $p = 0.021$). Within subgroup regressions, the 2024 wave reduced cash reliance by **$-9.0$ pp** ($p = 0.001$) in **Urban** India, whereas **Rural** India experienced **no statistically significant drop** ($+3.3$ pp, $p = 0.287$).
+   * **Amplifying Cash-Out Loop:** Bank-deposited wages (`wage_bank`) surged in protective power from $-4.5$ pp ($p = 0.218$) in 2021 to **$-19.1$ percentage points** ($p < 10^{-9}$) in 2024, while physical cash wages (`wage_cash`) raised cash reliance by **$+10.1$ pp** ($p = 0.004$) in 2024 (**$+16.8$ pp** in Urban areas, $p < 0.001$).
+   * **Persistent Gender & Age Gap:** Being female carried an identical **+9.9 pp** marginal penalty in 2021 ($p = 0.004$) and **+10.0 pp** in 2024 ($p < 0.001$), rising to **+15.5 pp** ($p = 0.0015$) among adults aged $\ge 40$.
+
+2. **Non-Linear Blinder-Oaxaca / Fairlie Decomposition (Table V):**
+   * **Temporal Drop (2021 $\rightarrow$ 2024):** Weighted capable cash reliance declined from **60.57%** to **54.80%** ($-5.76$ pp). **55.25%** of this reduction is explained by **endowment expansion** (debit cards, bank wage deposits, higher income/education), while **44.75%** stems from **behavioral/ecosystem shifts** (soundboxes, UPI Lite).
+   * **Gender Usage Gap (Female vs. Male):** Weighted cash reliance among capable women is **66.92%** vs. **52.05%** among capable men ($+14.87$ pp raw gap). Exactly **50.01%** is explained by observed endowments, leaving **49.99%** driven by unexplained behavioral and intra-household frictions.
+
+3. **2024 Digital Connectivity Tracker & Merchant Refusal Audit (`fin25e4`):**
+   * Incorporating Findex 2025 Connectivity Tracker measures ($n = 1,335$; 5×3 CV ROC-AUC = **0.8298 ± 0.0223**, PR-AUC = **0.8544**) reveals that **functional SMS literacy (`con14`)** reduces cash reliance by **$-8.9$ pp** ($p = 0.010$; TreeSHAP $I_j = 0.1498$, ranking ahead of gender and cash wages)—providing direct micro-evidence of UTAUT Effort Expectancy. Scam message receipt (`con21`) shows a negative association (**$-8.9$ pp**, $p = 0.015$), reflecting higher fraud targeting of active digital transactors.
+   * Modeling stated merchant refusal (`fin25e4 == 1`, *"merchant only accepts cash"*, $n = 711$) yields **no statistically significant demographic predictors** ($p > 0.07$ across age, gender, education, income, and urbanicity), demonstrating that merchant-side cash insistence is **systemic across markets** rather than isolated to one disadvantaged consumer group.
+
 ---
 
 ## VII. Policy & Product Interventions
@@ -273,12 +288,12 @@ Because wage receipt in cash is the primary structural driver of retail cash spe
 * **Smart Direct Benefit Transfer (DBT) Wallets:** Provide a 1.5% to 2.0% micro-cashback on essential retail purchases (groceries, utilities) executed directly through digital rails, creating a direct financial incentive to retain balances rather than conducting immediate ATM cash-outs.
 
 ### 2. Eliminating Merchant Tax-Compliance Friction
-To counter the merchant-side "flight back to cash" driven by AIS/TIS scrutiny and Section 63 GST enforcement:
-* **Presumptive Taxation Safe-Harbors:** Enhance Section 44AD presumptive taxation thresholds for digital transactions, establishing that digital turnover below ₹50 lakh for informal micro-retailers will not trigger automated GST registration notices or scrutiny assessments.
-* **Zero-Liability Digital Receipts:** Provide statutory reassurance that small retail QR settlements below statutory thresholds do not generate automated tax demand notices, removing the incentive for shopkeepers to put away QR codes.
+To counter the merchant-side "flight back to cash" driven by Section 285BA AIS/TIS turnover visibility and the GST registration cliff (₹20L services / ₹40L goods under Sections 22 and 63 of the CGST Act):
+* **Harmonizing GST Thresholds with Section 44AD Digital Safe-Harbors:** Under the Income Tax Act, Section 44AD already grants an enhanced **₹3 crore** presumptive limit (at 6% vs. 8% for cash) when $\ge 95\%$ of business receipts are digital. However, micro-merchants still fear crossing the much lower **₹40 lakh GST cliff**. Tax policy should establish a **digital-only GST composition/exemption safe-harbor** aligned with Section 44AD's digital threshold so QR settlements do not trigger punitive Section 63 assessments for tiny informal vendors.
+* **Zero-Liability Digital Receipts:** Provide statutory clarity distinguishing gross pass-through micro-merchant settlements in AIS/TIS from taxable net profit, removing shopkeepers' incentive to put away QR codes.
 
 ### 3. Mitigating Trust Deficits and Scam Anxiety
-Addressing the 4.9% of cash-reliant adults constrained by distrust requires reducing "transaction failure dread" (Talwar et al., 2020; Goyal, 2026):
+Addressing the **6.5%** of capable cash-reliant adults (and 4.4% of all banked cash users in Findex 2025) constrained by distrust requires reducing "transaction failure dread" (Talwar et al., 2020; Goyal, 2026):
 * **Asymmetric Instant Dispute Reversals:** Mandate an automated 60-second account credit reversal for sub-₹500 merchant transactions that fail to settle at the point of sale, eliminating the risk of temporary fund lockup.
 * **Standardized Merchant Security Badges:** NPCI-certified physical QR badges providing visual authentication to reassure fraud-sensitive consumers.
 
@@ -326,10 +341,10 @@ Resolving India's currency demand paradox requires central banks, tax authoritie
 17. Migliore, G., Wagner, R., & Cechella, F. S. (2022). Antecedents to the Adoption of Mobile Payment: An Integration of UTAUT2 and Innovation Resistance Theory. *Information Systems Frontiers*, 24(6), 2005–2021.
 18. Minj, M. (2025). Shift from Cash to Cashless Economy in India: Evidence from RBI & World Bank Data. *Journal of Advances in Developmental Research*, 16(1), 1558–1565.
 19. Mukhopadhyay, B. (2016). Understanding cashless payments in India. *Financial Innovation*, 2(1), 27.
-20. NPCI. (2024). *UPI Monthly Product Statistics - October 2024*. National Payments Corporation of India. https://www.npci.org.in/what-we-do/upi/product-statistics
+20. NPCI. (2026). *UPI Monthly Product Statistics (2024–2026)*. National Payments Corporation of India. https://www.npci.org.in/what-we-do/upi/product-statistics
 21. Oliveira, T., Thomas, M., Baptista, G., & Campos, F. (2016). Mobile payment: Understanding the determinants of customer adoption and intention to recommend the technology. *Computers in Human Behavior*, 61, 404–414.
 22. Prelec, D., & Loewenstein, G. (1998). The Red and the Black: Mental Accounting of Savings and Debt. *Marketing Science*, 17(1), 4–28.
-23. Reserve Bank of India. (2024). *Weekly Statistical Supplement: Money Stock Measures*. RBI Bulletin, 2024.
+23. Reserve Bank of India. (2026). *Annual Report 2025–26 & Weekly Statistical Supplement: Currency Management*. RBI Publications.
 24. Samuelson, W., & Zeckhauser, R. (1988). Status quo bias in decision making. *Journal of Risk and Uncertainty*, 1(1), 7–59.
 25. Slade, E. L., Dwivedi, Y. K., Piercy, N. C., & Williams, M. D. (2015). Modeling consumers’ adoption intentions of remote mobile payments in the United Kingdom: Extending UTAUT with innovativeness, risk, and trust. *Psychology & Marketing*, 32(8), 860–873.
 26. Soman, D. (2001). Effects of payment mechanism on spending behavior: The role of rehearsal and immediacy of payments. *Journal of Consumer Research*, 27(4), 460–474.
@@ -340,3 +355,6 @@ Resolving India's currency demand paradox requires central banks, tax authoritie
 31. Venkatesh, V., Morris, M. G., Davis, G. B., & Davis, F. D. (2003). User acceptance of information technology: Toward a unified view. *MIS Quarterly*, 27(3), 425–478.
 32. Venkatesh, V., Thong, J. Y., & Xu, X. (2012). Consumer acceptance and use of information technology: Extending the unified theory of acceptance and use of technology. *MIS Quarterly*, 36(1), 157–178.
 33. World Bank. (2023). *G20 Policy Recommendations for Advancing Financial Inclusion and Productivity Gains through Digital Public Infrastructure*. World Bank Group.
+
+34. World Bank. (2025). *The Global Findex Database 2025: Connectivity and Financial Inclusion in the Digital Economy*. World Bank Publications.
+35. Fairlie, R. W. (2005). An extension of the Blinder-Oaxaca decomposition technique to logit and probit models. *Journal of Economic and Social Measurement*, 30(4), 305–316.
