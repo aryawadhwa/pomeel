@@ -7,9 +7,9 @@
 ---
 
 ## Abstract
-Despite the exponential proliferation of India's Unified Payments Interface (UPI)—which processes over 14.96 billion monthly retail transactions valued at over ₹20.64 lakh crore (NPCI, 2024)—India's absolute Currency in Circulation (CiC) has persistently expanded, growing by over 11% annually to exceed ₹42.8 lakh crore ($42.8 \times 10^{12}$ INR) in 2026 (Reserve Bank of India, 2024). This macroeconomic divergence reveals a pronounced micro-level behavioral puzzle: millions of Indian adults who possess all foundational prerequisites for digital transacting (a formal bank account, smartphone ownership, and active internet connectivity) continue to transact exclusively in physical cash for retail purchases. According to the World Bank Global Findex Database (Demirgüç-Kunt et al., 2022), approximately 670 million banked adults in India—including 350 million women—paid merchants exclusively in cash, representing over 40% of the world's cash-only banked population. We define and isolate this sub-population as the **"Capable-but-Cash"** cohort. Survey baseline data indicates that among digitally equipped adults who remain cash-reliant, **78.0%** self-report habit persistence ("used to it"), **10.0%** cite merchant acceptance constraints ("merchant accepts only cash"), **4.9%** cite distrust, fraud anxiety, or scam exposure, and only **2.1%** cite higher transaction fees. This paper formulates an empirical, explainable machine learning architecture to evaluate this paradox. We specify a survey-weighted Logistic Regression baseline alongside a regularized Gradient Boosted Decision Tree (XGBoost) classifier, coupled with cooperative game-theoretic interpretability via TreeSHAP. Our framework translates empirical attributions into targeted policy and FinTech product architectures, specifically designed to intercept the **"Cash-Out Loop"** and mitigate cognitive switching costs.
+Despite the exponential proliferation of India's Unified Payments Interface (UPI)—which processes over 14.96 billion monthly retail transactions valued at over ₹20.64 lakh crore (NPCI, 2024)—India's absolute Currency in Circulation (CiC) has persistently expanded, growing by over 11% annually to exceed ₹42.8 lakh crore ($42.8 \times 10^{12}$ INR) in 2026 (Reserve Bank of India, 2024). This macroeconomic divergence reveals a pronounced micro-level behavioral puzzle: millions of Indian adults who possess all foundational prerequisites for digital transacting (a formal bank account, smartphone ownership, and active internet connectivity) continue to transact exclusively in physical cash for retail purchases. According to the World Bank Global Findex Database (Demirgüç-Kunt et al., 2022), approximately 670 million banked adults in India—including 350 million women—paid merchants exclusively in cash, representing over 40% of the world's cash-only banked population. We define and isolate this sub-population as the **"Capable-but-Cash"** cohort. Survey baseline data indicates that among digitally equipped adults who remain cash-reliant, **78.0%** self-report habit persistence ("used to it"), **10.0%** cite merchant acceptance constraints ("merchant accepts only cash"), **4.9%** cite distrust, fraud anxiety, or scam exposure, and only **2.1%** cite higher transaction fees. Crucially, this consumer inertia is strongly reinforced by merchant-side tax compliance behavior: automated Income Tax reporting under the Annual Information Statement (AIS) and mandatory GST turnover thresholds (₹20L/₹40L under Section 63) create a powerful incentive for informal merchants to suppress digital receipts and mandate cash-only transactions. This paper formulates an empirical, explainable machine learning architecture to evaluate this paradox. We specify a survey-weighted Logistic Regression baseline alongside a regularized Gradient Boosted Decision Tree (XGBoost) classifier, coupled with cooperative game-theoretic interpretability via TreeSHAP. Our framework translates empirical attributions into targeted policy and FinTech product architectures, specifically designed to intercept the **"Cash-Out Loop,"** mitigate cognitive switching costs, and eliminate tax-trail friction for informal micro-merchants.
 
-**Keywords:** Financial Inclusion, Digital Payments, Unified Payments Interface (UPI), Currency Demand Paradox, Explainable Artificial Intelligence (XAI), TreeSHAP, XGBoost, Behavioral Economics, Global Findex.
+**Keywords:** Financial Inclusion, Digital Payments, Unified Payments Interface (UPI), Currency Demand Paradox, Tax Compliance Friction, AIS/TIS Tracking, Explainable Artificial Intelligence (XAI), TreeSHAP, XGBoost, Behavioral Economics, Global Findex.
 
 ---
 
@@ -30,7 +30,7 @@ Most existing financial inclusion literature assesses inclusion through an **acc
 * **The Cash-Only Merchant Scale:** Over **670 million banked adults in India pay merchants exclusively in cash** (Demirgüç-Kunt et al., 2022, p. 58). India alone accounts for more than 40% of the 1.6 billion banked cash-only consumers globally.
 
 We designate this phenomenon the **"Capable-but-Cash" Paradox**. This study addresses the following central research question:
-> *Among Indian adults who already possess an active formal bank account, a smartphone, and internet access, which behavioral, demographic, and psychological factors are most strongly associated with continued cash reliance for in-store transactions, and how do these factors interact?*
+> *Among Indian adults who already possess an active formal bank account, a smartphone, and internet access, which behavioral, demographic, and psychological factors are most strongly associated with continued cash reliance for in-store transactions, and how do merchant-side tax frictions interact with consumer choice?*
 
 Rather than relying strictly on classical parametric regressions—which assume linear log-odds and struggle to identify complex feature interactions—we develop an **Explainable Machine Learning** architecture combining regularized XGBoost (Chen & Guestrin, 2016) with **TreeSHAP** (Tree-based SHapley Additive exPlanations) (Lundberg & Lee, 2017; Lundberg et al., 2020). This framework allows us to extract an evidence-led, game-theoretically consistent ranking of behavioral barriers, moving beyond binary prediction toward actionable policy recommendations.
 
@@ -53,9 +53,11 @@ flowchart TD
         Habit["78.0% Habit Persistence ('Used to it')<br/>(Samuelson & Zeckhauser, 1988)"]
         Loop["The 'Cash-Out Loop'<br/>(CGAP, 2021; Sutradhar, 2024)"]
         Trust["4.9% Trust & Scam Anxiety<br/>(Talwar et al., 2020; Goyal, 2026)"]
+        Tax["Merchant Tax Scrutiny<br/>(AIS/TIS Tracking & GST Section 63)"]
         Findex --> Habit
         Findex --> Loop
         Findex --> Trust
+        Findex --> Tax
     end
 
     subgraph Method [3. Empirical & XAI Methodology]
@@ -85,7 +87,14 @@ Classical adoption frameworks assume rational utility maximization based purely 
 2. **Mental Accounting & The "Pain of Paying":** Prelec & Loewenstein (1998), Thaler (1999), and Soman (2001) demonstrated that physical currency separation creates an immediate, visceral "pain of paying." For budget-constrained households, handling physical banknotes acts as an automated, tangible expenditure regulator. Digital payment mechanisms decouple the consumption experience from payment salience, provoking anxiety over unmonitored overspending.
 3. **The "Cash-Out Loop" Hypothesis:** A critical structural bottleneck identified in emerging-market financial inclusion (Demirgüç-Kunt et al., 2022; CGAP, 2021; Sutradhar, 2024) is the disconnection between digital account credits and physical consumption. When informal sector workers or Direct Benefit Transfer (DBT) recipients receive government subsidies or wages into their bank accounts, their initial response is to withdraw 100% of the funds in cash via ATMs or Business Correspondents (Bank Mitras). Once liquidity enters the physical domain, all subsequent retail transactions inevitably occur in cash, completely bypassing digital point-of-sale rails.
 
-### D. Methodological Justification: Why Explainable AI (XAI)?
+### D. Merchant-Side Tax-Compliance Friction: AIS/TIS Scrutiny & The "Flight Back to Cash"
+A critical regulatory and institutional dynamic shaping merchant acceptance in India is the intersection of digital payment trails with taxation:
+1. **The "UPI Tax" Myth vs. Statutory Reality:** Direct peer-to-peer (P2P) and standard bank-to-bank merchant (P2M) UPI transactions carry zero consumer tax and operate under zero Merchant Discount Rate (zero-MDR) mandates. While the NPCI introduced an interchange fee of up to 1.1% on PPI wallet transactions exceeding ₹2,000 in 2023, public misinterpretation fostered a widespread perception that digital receipts attract direct transaction taxes.
+2. **Automated Tax Scrutiny via AIS & TIS:** Under Section 285BA of the Income Tax Act, payment aggregators (PhonePe, Google Pay, Paytm, BharatPe) legally transmit merchant settlement data directly to the Central Board of Direct Taxes (CBDT), where it is populated onto the taxpayer's **Annual Information Statement (AIS)** and **Taxpayer Information Summary (TIS)**.
+3. **GST Section 63 Threshold Enforcement:** Small retailers whose digital receipts exceed statutory GST turnover thresholds (₹20 lakh for services, ₹40 lakh for goods) face automated mismatch notices under Section 63 of the CGST Act for conducting business without registration.
+4. **Behavioral Implication:** To suppress visible digital turnover and evade tax scrutiny, small informal merchants frequently disable QR displays or request cash payments (*"server down / cash preferred"*). This merchant-side resistance forces even digitally capable consumers to transact in physical cash, actively sustaining the "Capable-but-Cash" equilibrium.
+
+### E. Methodological Justification: Why Explainable AI (XAI)?
 Traditional empirical literature evaluating payment choice relies almost universally on **Binary Logistic Regression** or **Probit Models** (Mukhopadhyay, 2016; Sutradhar, 2024). While linear econometric models provide interpretable odds ratios ($\exp(\beta)$), they impose rigid assumptions:
 1. **Linearity Assumption:** Logit assumes a strictly linear relationship between continuous predictors (e.g., Age) and the log-odds of digital adoption, masking non-linear tipping points.
 2. **Combinatorial Interaction Bottlenecks:** Modeling multi-way interactions (e.g., $\text{Age} \times \text{Education} \times \text{Wage-in-Cash}$) requires manual specification, risking omitted variable bias or overfitting.
@@ -95,10 +104,10 @@ Gradient Tree Boosting (XGBoost) (Chen & Guestrin, 2016) natively models non-lin
 
 ---
 
-## III. Data Operationalization: World Bank Global Findex 2021 (India)
+## III. Data Operationalization: World Bank Global Findex (India)
 
-### A. Data Source & Sampling Architecture
-The empirical investigation utilizes microdata from the **World Bank Global Financial Inclusion (Global Findex) Database 2021** for India (Study Reference ID: `IND_2021_FINDEX_v02_M`) (Demirgüç-Kunt et al., 2022). The survey comprises $N = 3,000$ face-to-face, nationally representative surveyed adult respondents (aged 15+) across all Indian states and Union Territories, capturing 199 survey indicators.
+### A. Data Source & Survey Architecture
+The empirical analysis utilizes microdata from the **World Bank Global Financial Inclusion (Global Findex) Database 2021** for India (Study Reference ID: `IND_2021_FINDEX_v02_M`) (Demirgüç-Kunt et al., 2022). Furthermore, the methodology is structured to be forward-compatible with the newly cataloged **Global Findex 2025 Edition** (incorporating the 2024 survey wave and Digital Connectivity Tracker under Study Reference ID: `IND_2024_FINDEX_v02_M`). The benchmark dataset comprises $N = 3,000$ face-to-face, nationally representative surveyed adult respondents (aged 15+) across all Indian states and Union Territories, capturing 199 survey indicators.
 
 ### B. Operational Definition of the "Capable" Cohort
 To isolate the paradox of non-adoption despite technical readiness, we explicitly filter out infrastructural exclusion. The eligible cohort is mathematically formulated as:
@@ -256,38 +265,43 @@ Applying cooperative game-theoretic TreeSHAP to the leak-free Regularized XGBoos
 
 ## VII. Policy & Product Interventions
 
-The empirical evidence and behavioral theories demonstrate that expanding baseline infrastructure (more accounts or smartphones) cannot resolve the "Capable-but-Cash" paradox. Policy interventions must directly address the identified behavioral barriers:
+The empirical evidence and behavioral theories demonstrate that expanding baseline infrastructure (more accounts or smartphones) cannot resolve the "Capable-but-Cash" paradox. Interventions must directly address the identified behavioral barriers:
 
 ### 1. Intercepting the "Cash-Out Loop" at the Source
 Because wage receipt in cash is the primary structural driver of retail cash spending (Demirgüç-Kunt et al., 2022), government and regulatory policy must incentivize **closed-loop digital wage ecosystems**:
 * **Informal Sector Payroll Digitization:** Subsidize cloud-based payroll software integrated with UPI AutoPay for micro-, small-, and medium-sized enterprises (MSMEs), eliminating cash wage envelopes.
 * **Smart Direct Benefit Transfer (DBT) Wallets:** Provide a 1.5% to 2.0% micro-cashback on essential retail purchases (groceries, utilities) executed directly through digital rails, creating a direct financial incentive to retain balances rather than conducting immediate ATM cash-outs.
 
-### 2. Mitigating Trust Deficits and Scam Anxiety
+### 2. Eliminating Merchant Tax-Compliance Friction
+To counter the merchant-side "flight back to cash" driven by AIS/TIS scrutiny and Section 63 GST enforcement:
+* **Presumptive Taxation Safe-Harbors:** Enhance Section 44AD presumptive taxation thresholds for digital transactions, establishing that digital turnover below ₹50 lakh for informal micro-retailers will not trigger automated GST registration notices or scrutiny assessments.
+* **Zero-Liability Digital Receipts:** Provide statutory reassurance that small retail QR settlements below statutory thresholds do not generate automated tax demand notices, removing the incentive for shopkeepers to put away QR codes.
+
+### 3. Mitigating Trust Deficits and Scam Anxiety
 Addressing the 4.9% of cash-reliant adults constrained by distrust requires reducing "transaction failure dread" (Talwar et al., 2020; Goyal, 2026):
 * **Asymmetric Instant Dispute Reversals:** Mandate an automated 60-second account credit reversal for sub-₹500 merchant transactions that fail to settle at the point of sale, eliminating the risk of temporary fund lockup.
 * **Standardized Merchant Security Badges:** NPCI-certified physical QR badges providing visual authentication to reassure fraud-sensitive consumers.
 
-### 3. Mitigating Cognitive Friction (Designing for Habit Persistence)
+### 4. Mitigating Cognitive Friction (Designing for Habit Persistence)
 To address habit persistence among older demographics (Samuelson & Zeckhauser, 1988):
 * **Default UPI Lite On-Device Wallets:** Remove 6-digit PIN requirements for daily low-ticket transactions ($<\text{₹}500$), mirroring the speed and cognitive simplicity of handing over physical cash notes.
 * **Voice-First Conversational Interfaces:** Integrate conversational AI (leveraging India's Bhashini open-source language models) to allow users to speak transaction commands in local dialects, eliminating complex navigation hurdles.
 
 ---
 
-## VII. Limitations & Threats to Validity
+## VIII. Limitations & Threats to Validity
 
 1. **Cross-Sectional Observational Data:** The Global Findex survey is cross-sectional. While TreeSHAP values isolate empirical associations and predictive contributions, they do not establish causal relationships in the absence of exogenous experimental variation.
 2. **Survey Measurement Limitations:** Psychological constructs such as habit persistence and scam anxiety are evaluated via discrete self-reported survey indicators rather than continuous psychometric psychophysical instruments.
-3. **Temporal Dynamics:** The 2021 survey wave captured adoption during the COVID-19 pandemic recovery. While India's CiC has continued its parallel upward march to ₹42.8 lakh crore in 2026, subsequent diffusion of soundbox QR terminals has further expanded merchant digital acceptance.
+3. **Temporal Dynamics:** The 2021 survey wave captured adoption during the COVID-19 pandemic recovery. The subsequent release of the **Global Findex 2025 Database** (`IND_2024_FINDEX_v02_M`) provides a key opportunity for future comparative validation across the post-soundbox digital payments timeline.
 
 ---
 
-## VIII. Conclusion
+## IX. Conclusion
 
-This study establishes a rigorous empirical and explainable machine learning foundation to analyze India's "Capable-but-Cash" paradox. By combining macroeconomic currency demand literature with micro-level Global Findex 2021 survey data, we demonstrate that persistent cash usage among digitally equipped adults is governed by the **"Cash-Out Loop"**, **habit persistence in older adults**, and **asymmetric trust deficits**, while direct transaction costs are virtually inconsequential. 
+This study establishes a rigorous empirical and explainable machine learning foundation to analyze India's "Capable-but-Cash" paradox. By combining macroeconomic currency demand literature with micro-level Global Findex survey data, we demonstrate that persistent cash usage among digitally equipped adults is governed by the **"Cash-Out Loop"**, **habit persistence in older adults**, and **asymmetric trust deficits**, reinforced by **merchant-side tax compliance frictions**, while direct transaction costs are virtually inconsequential. 
 
-Resolving India's currency demand paradox requires central banks, retail banks, and FinTech innovators to transition from basic infrastructure expansion to targeted behavioral architectures that intercept cash withdrawals at the point of income disbursement and eliminate cognitive friction for the next hundred million digital users.
+Resolving India's currency demand paradox requires central banks, tax authorities, and FinTech innovators to transition from basic infrastructure expansion to targeted behavioral architectures that intercept cash withdrawals at the point of income disbursement, eliminate merchant tax paranoia, and reduce cognitive friction for the next hundred million digital users.
 
 ---
 
