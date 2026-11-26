@@ -1,8 +1,9 @@
 # Analyzing India’s Rising Currency in Circulation: An Explainable Machine Learning and Econometric Audit of the "Capable-but-Cash" Paradox
 
-**Aarush Garg**, **Arya Wadhwa**, and **Dilraj Singh**  
-*Department of Computer Science and Engineering (AI & ML)*  
-*RV College of Engineering, Bengaluru, India*
+**Aarush Garg**¹, **Arya Wadhwa**¹, **Dilraj Singh**¹, and **Dr. Vivekanand S Gogi**²  
+¹*Department of Computer Science and Engineering (AI & ML), RV College of Engineering, Bengaluru, India*  
+²*Department of Industrial Engineering and Management, RV College of Engineering, Bengaluru, India*  
+*Emails: `aarushgarg.ai24@rvce.edu.in`, `aryawadhwa.ai24@rvce.edu.in`, `dilrajsingh.ai24@rvce.edu.in`, `vivekanands@rvce.edu.in`*
 
 ---
 
