@@ -1,8 +1,9 @@
 """
 Master Execution Pipeline:
 Orchestrates end-to-end authentic data loading, leak-free feature engineering,
-Repeated Stratified K-Fold CV, multi-family stacking + Platt calibration,
-out-of-fold threshold optimization, and TreeSHAP explainability.
+Repeated Stratified K-Fold CV, hierarchical & cross-wave transfer benchmarks,
+Platt calibration + DeLong/Wilcoxon tests, fairness & counterfactual audits,
+TreeSHAP explainability + interaction discovery, and full econometric suite.
 """
 
 import os
@@ -11,13 +12,23 @@ import warnings
 
 from data_loader import load_findex_data
 from econometrics import run_full_econometric_suite
-from explainability import generate_econometric_figures, run_shap_analysis
+from explainability import (
+    generate_econometric_figures,
+    generate_interactions_and_calibration_figure,
+    run_shap_analysis,
+)
 from models import (
     compare_models,
+    compute_calibration_curve_data,
     make_calibrated_stack,
     make_lgb_classifier,
     make_xgb_classifier,
+    run_cross_wave_transfer,
+    run_fairness_audit,
+    run_hierarchical_ablation,
+    run_policy_counterfactual_simulation,
     run_repeated_cv_benchmark,
+    run_statistical_comparisons,
     train_logistic_baseline,
     train_model_with_postprocessing,
 )
@@ -48,8 +59,8 @@ def main():
     pct_capable = (n_capable / len(raw_df)) * 100
     print(f"Digitally capable sub-population size: {n_capable:,} ({pct_capable:.2f}% of total surveyed)")
 
-    cash_reliant_count = (capable_df['cash_reliant'] == 1).sum()
-    digital_user_count = (capable_df['cash_reliant'] == 0).sum()
+    cash_reliant_count = int((capable_df['cash_reliant'] == 1).sum())
+    digital_user_count = int((capable_df['cash_reliant'] == 0).sum())
     print(f"  - Cash-Reliant (Capable but cash-only in store): {cash_reliant_count:,} ({cash_reliant_count/n_capable*100:.2f}%)")
     print(f"  - Digital Adopters (Made digital merchant payment): {digital_user_count:,} ({digital_user_count/n_capable*100:.2f}%)")
 
@@ -65,9 +76,9 @@ def main():
 
     os.makedirs('figures', exist_ok=True)
 
-    # 4. Repeated Stratified K-Fold CV Ablation (15 evaluations, survey-weighted)
+    # 4. Repeated Stratified K-Fold CV Ablation + Hierarchical Block Ablation
     print("\n[Step 4] Running 5x3 Repeated Stratified K-Fold CV Ablation (Survey-Weighted)...")
-    cv_df = run_repeated_cv_benchmark(
+    cv_df, fold_aucs = run_repeated_cv_benchmark(
         data['X_full'],
         data['y_full'],
         data['w_full'],
@@ -75,6 +86,22 @@ def main():
         random_state=42,
     )
     cv_df.to_csv('figures/cv_ablation_table.csv', index=False)
+
+    print("\n[Step 4b] Running Hierarchical Domain-Block Ablation (Demographics -> Cash-Out -> Depth -> Full)...")
+    hier_df = run_hierarchical_ablation(
+        data['X_full'],
+        data['y_full'],
+        data['w_full'],
+        data['feature_blocks'],
+        random_state=42,
+    )
+    hier_df.to_csv('figures/hierarchical_ablation.csv', index=False)
+    print(hier_df.to_string(index=False))
+
+    print("\n[Step 4c] Running Cross-Wave Temporal Generalization (2021 <-> 2024)...")
+    transfer_df = run_cross_wave_transfer(capable_df, data['feature_names'], random_state=42)
+    transfer_df.to_csv('figures/cross_wave_transfer.csv', index=False)
+    print(transfer_df.to_string(index=False))
 
     # 5. Train Held-Out Models with OOF Threshold Tuning & Calibration
     print("\n[Step 5] Fitting Held-Out Models (Spline-Logit, XGBoost, LightGBM, Calibrated Stack)...")
@@ -103,24 +130,47 @@ def main():
         tune_thresholds=False,
     )
 
-    # 6. Evaluate and Compare Held-Out Models
+    # 6. Evaluate and Compare Held-Out Models + Statistical Tests + Calibration + Fairness + Counterfactuals
     print("\n[Step 6] Held-Out Test Set Evaluation (Survey-Weighted):")
-    comp_df = compare_models(
-        {
-            'Spline-Logit (Baseline+)': logit_res,
-            'XGBoost (Reg+FE)': xgb_res,
-            'LightGBM (Reg+FE)': lgb_res,
-            'Stacked + Platt Cal': stack_res,
-        }
-    )
+    results_map = {
+        'Spline-Logit (Baseline+)': logit_res,
+        'XGBoost (Reg+FE)': xgb_res,
+        'LightGBM (Reg+FE)': lgb_res,
+        'Stacked + Platt Cal': stack_res,
+    }
+    comp_df = compare_models(results_map)
     print(comp_df.to_string(index=False))
     comp_df.to_csv('figures/model_comparison_table.csv', index=False)
-
-    # Save GLM Odds Ratios
     logit_res['odds_ratios'].to_csv('figures/logit_odds_ratios.csv')
 
-    # 7. TreeSHAP Explainability (on Regularized Leak-Free XGBoost)
-    print("\n[Step 7] Computing TreeSHAP Values & Generating High-Res Visualizations...")
+    stat_df = run_statistical_comparisons(
+        fold_aucs,
+        data['y_test'],
+        {k: v['y_pred_prob'] for k, v in results_map.items()},
+    )
+    stat_df.to_csv('figures/statistical_tests.csv', index=False)
+
+    cal_df = compute_calibration_curve_data(
+        data['y_test'],
+        {
+            'Spline-Logit': logit_res['y_pred_prob'],
+            'Regularized XGBoost': xgb_res['y_pred_prob'],
+            'Stacked + Platt Cal': stack_res['y_pred_prob'],
+        },
+        data['w_test'],
+    )
+    cal_df.to_csv('figures/calibration_reliability.csv', index=False)
+
+    fair_df = run_fairness_audit(data['X_test'], data['y_test'], data['w_test'], stack_res['y_pred_prob'])
+    fair_df.to_csv('figures/fairness_audit.csv', index=False)
+
+    cf_df = run_policy_counterfactual_simulation(stack_res['model'], capable_df, data['feature_names'])
+    cf_df.to_csv('figures/policy_counterfactuals.csv', index=False)
+    print("\n[Step 6b] Model-Implied Policy Counterfactuals (2024 Capable Cohort):")
+    print(cf_df.to_string(index=False))
+
+    # 7. TreeSHAP Explainability + Interaction Discovery
+    print("\n[Step 7] Computing TreeSHAP Values, Interactions & Generating High-Res Visualizations...")
     shap_results = run_shap_analysis(
         xgb_res['model'],
         data['X_train'],
@@ -128,18 +178,19 @@ def main():
         data['feature_names'],
         output_dir='figures',
     )
+    generate_interactions_and_calibration_figure(output_dir='figures', comp_df=comp_df)
 
     print("\n[Step 8] Top Ranked Leak-Free Drivers (TreeSHAP):")
     print(shap_results['importance_df'].head(12).to_string(index=False))
 
-    # 8. Econometric Suite (AMEs, Fairlie Decomposition, Heterogeneity, 2024 Tracker)
+    # 8. Econometric Suite
     print("\n[Step 9] Running Full Econometric & Behavioral Audit Suite...")
     run_full_econometric_suite(capable_df, output_dir='figures')
     generate_econometric_figures(capable_df, output_dir='figures')
 
     print("\n" + "=" * 80)
     print("LEAK-FREE 2-WAVE EMPIRICAL PIPELINE COMPLETED SUCCESSFULLY!")
-    print("All CV tables, model benchmarks, and SHAP figures exported to 'figures/'")
+    print("All CV tables, statistical tests, SHAP figures, and econometric CSVs exported to 'figures/'")
     print("=" * 80)
 
 

@@ -3,6 +3,8 @@
 **Authors:** Aarush Garg, Arya Wadhwa, Dilraj Singh  
 **Institution:** RV College of Engineering, Bengaluru, India  
 
+> **Archival Note (Phase I Planning Memo):** This document records the early Phase I peer-review scoping critique (against earlier 2024 snapshot figures of 14.9B monthly UPI transactions and ₹42.8 lakh crore CiC) that motivated the final two-wave econometrics, TreeSHAP interaction, and 2024 Connectivity Tracker pipeline documented in `paper/paper.tex` and `paper/RESEARCH_PAPER.md`.
+
 ---
 
 ## 1. Executive Summary & Critical Review

@@ -21,9 +21,9 @@ This literature review establishes the theoretical, empirical, tax-compliance, a
 Orthodox monetary theories (e.g., Baumol-Tobin inventory models of money demand) predict that as the transaction costs of accessing non-cash liquidity fall toward zero, transactional cash balances will diminish. 
 
 Recent empirical studies conducted by the Reserve Bank of India (RBI) and independent economists reveal that the persistence of cash is not uniform across use-cases:
-* **Transactional Substitution:** UPI has established rapid substitution effects for high-frequency, low-ticket retail transactions (groceries, micro-merchants, local transit) (Mukhopadhyay, 2016; Minj, 2025).
-* **Precautionary & Store-of-Value Inelasticity:** As demonstrated by RBI working papers (Awasthy, Misra, & Dhal, 2023) and Kumar & Mishra (2025), aggregate currency demand is overwhelmingly dominated by precautionary savings and store-of-value motives within the informal economy. Unorganized sector households maintain physical liquidity buffers against systemic shocks (health emergencies, agricultural income volatility).
-* **Income Elasticity vs. Digital Dampening:** Aggregate econometric models show that India's rising nominal GDP exerts an expansionary income effect on currency demand that exceeds the contractionary substitution effect of digital payment rails (Agarwal, 2023).
+* **Transactional Substitution:** UPI has established rapid substitution effects for high-frequency, low-ticket retail transactions (groceries, micro-merchants, local transit) (Mukhopadhyay, 2016; Awasthy & Seet, 2025).
+* **Precautionary & Store-of-Value Inelasticity:** As demonstrated by RBI occasional papers (Awasthy, Misra, & Dhal, 2022) and subnational UPI studies (Awasthy & Seet, 2025), aggregate currency demand is heavily sustained by precautionary savings and store-of-value motives within the informal economy. Unorganized sector households maintain physical liquidity buffers against systemic shocks (health emergencies, agricultural income volatility).
+* **Income Elasticity vs. Digital Dampening:** Subnational econometric evaluations show that while UPI dampens transactional cash demand, rising income, ATM density, and informal workforce concentration sustain physical currency holdings (Awasthy & Seet, 2025; Ashworth & Goodhart, 2020).
 
 ---
 
@@ -34,7 +34,7 @@ flowchart TD
     subgraph Theoretical Foundations
         UTAUT["UTAUT / UTAUT2<br/>(Venkatesh et al., 2003, 2012)"]
         BehavEcon["Behavioral Economics<br/>(Kahneman & Tversky; Thaler)"]
-        Inclusion["Financial Inclusion Models<br/>(Demirgüç-Kunt et al., 2022)"]
+        Inclusion["Financial Inclusion & CICO<br/>(Demirgüç-Kunt et al., 2022)"]
         TaxCompliance["Tax Compliance & Evasion Theory<br/>(Allingham & Sandmo, 1972)"]
     end
 
@@ -43,7 +43,7 @@ flowchart TD
         PR["Perceived Risk / Trust<br/>(Scam anxiety, failed transfers)"]
         Habit["Habit Persistence<br/>(Status-quo bias)"]
         Pain["Pain of Paying<br/>(Budget transparency)"]
-        Loop["The Cash-Out Loop<br/>(Wage/DBT liquidation)"]
+        Loop["The Cash-Out Loop<br/>(Wage/DBT liquidation & CICO)"]
         TaxTrail["Merchant Tax Audit Paranoia<br/>(AIS/TIS & GST Section 63)"]
     end
 
@@ -59,7 +59,7 @@ flowchart TD
 The Unified Theory of Acceptance and Use of Technology (UTAUT) (Venkatesh et al., 2003) and its consumer extension UTAUT2 (Venkatesh et al., 2012) represent the predominant conceptual models for technology adoption:
 * **Effort Expectancy:** The degree of ease associated with system use. For rural and semi-literate demographics, multi-step smartphone authentication (SMS OTPs, 4-to-6 digit UPI PINs, server latency) introduces cognitive friction compared to cash handover (Slade et al., 2015).
 * **Facilitating Conditions & Social Influence:** Oliveira et al. (2016) and Migliore et al. (2022) establish that peer adoption and merchant POS readiness dictate whether an individual feels enabled to transact digitally.
-* **Perceived Risk and Initial Trust:** Talwar et al. (2020) and Goyal (2026) investigate post-adoption continuation intention in Indian digital payments, identifying that "fear of transaction failure" (money deducted from bank account without merchant receipt) and scam exposure create asymmetric risk aversion.
+* **Perceived Risk and Initial Trust:** Talwar et al. (2020) investigate post-adoption continuation intention in Indian digital payments, identifying that "fear of transaction failure" (money deducted from bank account without merchant receipt) and security risk create asymmetric risk aversion.
 
 ### 3.2 Behavioral Economics: Habit, Mental Accounting, and the "Pain of Paying"
 Classical adoption models assume rational utility maximization, frequently failing to explain why digitally capable users choose cash when digital payments carry zero merchant fees:
@@ -67,14 +67,14 @@ Classical adoption models assume rational utility maximization, frequently faili
 2. **Mental Accounting & Budgetary Discipline:** Prelec & Loewenstein (1998) and Soman (2001) formalized the "pain of paying." Physical cash transactions provide immediate tactile and visual cues of balance depletion. For budget-constrained households, paying with cash serves as an automatic self-regulatory spending constraint; digital payments decouple the pain of paying from the consumption experience, causing anxiety over unintended overspending.
 
 ### 3.3 The "Cash-Out Loop" Hypothesis
-A critical structural friction identified in emerging-market financial inclusion (Demirgüç-Kunt et al., 2022; CGAP, 2021; Sutradhar, 2024) is the **disconnection between account credit and retail spending**. 
-When informal sector workers or rural beneficiaries receive wages or Direct Benefit Transfer (DBT) subsidies into their bank accounts, their first action is to withdraw 100% of the funds via an ATM or Bank Mitra (Business Correspondent). Once liquidity is held physically in the wallet, all subsequent merchant transactions inevitably occur in cash, completely bypassing digital point-of-sale rails.
+A critical structural friction identified in emerging-market financial inclusion (Demirgüç-Kunt et al., 2022; Hernandez et al., 2020; Sutradhar, 2024) is the **disconnection between account credit and retail spending**.
+When informal sector workers or rural beneficiaries receive wages or Direct Benefit Transfer (DBT) subsidies into their bank accounts, their first action is often to withdraw 100% of the funds via an ATM or CICO agent. Once liquidity is held physically in the wallet, all subsequent merchant transactions inevitably occur in cash, completely bypassing digital point-of-sale rails.
 
 ### 3.4 Merchant-Side Tax Scrutiny & The "Flight Back to Cash"
 A crucial institutional force that reinforces consumer cash reliance is **merchant refusal driven by tax-compliance anxiety**:
-1. **The Myth of the "UPI Tax":** Consumer UPI transfers (P2P and P2M) are legally free under zero-MDR regulations. While NPCI added a 1.1% interchange fee on wallet transactions over ₹2,000 in 2023, public misunderstanding fostered rumors that all digital receipts attract direct taxes.
-2. **Automated Tax Auditing via AIS / TIS:** Under Section 285BA of the Income Tax Act, payment aggregators report all merchant settlement data directly to the Central Board of Direct Taxes (CBDT), automatically populating onto the merchant's **Annual Information Statement (AIS)**.
-3. **GST Section 63 Enforcement:** Small retailers whose annual digital turnover crosses statutory limits (₹20 lakh for services, ₹40 lakh for goods) face automated notices for operating without GST registration.
+1. **The Myth of the "UPI Tax":** Consumer bank-to-bank UPI transfers (P2P and P2M) are free under zero-MDR regulations. While NPCI introduced an interchange fee of up to 1.1% on merchant Prepaid Payment Instrument (PPI) wallet transactions over ₹2,000 in 2023, public misunderstanding fostered rumors that all digital receipts attract direct taxes.
+2. **Automated Tax Auditing via AIS / TIS:** Under Section 285BA of the Income Tax Act (Statement of Financial Transactions), reporting financial institutions transmit prescribed transaction records to tax authorities, populating taxpayers' **Annual Information Statement (AIS)** and **Taxpayer Information Summary (TIS)**.
+3. **GST Section 63 Enforcement:** Small suppliers whose aggregate annual turnover crosses statutory GST registration thresholds (₹20 lakh for services, ₹40 lakh for goods in most states) face Best Judgment Assessment under **Section 63 of the CGST Act** for operating without registration.
 4. **Behavioral Outcome:** Informal retailers actively suppress digital QR transactions and mandate physical cash (*"server down / cash preferred"*), directly locking digitally equipped buyers into cash payments.
 
 ---
@@ -83,12 +83,12 @@ A crucial institutional force that reinforces consumer cash reliance is **mercha
 
 | Study | Data / Context | Methodology | Core Findings & Relevance |
 | :--- | :--- | :--- | :--- |
-| **Demirgüç-Kunt et al. (2022)** | Global Findex 2021 (Global & India) | Cross-sectional descriptive & weighted probit | Documents that 78% of Indian adults own accounts, but over 670 million banked individuals make merchant payments solely in cash. Identifies trust, distance, and lack of necessity as primary stated barriers. |
-| **World Bank (2025)** | Global Findex 2025 Database (`IND_2024_FINDEX`) | Digital Connectivity Tracker | Establishes the post-pandemic digital infrastructure baseline, tracking smartphone ownership, regular internet usage, and safety concerns. |
-| **Mukhopadhyay (2016)** | Global Findex (2011/2014) & Enterprise Surveys | Theoretical modeling & Logit | Early analysis of India's cashless transition. Showed that consumer adoption is throttled if merchants do not perceive tax incentives to digitize. |
-| **Sutradhar (2024)** | Global Findex 2021 (India sample) | Multinomial Logit & descriptive statistics | Evaluates determinants of digital transactions in India. Finds education, formal employment, and income quintile heavily predict digital payment usage, but does not isolate the "capable" cohort. |
-| **Maehara et al. (2024)** | National Financial Inclusion Survey (Peru) | Random Forest, XGBoost, Logit | Proves that non-linear ensemble models substantially outperform logistic regression in predicting financial inclusion indicators from survey microdata. |
-| **Talwar et al. (2020)** | Indian retail payment survey | Structural Equation Modeling (SEM) | Distinguishes initial trial from continuation intention. Identifies operational friction and perceived security risk as primary causes of reversion to cash. |
+| **Demirgüç-Kunt et al. (2022)** | Global Findex 2021 (Global & India) | Cross-sectional descriptive & survey-weighted indicators | Documents that 77.5% of Indian adults own accounts, while 670 million banked individuals make merchant payments solely in cash. Identifies trust, distance, and lack of necessity as primary stated barriers. |
+| **Klapper et al. (2025)** | Global Findex 2025 Database (`IND_2024_FINDEX`) | Digital Connectivity Tracker & financial inclusion indicators | Establishes the post-pandemic digital infrastructure baseline, tracking smartphone ownership, regular internet usage, and safety concerns. |
+| **Mukhopadhyay (2016)** | Global Findex (2011/2014) & Enterprise Surveys | Theoretical modeling & econometric evaluation | Early analysis of India's cashless transition. Showed that consumer adoption is throttled if merchants do not perceive net incentives to digitize. |
+| **Sutradhar (2024)** | Global Findex (India sample) | Binary Logit / Probit & descriptive statistics | Evaluates determinants of digital transactions in India. Finds education, formal employment, and income quintile strongly predict digital payment usage, but does not isolate the "capable" cohort. |
+| **Maehara et al. (2024)** | National Financial Inclusion Survey (Peru) | Random Forest, XGBoost, Logit | Demonstrates that non-linear ensemble models outperform standard logistic regression in predicting financial inclusion indicators from survey microdata. |
+| **Talwar et al. (2020)** | Indian mobile-payment user survey | Structural Equation Modeling (SEM) & complexity theory | Distinguishes point-of-adoption from continuation intention. Identifies initial trust and usage barriers as central determinants of mobile-payment continuation. |
 
 ---
 
@@ -104,41 +104,42 @@ Gradient Boosted Decision Trees (XGBoost) naturally capture arbitrary non-linear
 
 ---
 
-## 6. Selected Bibliography
+### 6. Selected Bibliography
 
-1. Agarwal, A. (2023). Less-Cash Societies: A Paradoxical Roadmap Revamped through Unified Payment Systems and Electronic Currencies. *International Journal of Science and Research (IJSR)*, 12(10), 153–158.
-2. Allingham, M. G., & Sandmo, A. (1972). Income tax evasion: A theoretical analysis. *Journal of Public Economics*, 1(3–4), 323–338.
-3. Arango, C., Huynh, K. P., & Sabetti, L. (2015). Consumer payment choice: Merchant card acceptance versus pricing incentives. *Journal of Banking & Finance*, 55, 130–141.
-4. Awasthy, S., Misra, R., & Dhal, S. (2023). Understanding the Currency Demand Paradox in India. *Reserve Bank of India Working Paper Series*.
-5. Baumol, W. J. (1952). The Transactions Demand for Cash: An Inventory Theoretic Approach. *The Quarterly Journal of Economics*, 66(4), 545–556.
-6. CGAP. (2021). *Financial Inclusion and the Cash-Out Loop in Emerging Markets*. Consultative Group to Assist the Poor, World Bank.
-7. Chen, T., & Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. *ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*, 785–794.
-8. Demirgüç-Kunt, A., Klapper, L., Singer, D., & Ansar, S. (2022). *The Global Findex Database 2021: Financial Inclusion, Digital Payments, and Resilience in the Age of COVID-19*. World Bank Publications.
-9. D'Silva, D., Filková, Z., Packer, F., & Tiwari, P. (2019). The design of digital financial infrastructure: lessons from India. *BIS Papers*, No. 106.
-10. Goodhart, C. A., & Ashworth, J. (2020). Coronavirus and the commerce of cash: the demand for banknotes in pandemic times. *CEPR Discussion Paper*, DP14782.
-11. Goyal, M. (2026). Determinants of consumer trust and adoption barriers in UPI-based payment applications among adults in India. *International Journal of Research in Finance and Management*, 9(8), 874–881.
-12. GSMA. (2023). *The Mobile Gender Gap Report 2023*. GSM Association.
-13. Kahneman, D., & Tversky, A. (1979). Prospect Theory: An Analysis of Decision under Risk. *Econometrica*, 47(2), 263–291.
-14. Kumar, A., & Mishra, A. K. (2025). Understanding India's Currency Demand Absurdity: Cash vs. Digital Payment Methods. *International Journal on Science and Technology*, 16(1), 2919–2928.
-15. Lundberg, S. M., & Lee, S.-I. (2017). A Unified Approach to Interpreting Model Predictions. *Advances in Neural Information Processing Systems (NeurIPS)*, 30, 4765–4774.
-16. Lundberg, S. M., et al. (2020). From local explanations to global understanding with explainable AI for trees. *Nature Machine Intelligence*, 2(1), 56–67.
-17. Maehara, R., Benites, L., & Talavera, A. (2024). Predicting Financial Inclusion in Peru: Application of Machine Learning Algorithms. *Journal of Risk and Financial Management*, 17(1), 34.
-18. Mallat, N. (2007). Exploring consumer adoption of mobile payments—A qualitative study. *The Journal of Strategic Information Systems*, 16(4), 413–432.
-19. Migliore, G., Wagner, R., & Cechella, F. S. (2022). Antecedents to the Adoption of Mobile Payment: An Integration of UTAUT2 and Innovation Resistance Theory. *Information Systems Frontiers*, 24(6), 2005–2021.
-20. Minj, M. (2025). Shift from Cash to Cashless Economy in India: Evidence from RBI & World Bank Data. *Journal of Advances in Developmental Research*, 16(1), 1558–1565.
-21. Mukhopadhyay, B. (2016). Understanding cashless payments in India. *Financial Innovation*, 2(1), 27.
-22. NPCI. (2024). *UPI Monthly Product Statistics - October 2024*. National Payments Corporation of India.
-23. Oliveira, T., Thomas, M., Baptista, G., & Campos, F. (2016). Mobile payment: Understanding the determinants of customer adoption and intention to recommend the technology. *Computers in Human Behavior*, 61, 404–414.
-24. Prelec, D., & Loewenstein, G. (1998). The Red and the Black: Mental Accounting of Savings and Debt. *Marketing Science*, 17(1), 4–28.
-25. Reserve Bank of India. (2024). *Weekly Statistical Supplement: Money Stock Measures*. RBI Bulletin, 2024.
-26. Samuelson, W., & Zeckhauser, R. (1988). Status quo bias in decision making. *Journal of Risk and Uncertainty*, 1(1), 7–59.
-27. Slade, E. L., Dwivedi, Y. K., Piercy, N. C., & Williams, M. D. (2015). Modeling consumers’ adoption intentions of remote mobile payments in the United Kingdom: Extending UTAUT with innovativeness, risk, and trust. *Psychology & Marketing*, 32(8), 860–873.
-28. Soman, D. (2001). Effects of payment mechanism on spending behavior: The role of rehearsal and immediacy of payments. *Journal of Consumer Research*, 27(4), 460–474.
-29. Sutradhar, T. K. (2024). Status and Determinants of Digital Transactions in India: Findings from the New Global Findex Database. *Vidyasagar University Journal of Economics*, 28, 21–38.
-30. Talwar, S., Dhir, A., & Khalil, A. (2020). Point of adoption and beyond: Initial trust and mobile-payment continuation intention. *Journal of Retailing and Consumer Services*, 55, 102086.
-31. Thaler, R. H. (1999). Mental accounting matters. *Journal of Behavioral Decision Making*, 12(3), 183–206.
-32. Tobin, J. (1956). The Interest-Elasticity of Transactions Demand For Cash. *The Review of Economics and Statistics*, 38(3), 241–247.
-33. Venkatesh, V., Morris, M. G., Davis, G. B., & Davis, F. D. (2003). User acceptance of information technology: Toward a unified view. *MIS Quarterly*, 27(3), 425–478.
-34. Venkatesh, V., Thong, J. Y., & Xu, X. (2012). Consumer acceptance and use of information technology: Extending the unified theory of acceptance and use of technology. *MIS Quarterly*, 36(1), 157–178.
-35. World Bank. (2023). *G20 Policy Recommendations for Advancing Financial Inclusion and Productivity Gains through Digital Public Infrastructure*. World Bank Group.
-36. World Bank. (2025). *The Global Findex Database 2025: Connectivity and Financial Inclusion in the Digital Economy*. World Bank Publications.
+1. Allingham, M. G., & Sandmo, A. (1972). Income tax evasion: A theoretical analysis. *Journal of Public Economics*, 1(3–4), 323–338.
+2. Arango, C., Huynh, K. P., & Sabetti, L. (2015). Consumer payment choice: Merchant card acceptance versus pricing incentives. *Journal of Banking & Finance*, 55, 130–141.
+3. Ashworth, J., & Goodhart, C. A. E. (2020). Coronavirus panic fuels a surge in cash demand. *CEPR Discussion Paper*, DP14910.
+4. Awasthy, S., Misra, R., & Dhal, S. (2022). Cash versus Digital Payment Transactions in India: Decoding the Currency Demand Paradox. *Reserve Bank of India Occasional Papers*, 43(2), 1–45.
+5. Awasthy, S., & Seet, S. K. (2025). Impact of UPI on Cash Demand – Evidence from National and Subnational Levels. *Reserve Bank of India (RBI) Bulletin*, Sep. 2025, 79 ff.
+6. Baumol, W. J. (1952). The Transactions Demand for Cash: An Inventory Theoretic Approach. *The Quarterly Journal of Economics*, 66(4), 545–556.
+7. Chen, T., & Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. *Proceedings of ACM SIGKDD*, 785–794.
+8. DeLong, E. R., DeLong, D. M., & Clarke-Pearson, D. L. (1988). Comparing the areas under two or more correlated receiver operating characteristic curves: a nonparametric approach. *Biometrics*, 44(3), 837–845.
+9. Demirgüç-Kunt, A., Klapper, L., Singer, D., & Ansar, S. (2022). *The Global Findex Database 2021: Financial Inclusion, Digital Payments, and Resilience in the Age of COVID-19*. World Bank Publications.
+10. D'Silva, D., Filková, Z., Packer, F., & Tiwari, S. (2019). The design of digital financial infrastructure: lessons from India. *BIS Papers*, No. 106.
+11. Duarte, A., Frost, J., Gambacorta, L., Koo Wilkens, P., & Shin, H. S. (2022). Central banks, the monetary system and public payment infrastructures: lessons from Brazil's instant payment system. *BIS Bulletin*, No. 52.
+12. Fairlie, R. W. (2005). An extension of the Blinder-Oaxaca decomposition technique to logit and probit models. *Journal of Economic and Social Measurement*, 30(4), 305–316.
+13. GSMA / Jeffrie, N. (2023). *The Mobile Gender Gap Report 2023*. GSM Association.
+14. Hernandez, E., Blackburn, C., Raman, A., & Reynolds, P. (2020). *Agent Network Journeys Toward the Last Mile: A Cross-Country Perspective*. CGAP / World Bank Group.
+15. Kahneman, D., & Tversky, A. (1979). Prospect Theory: An Analysis of Decision under Risk. *Econometrica*, 47(2), 263–291.
+16. Klapper, L., Singer, D., Starita, L., & Norris, A. (2025). *The Global Findex Database 2025: Connectivity and Financial Inclusion in the Digital Economy*. World Bank Publications.
+17. Lundberg, S. M., & Lee, S.-I. (2017). A Unified Approach to Interpreting Model Predictions. *Advances in Neural Information Processing Systems (NeurIPS)*, 30, 4765–4774.
+18. Lundberg, S. M., Erion, G., Chen, H., DeGrave, A., Prutkin, J. M., Nair, B., Katz, R., Himmelfarb, J., Bansal, N., & Lee, S.-I. (2020). From local explanations to global understanding with explainable AI for trees. *Nature Machine Intelligence*, 2(1), 56–67.
+19. Maehara, R., Benites, L., Talavera, A., Aybar-Flores, A., & Muñoz, M. (2024). Predicting Financial Inclusion in Peru: Application of Machine Learning Algorithms. *Journal of Risk and Financial Management*, 17(1), 34.
+20. Mallat, N. (2007). Exploring consumer adoption of mobile payments—A qualitative study. *The Journal of Strategic Information Systems*, 16(4), 413–432.
+21. Migliore, G., Wagner, R., Cechella, F. S., & Liébana-Cabanillas, F. (2022). Antecedents to the Adoption of Mobile Payment in China and Italy: an Integration of UTAUT2 and Innovation Resistance Theory. *Information Systems Frontiers*, 24(6), 2099–2122.
+22. Mukhopadhyay, B. (2016). Understanding cashless payments in India. *Financial Innovation*, 2(1), 27.
+23. NPCI. (2026). *UPI Product Statistics*. National Payments Corporation of India.
+24. Oliveira, T., Thomas, M., Baptista, G., & Campos, F. (2016). Mobile payment: Understanding the determinants of customer adoption and intention to recommend the technology. *Computers in Human Behavior*, 61, 404–414.
+25. Prelec, D., & Loewenstein, G. (1998). The Red and the Black: Mental Accounting of Savings and Debt. *Marketing Science*, 17(1), 4–28.
+26. Reserve Bank of India. (2026). *Annual Report 2025–26*. Reserve Bank of India Publications.
+27. Samuelson, W., & Zeckhauser, R. (1988). Status quo bias in decision making. *Journal of Risk and Uncertainty*, 1(1), 7–59.
+28. Slade, E. L., Dwivedi, Y. K., Piercy, N. C., & Williams, M. D. (2015). Modeling Consumers' Adoption Intentions of Remote Mobile Payments in the United Kingdom: Extending UTAUT with Innovativeness, Risk, and Trust. *Psychology & Marketing*, 32(8), 860–873.
+29. Soman, D. (2001). Effects of Payment Mechanism on Spending Behavior: The Role of Rehearsal and Immediacy of Payments. *Journal of Consumer Research*, 27(4), 460–474.
+30. Sutradhar, T. K. (2024). Status and Determinants of Digital Transactions in India: Findings from the New Global Findex Database. *Vidyasagar University Journal of Economics*.
+31. Talwar, S., Dhir, A., Khalil, A., Mohan, G., & Najmul Islam, A. K. M. (2020). Point of adoption and beyond. Initial trust and mobile-payment continuation intention. *Journal of Retailing and Consumer Services*, 55, 102086.
+32. Thaler, R. H. (1999). Mental accounting matters. *Journal of Behavioral Decision Making*, 12(3), 183–206.
+33. Tobin, J. (1956). The Interest-Elasticity of Transactions Demand For Cash. *The Review of Economics and Statistics*, 38(3), 241–247.
+34. Venkatesh, V., Morris, M. G., Davis, G. B., & Davis, F. D. (2003). User acceptance of information technology: Toward a unified view. *MIS Quarterly*, 27(3), 425–478.
+35. Venkatesh, V., Thong, J. Y. L., & Xu, X. (2012). Consumer acceptance and use of information technology: Extending the unified theory of acceptance and use of technology. *MIS Quarterly*, 36(1), 157–178.
+36. World Bank. (2023). *G20 Policy Recommendations for Advancing Financial Inclusion and Productivity Gains through Digital Public Infrastructure*. World Bank Group.
+37. Yun, M.-S. (2004). Decomposing differences in the first moment. *Economics Letters*, 82(2), 275–280.

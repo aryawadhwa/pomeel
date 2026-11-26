@@ -1,0 +1,6 @@
+Policy_Scenario,Predicted_Cash_Rate,Change_vs_Baseline_pp
+Observed 2024 Weighted Rate,0.5480134018657737,0.0
+Baseline Model Prediction (2024),0.5539062717268021,0.0
+Scenario 1: Aadhaar-OTP Onboarding Parity (Card=1),0.4655826670485984,-8.832360467820365
+Scenario 2: Payroll Digitization (Wage Cash -> Bank),0.5144395607107058,-3.9466711016096223
+Scenario 3: Combined Onboarding + Wage Digitization,0.40913829982561584,-14.476797190118623

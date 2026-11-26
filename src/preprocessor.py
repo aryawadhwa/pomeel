@@ -22,6 +22,27 @@ BASELINE_FEATURE_COLS: List[str] = [
     'wave_2024',
 ]
 
+RAW_MAIN_EFFECTS_COLS: List[str] = [
+    'age',
+    'female',
+    'educ',
+    'inc_q',
+    'is_urban',
+    'emp_in',
+    'wave_2024',
+    'wage_cash',
+    'wage_bank',
+    'gov_cash',
+    'gov_bank',
+    'ag_cash',
+    'has_debit_card',
+    'saved_formal',
+    'saved_any',
+    'borrowed_any',
+    'emergency_possible',
+    'emergency_not_difficult',
+]
+
 ENHANCED_FEATURE_COLS: List[str] = [
     # Socio-demographics
     'age',
@@ -43,15 +64,33 @@ ENHANCED_FEATURE_COLS: List[str] = [
     'saved_any',
     'borrowed_any',
     'emergency_possible',
+    'emergency_not_difficult',
     # Engineered Domain & Temporal Interactions
     'cash_inflow_intensity',
     'bank_inflow_intensity',
     'wave_x_urban',
     'wave_x_female',
-    'wave_x_age40',
-    'age_over_40',
     'educ_x_inc',
 ]
+
+FEATURE_BLOCKS: Dict[str, List[str]] = {
+    'Block 1: Socio-Demographics Only': [
+        'age', 'female', 'educ', 'inc_q', 'is_urban', 'emp_in', 'wave_2024',
+    ],
+    'Block 2: + Income Rails (Cash-Out Loop)': [
+        'age', 'female', 'educ', 'inc_q', 'is_urban', 'emp_in', 'wave_2024',
+        'wage_cash', 'wage_bank', 'gov_cash', 'gov_bank', 'ag_cash',
+        'cash_inflow_intensity', 'bank_inflow_intensity',
+    ],
+    'Block 3: + Financial Depth & Resilience (No Card)': [
+        'age', 'female', 'educ', 'inc_q', 'is_urban', 'emp_in', 'wave_2024',
+        'wage_cash', 'wage_bank', 'gov_cash', 'gov_bank', 'ag_cash',
+        'cash_inflow_intensity', 'bank_inflow_intensity',
+        'saved_formal', 'saved_any', 'borrowed_any',
+        'emergency_possible', 'emergency_not_difficult',
+    ],
+    'Block 4: Full Model (+ Debit Card & Interactions)': list(ENHANCED_FEATURE_COLS),
+}
 
 
 def _coalesce_flag(df: pd.DataFrame, checks: list) -> pd.Series:
@@ -138,7 +177,11 @@ def harmonize_findex_features(df: pd.DataFrame) -> pd.DataFrame:
     clean_df['borrowed_any'] = _coalesce_flag(df, [('borrowed_any', lambda s: s == 1), ('borrowed', lambda s: s == 1)])
     clean_df['emergency_possible'] = _coalesce_flag(
         df,
-        [('emergency_possible', lambda s: s == 1), ('fin24', lambda s: s <= 2)],
+        [('emergency_possible', lambda s: s == 1), ('fin24', lambda s: (s >= 1) & (s <= 6))],
+    )
+    clean_df['emergency_not_difficult'] = _coalesce_flag(
+        df,
+        [('emergency_not_difficult', lambda s: s == 1), ('fin24a', lambda s: s.isin([2, 3]))],
     )
 
     # 6. Engineered Behavioral & Temporal Interactions
@@ -206,6 +249,8 @@ def prepare_features_and_targets(
         'w_test': weights[test_idx],
         'feature_names': feature_cols,
         'baseline_features': list(BASELINE_FEATURE_COLS),
+        'raw_main_features': list(RAW_MAIN_EFFECTS_COLS),
+        'feature_blocks': FEATURE_BLOCKS,
         'full_capable_df': df,
     }
 

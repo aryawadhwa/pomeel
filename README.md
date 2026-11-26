@@ -21,16 +21,16 @@
 
 | Metric | Empirical Value | Primary Scholarly / Institutional Source |
 | :--- | :---: | :--- |
-| **India Banknotes in Circulation (Mar 2026)** | **₹41.24 Lakh Crore** | Reserve Bank of India (RBI, 2026) *Annual Report 2025–26* (Total CiC ₹41.7–43.5L Cr) |
+| **India Banknotes in Circulation (Mar 2026)** | **₹41.24 Lakh Crore** | Reserve Bank of India (RBI, 2026) *Annual Report 2025–26* (Total CiC > ₹43L Cr later in 2026) |
 | **Annualized Banknote Value Growth (FY25–26)** | **11.9%** | Reserve Bank of India (RBI, 2026) *Annual Report 2025–26* |
 | **Monthly UPI Volume / Value (Oct 2026)** | **25.47B / ₹31.53L Cr** | NPCI (2026) *UPI Product Statistics* (Oct 2024: 16.58B / ₹23.49L Cr) |
-| **Adult Account Ownership in India (2021 $\rightarrow$ 2024)** | **77.5% $\rightarrow$ 89.0%** | World Bank Global Findex (2021 p. 25; 2025 India Microdata) |
-| **Share of Inactive Accounts in India (2021)** | **35.0%** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 32) |
-| **Banked Adults Paying Merchants Only in Cash (2021)** | **670 Million** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 58) |
-| **Banked Women Paying Merchants Only in Cash (2021)** | **350 Million** | World Bank Global Findex (Demirgüç-Kunt et al., 2022, p. 58) |
+| **Adult Account Ownership in India (2021 $\rightarrow$ 2024)** | **77.5% $\rightarrow$ 89.0%** | World Bank Global Findex (Demirgüç-Kunt et al., 2022; Klapper et al., 2025 / Microdata) |
+| **Share of Inactive Accounts in India (2021)** | **35.0%** | World Bank Global Findex (Demirgüç-Kunt et al., 2022; Global Findex 2021 India Country Brief, p. 7) |
+| **Banked Adults Paying Merchants Only in Cash (2021)** | **670 Million** | World Bank Global Findex (Demirgüç-Kunt et al., 2022; Global Findex 2021 India Country Brief, p. 7) |
+| **Banked Women Paying Merchants Only in Cash (2021)** | **350 Million** | World Bank Global Findex (Demirgüç-Kunt et al., 2022; Global Findex 2021 India Country Brief, p. 7) |
 | **Adult Mobile Phone Ownership (2021 $\rightarrow$ 2024)** | **65.6% $\rightarrow$ 66.5%** | World Bank Global Findex India Microdata (Weighted) |
 | **Adults Making Digital Merchant Payments (2021 $\rightarrow$ 2024)** | **11.9% $\rightarrow$ 18.3%** | World Bank Global Findex India Microdata (Weighted) |
-| **Wage Earners Paid Cash-Only (2021 $\rightarrow$ 2024)** | **39.9% $\rightarrow$ 57.4%** | World Bank Global Findex India Microdata (`receive_wages == 2`) |
+| **Wage Earners Paid Cash-Only (2021 $\rightarrow$ 2024)** | **43.0% $\rightarrow$ 57.4%** | World Bank Global Findex India Microdata (`receive_wages == 2` among wage earners) |
 | **Stated Barrier (`fin25e4`): Habit / "Used to it"** | **77.4%** *(78.6% all)* | World Bank Global Findex 2025 (2024 India Microdata, Capable / All) |
 | **Stated Barrier (`fin25e4`): Merchant Accepts Cash Only** | **9.8%** *(9.0% all)* | World Bank Global Findex 2025 (2024 India Microdata, Capable / All) |
 | **Stated Barrier (`fin25e4`): Distrust & Scam Anxiety** | **6.5%** *(4.4% all)* | World Bank Global Findex 2025 (2024 India Microdata, Capable / All) |
@@ -43,22 +43,22 @@
 ```
 .
 ├── Capable-but-Cash_Experiential_Learning_Phase_I.pdf   # Phase I Project Presentation
-├── LITERATURE_REVIEW.md                                 # Systematic literature review (36 peer-reviewed citations)
-├── NICHE_PIVOT_ANALYSIS.md                             # Critical peer review & 3 publishable niche pivots
+├── LITERATURE_REVIEW.md                                 # Systematic literature review (37 scholarly & institutional citations)
+├── NICHE_PIVOT_ANALYSIS.md                             # Critical peer review & 3 publishable niche pivots (Phase I scoping)
 ├── README.md                                           # Project governance & execution guide
 ├── data/
 │   ├── raw/                                            # Raw World Bank Global Findex microdata (.dta / .csv)
 │   └── processed/                                      # Filtered "Capable" cohort microdata
-├── figures/                                            # Model performance and interpretability outputs
+├── figures/                                            # 23 analytical CSVs & 10 publication/diagnostic PNGs
 ├── paper/
-│   ├── RESEARCH_PAPER.md                               # Complete research paper manuscript (100% cited)
-│   └── paper.tex                                       # IEEE-format conference manuscript for Overleaf
+│   ├── RESEARCH_PAPER.md                               # Complete Markdown manuscript (all 10 PNGs & 32 citations)
+│   └── paper.tex                                       # Complete IEEEtran two-column manuscript (5 core figures, 6 tables, 32 citations)
 └── src/
     ├── data_loader.py                                  # Strict 2-wave loader pooling 2021 & 2025 Findex microdata
-    ├── preprocessor.py                                 # Cohort screening & strictly leak-free feature engineering
-    ├── models.py                                       # Spline-Logit, XGBoost, LightGBM, 4-family Stack & 5x3 CV
-    ├── econometrics.py                                 # Wave AMEs, Fairlie decomposition, subgroup & 2024 tracker audits
-    ├── explainability.py                               # TreeSHAP interpretability & econometric figure suite
+    ├── preprocessor.py                                 # Cohort screening, fin24/fin24a & 4-block leak-free features
+    ├── models.py                                       # Logit/Spline/XGB/LGBM/Platt Stack, ECE, DeLong, cross-wave & counterfactuals
+    ├── econometrics.py                                 # HC1 AMEs, Yun-Fairlie bootstrap, carded isolation, 2024 tracker & fin25e3
+    ├── explainability.py                               # TreeSHAP importance, pairwise interactions, reliability & CI plots
     └── main.py                                         # Master pipeline orchestrator
 ```
 

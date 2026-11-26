@@ -1,0 +1,254 @@
+Feature_A,Feature_B,Pair_Label,Mean_Abs_Interaction_SHAP
+has_debit_card,saved_any,Owns Debit / ATM Card × Active Saver (Past 12 Mo.),0.1575670838356018
+has_debit_card,educ_x_inc,Owns Debit / ATM Card × Education × Income Interaction,0.1413339227437973
+has_debit_card,borrowed_any,Owns Debit / ATM Card × Active Borrower (Past 12 Mo.),0.07209911197423935
+wave_2024,has_debit_card,Survey Wave (2024 vs. 2021) × Owns Debit / ATM Card,0.06023925542831421
+bank_inflow_intensity,educ_x_inc,Digital Income Channels (Wages+Gov) × Education × Income Interaction,0.05130631476640701
+educ,has_debit_card,Educational Attainment (1–3) × Owns Debit / ATM Card,0.039981018751859665
+female,borrowed_any,Female Gender (Usage Gap) × Active Borrower (Past 12 Mo.),0.038545433431863785
+inc_q,has_debit_card,Household Income Quintile (1–5) × Owns Debit / ATM Card,0.03583701327443123
+female,educ,Female Gender (Usage Gap) × Educational Attainment (1–3),0.029607629403471947
+female,educ_x_inc,Female Gender (Usage Gap) × Education × Income Interaction,0.02866283431649208
+borrowed_any,wave_x_urban,Active Borrower (Past 12 Mo.) × 2024 × Urban Adoption Shift,0.025711510330438614
+wave_2024,wage_bank,Survey Wave (2024 vs. 2021) × Wages Deposited in Bank,0.024816012009978294
+has_debit_card,bank_inflow_intensity,Owns Debit / ATM Card × Digital Income Channels (Wages+Gov),0.024583663791418076
+wage_bank,saved_any,Wages Deposited in Bank × Active Saver (Past 12 Mo.),0.02355826273560524
+has_debit_card,cash_inflow_intensity,Owns Debit / ATM Card × Cash Income Channels (Cash-Out Loop),0.022884909063577652
+wage_bank,has_debit_card,Wages Deposited in Bank × Owns Debit / ATM Card,0.02203228697180748
+inc_q,wage_bank,Household Income Quintile (1–5) × Wages Deposited in Bank,0.020916925743222237
+saved_any,bank_inflow_intensity,Active Saver (Past 12 Mo.) × Digital Income Channels (Wages+Gov),0.02033142000436783
+age,saved_any,Respondent Age (Years) × Active Saver (Past 12 Mo.),0.020035244524478912
+educ,wage_bank,Educational Attainment (1–3) × Wages Deposited in Bank,0.01866200566291809
+age,educ,Respondent Age (Years) × Educational Attainment (1–3),0.018259625881910324
+inc_q,emergency_not_difficult,Household Income Quintile (1–5) × Emergency Funds Not Very Difficult,0.01737741380929947
+female,emergency_not_difficult,Female Gender (Usage Gap) × Emergency Funds Not Very Difficult,0.015926778316497803
+emp_in,emergency_not_difficult,In Workforce (Employed) × Emergency Funds Not Very Difficult,0.015602911822497845
+borrowed_any,cash_inflow_intensity,Active Borrower (Past 12 Mo.) × Cash Income Channels (Cash-Out Loop),0.015524618327617645
+age,has_debit_card,Respondent Age (Years) × Owns Debit / ATM Card,0.015273306518793106
+female,cash_inflow_intensity,Female Gender (Usage Gap) × Cash Income Channels (Cash-Out Loop),0.015071583911776543
+inc_q,cash_inflow_intensity,Household Income Quintile (1–5) × Cash Income Channels (Cash-Out Loop),0.014049997553229332
+saved_any,educ_x_inc,Active Saver (Past 12 Mo.) × Education × Income Interaction,0.013346047140657902
+borrowed_any,educ_x_inc,Active Borrower (Past 12 Mo.) × Education × Income Interaction,0.013239800930023193
+female,saved_any,Female Gender (Usage Gap) × Active Saver (Past 12 Mo.),0.013186847791075706
+educ,educ_x_inc,Educational Attainment (1–3) × Education × Income Interaction,0.013096107169985771
+inc_q,saved_any,Household Income Quintile (1–5) × Active Saver (Past 12 Mo.),0.01309170015156269
+emergency_not_difficult,wave_x_urban,Emergency Funds Not Very Difficult × 2024 × Urban Adoption Shift,0.012637212872505188
+saved_any,borrowed_any,Active Saver (Past 12 Mo.) × Active Borrower (Past 12 Mo.),0.012292308732867241
+has_debit_card,emergency_not_difficult,Owns Debit / ATM Card × Emergency Funds Not Very Difficult,0.01227051392197609
+age,wave_x_urban,Respondent Age (Years) × 2024 × Urban Adoption Shift,0.012226402759552002
+saved_formal,saved_any,Formal Bank Savings × Active Saver (Past 12 Mo.),0.012016260996460915
+borrowed_any,wave_x_female,Active Borrower (Past 12 Mo.) × 2024 × Female Interaction,0.01171746477484703
+wage_bank,educ_x_inc,Wages Deposited in Bank × Education × Income Interaction,0.011601854115724564
+is_urban,saved_any,Urban Residency × Active Saver (Past 12 Mo.),0.011370012536644936
+female,emp_in,Female Gender (Usage Gap) × In Workforce (Employed),0.010780452750623226
+saved_any,cash_inflow_intensity,Active Saver (Past 12 Mo.) × Cash Income Channels (Cash-Out Loop),0.010421983897686005
+age,is_urban,Respondent Age (Years) × Urban Residency,0.010176721960306168
+cash_inflow_intensity,educ_x_inc,Cash Income Channels (Cash-Out Loop) × Education × Income Interaction,0.010167074389755726
+has_debit_card,wave_x_urban,Owns Debit / ATM Card × 2024 × Urban Adoption Shift,0.010149359703063965
+age,educ_x_inc,Respondent Age (Years) × Education × Income Interaction,0.009375426918268204
+wave_2024,emergency_not_difficult,Survey Wave (2024 vs. 2021) × Emergency Funds Not Very Difficult,0.009248367510735989
+wage_cash,borrowed_any,Wages Paid in Cash Only × Active Borrower (Past 12 Mo.),0.009102942422032356
+borrowed_any,emergency_not_difficult,Active Borrower (Past 12 Mo.) × Emergency Funds Not Very Difficult,0.008579054847359657
+wave_x_urban,educ_x_inc,2024 × Urban Adoption Shift × Education × Income Interaction,0.008300159126520157
+is_urban,wave_2024,Urban Residency × Survey Wave (2024 vs. 2021),0.007743552327156067
+female,bank_inflow_intensity,Female Gender (Usage Gap) × Digital Income Channels (Wages+Gov),0.007732459343969822
+emp_in,saved_any,In Workforce (Employed) × Active Saver (Past 12 Mo.),0.007610628847032785
+age,emergency_not_difficult,Respondent Age (Years) × Emergency Funds Not Very Difficult,0.007455604150891304
+age,inc_q,Respondent Age (Years) × Household Income Quintile (1–5),0.007425629533827305
+inc_q,bank_inflow_intensity,Household Income Quintile (1–5) × Digital Income Channels (Wages+Gov),0.007187995593994856
+age,cash_inflow_intensity,Respondent Age (Years) × Cash Income Channels (Cash-Out Loop),0.0070994822308421135
+emp_in,cash_inflow_intensity,In Workforce (Employed) × Cash Income Channels (Cash-Out Loop),0.007083111442625523
+educ,emergency_not_difficult,Educational Attainment (1–3) × Emergency Funds Not Very Difficult,0.006990127731114626
+age,female,Respondent Age (Years) × Female Gender (Usage Gap),0.006853021681308746
+saved_formal,educ_x_inc,Formal Bank Savings × Education × Income Interaction,0.006797368638217449
+educ,inc_q,Educational Attainment (1–3) × Household Income Quintile (1–5),0.006775997579097748
+wave_2024,borrowed_any,Survey Wave (2024 vs. 2021) × Active Borrower (Past 12 Mo.),0.0066356901079416275
+emergency_not_difficult,educ_x_inc,Emergency Funds Not Very Difficult × Education × Income Interaction,0.006444954313337803
+age,bank_inflow_intensity,Respondent Age (Years) × Digital Income Channels (Wages+Gov),0.006108260713517666
+educ,borrowed_any,Educational Attainment (1–3) × Active Borrower (Past 12 Mo.),0.006081326864659786
+is_urban,educ_x_inc,Urban Residency × Education × Income Interaction,0.005762084387242794
+educ,wave_x_urban,Educational Attainment (1–3) × 2024 × Urban Adoption Shift,0.005508385598659515
+educ,bank_inflow_intensity,Educational Attainment (1–3) × Digital Income Channels (Wages+Gov),0.005407035816460848
+inc_q,is_urban,Household Income Quintile (1–5) × Urban Residency,0.005253881216049194
+wage_bank,wave_x_urban,Wages Deposited in Bank × 2024 × Urban Adoption Shift,0.005251278169453144
+wage_cash,educ_x_inc,Wages Paid in Cash Only × Education × Income Interaction,0.005192222539335489
+age,wage_bank,Respondent Age (Years) × Wages Deposited in Bank,0.0050900885835289955
+emergency_not_difficult,cash_inflow_intensity,Emergency Funds Not Very Difficult × Cash Income Channels (Cash-Out Loop),0.0050267912447452545
+borrowed_any,bank_inflow_intensity,Active Borrower (Past 12 Mo.) × Digital Income Channels (Wages+Gov),0.0049373917281627655
+inc_q,borrowed_any,Household Income Quintile (1–5) × Active Borrower (Past 12 Mo.),0.0048389071598649025
+inc_q,educ_x_inc,Household Income Quintile (1–5) × Education × Income Interaction,0.0048282565549016
+educ,saved_any,Educational Attainment (1–3) × Active Saver (Past 12 Mo.),0.004788056015968323
+female,inc_q,Female Gender (Usage Gap) × Household Income Quintile (1–5),0.004642735235393047
+saved_formal,borrowed_any,Formal Bank Savings × Active Borrower (Past 12 Mo.),0.004617419093847275
+wage_bank,borrowed_any,Wages Deposited in Bank × Active Borrower (Past 12 Mo.),0.004586178343743086
+educ,saved_formal,Educational Attainment (1–3) × Formal Bank Savings,0.004464850760996342
+has_debit_card,saved_formal,Owns Debit / ATM Card × Formal Bank Savings,0.004341104533523321
+educ,cash_inflow_intensity,Educational Attainment (1–3) × Cash Income Channels (Cash-Out Loop),0.0043392484076321125
+female,wage_bank,Female Gender (Usage Gap) × Wages Deposited in Bank,0.004267968237400055
+age,borrowed_any,Respondent Age (Years) × Active Borrower (Past 12 Mo.),0.004144796635955572
+emergency_not_difficult,bank_inflow_intensity,Emergency Funds Not Very Difficult × Digital Income Channels (Wages+Gov),0.0040923357009887695
+educ,is_urban,Educational Attainment (1–3) × Urban Residency,0.003917607944458723
+female,wage_cash,Female Gender (Usage Gap) × Wages Paid in Cash Only,0.0037304421421140432
+wave_2024,educ_x_inc,Survey Wave (2024 vs. 2021) × Education × Income Interaction,0.0036777229979634285
+is_urban,emp_in,Urban Residency × In Workforce (Employed),0.003616616129875183
+saved_any,wave_x_urban,Active Saver (Past 12 Mo.) × 2024 × Urban Adoption Shift,0.003613824024796486
+inc_q,wave_x_urban,Household Income Quintile (1–5) × 2024 × Urban Adoption Shift,0.0035600168630480766
+educ,wave_2024,Educational Attainment (1–3) × Survey Wave (2024 vs. 2021),0.0035060099326074123
+is_urban,wave_x_urban,Urban Residency × 2024 × Urban Adoption Shift,0.003470053430646658
+saved_formal,emergency_not_difficult,Formal Bank Savings × Emergency Funds Not Very Difficult,0.0034604608081281185
+cash_inflow_intensity,wave_x_urban,Cash Income Channels (Cash-Out Loop) × 2024 × Urban Adoption Shift,0.0033438042737543583
+wave_2024,saved_any,Survey Wave (2024 vs. 2021) × Active Saver (Past 12 Mo.),0.003159652929753065
+inc_q,wave_2024,Household Income Quintile (1–5) × Survey Wave (2024 vs. 2021),0.003141634166240692
+is_urban,has_debit_card,Urban Residency × Owns Debit / ATM Card,0.0031043048948049545
+female,has_debit_card,Female Gender (Usage Gap) × Owns Debit / ATM Card,0.003064603079110384
+wage_bank,saved_formal,Wages Deposited in Bank × Formal Bank Savings,0.003008184488862753
+female,is_urban,Female Gender (Usage Gap) × Urban Residency,0.002992142690345645
+inc_q,emp_in,Household Income Quintile (1–5) × In Workforce (Employed),0.002957755234092474
+is_urban,wage_bank,Urban Residency × Wages Deposited in Bank,0.002832292579114437
+gov_bank,saved_any,Gov. Transfers in Bank × Active Saver (Past 12 Mo.),0.0026953029446303844
+inc_q,saved_formal,Household Income Quintile (1–5) × Formal Bank Savings,0.0026249962393194437
+age,wave_2024,Respondent Age (Years) × Survey Wave (2024 vs. 2021),0.002481231465935707
+age,wage_cash,Respondent Age (Years) × Wages Paid in Cash Only,0.0023406953550875187
+wave_2024,saved_formal,Survey Wave (2024 vs. 2021) × Formal Bank Savings,0.0023176553659141064
+emp_in,wave_x_female,In Workforce (Employed) × 2024 × Female Interaction,0.0021460140123963356
+female,saved_formal,Female Gender (Usage Gap) × Formal Bank Savings,0.002043535001575947
+is_urban,cash_inflow_intensity,Urban Residency × Cash Income Channels (Cash-Out Loop),0.0020415745675563812
+wage_cash,saved_any,Wages Paid in Cash Only × Active Saver (Past 12 Mo.),0.001872458029538393
+bank_inflow_intensity,wave_x_urban,Digital Income Channels (Wages+Gov) × 2024 × Urban Adoption Shift,0.0018370177131146193
+age,emp_in,Respondent Age (Years) × In Workforce (Employed),0.001828525448217988
+saved_any,emergency_not_difficult,Active Saver (Past 12 Mo.) × Emergency Funds Not Very Difficult,0.0017489050514996052
+inc_q,wave_x_female,Household Income Quintile (1–5) × 2024 × Female Interaction,0.001747205387800932
+female,wave_x_urban,Female Gender (Usage Gap) × 2024 × Urban Adoption Shift,0.0015856681857258081
+gov_bank,saved_formal,Gov. Transfers in Bank × Formal Bank Savings,0.0015087556093931198
+gov_bank,educ_x_inc,Gov. Transfers in Bank × Education × Income Interaction,0.0014941133558750153
+emp_in,has_debit_card,In Workforce (Employed) × Owns Debit / ATM Card,0.0014902881812304258
+emp_in,borrowed_any,In Workforce (Employed) × Active Borrower (Past 12 Mo.),0.0014793961308896542
+wage_cash,emergency_not_difficult,Wages Paid in Cash Only × Emergency Funds Not Very Difficult,0.001476618810556829
+saved_formal,cash_inflow_intensity,Formal Bank Savings × Cash Income Channels (Cash-Out Loop),0.001414732076227665
+educ,emp_in,Educational Attainment (1–3) × In Workforce (Employed),0.0013585366541519761
+wage_cash,has_debit_card,Wages Paid in Cash Only × Owns Debit / ATM Card,0.0013031468261033297
+inc_q,wage_cash,Household Income Quintile (1–5) × Wages Paid in Cash Only,0.0012757063377648592
+is_urban,emergency_not_difficult,Urban Residency × Emergency Funds Not Very Difficult,0.001258340897038579
+wave_2024,cash_inflow_intensity,Survey Wave (2024 vs. 2021) × Cash Income Channels (Cash-Out Loop),0.0012227175757288933
+wage_cash,wage_bank,Wages Paid in Cash Only × Wages Deposited in Bank,0.0012208536500111222
+emp_in,educ_x_inc,In Workforce (Employed) × Education × Income Interaction,0.0012207366526126862
+age,saved_formal,Respondent Age (Years) × Formal Bank Savings,0.0012180190533399582
+gov_bank,cash_inflow_intensity,Gov. Transfers in Bank × Cash Income Channels (Cash-Out Loop),0.0011828276328742504
+female,wave_2024,Female Gender (Usage Gap) × Survey Wave (2024 vs. 2021),0.0011794184101745486
+saved_formal,bank_inflow_intensity,Formal Bank Savings × Digital Income Channels (Wages+Gov),0.001163254026323557
+wage_cash,wave_x_urban,Wages Paid in Cash Only × 2024 × Urban Adoption Shift,0.0011439478257670999
+emp_in,bank_inflow_intensity,In Workforce (Employed) × Digital Income Channels (Wages+Gov),0.0010956444311887026
+age,gov_bank,Respondent Age (Years) × Gov. Transfers in Bank,0.0010557203786447644
+emp_in,wage_bank,In Workforce (Employed) × Wages Deposited in Bank,0.0010466587264090776
+wave_x_urban,wave_x_female,2024 × Urban Adoption Shift × 2024 × Female Interaction,0.0010305126197636127
+emergency_not_difficult,wave_x_female,Emergency Funds Not Very Difficult × 2024 × Female Interaction,0.0010270532220602036
+educ,wave_x_female,Educational Attainment (1–3) × 2024 × Female Interaction,0.0009429437341168523
+cash_inflow_intensity,bank_inflow_intensity,Cash Income Channels (Cash-Out Loop) × Digital Income Channels (Wages+Gov),0.0009080814779736102
+emp_in,gov_bank,In Workforce (Employed) × Gov. Transfers in Bank,0.0008363130036741495
+wage_bank,emergency_not_difficult,Wages Deposited in Bank × Emergency Funds Not Very Difficult,0.000835838436614722
+is_urban,bank_inflow_intensity,Urban Residency × Digital Income Channels (Wages+Gov),0.0008196355774998665
+has_debit_card,wave_x_female,Owns Debit / ATM Card × 2024 × Female Interaction,0.0007852324051782489
+cash_inflow_intensity,wave_x_female,Cash Income Channels (Cash-Out Loop) × 2024 × Female Interaction,0.000725442310795188
+emp_in,saved_formal,In Workforce (Employed) × Formal Bank Savings,0.0006995523581281304
+wage_cash,wave_x_female,Wages Paid in Cash Only × 2024 × Female Interaction,0.0006765135913155973
+educ,wage_cash,Educational Attainment (1–3) × Wages Paid in Cash Only,0.0006498533766716719
+saved_formal,wave_x_female,Formal Bank Savings × 2024 × Female Interaction,0.0006265118718147278
+emp_in,wage_cash,In Workforce (Employed) × Wages Paid in Cash Only,0.0005585828330367804
+age,wave_x_female,Respondent Age (Years) × 2024 × Female Interaction,0.0005499266553670168
+wage_bank,cash_inflow_intensity,Wages Deposited in Bank × Cash Income Channels (Cash-Out Loop),0.0005142530426383018
+wage_bank,wave_x_female,Wages Deposited in Bank × 2024 × Female Interaction,0.0005047399899922311
+saved_any,wave_x_female,Active Saver (Past 12 Mo.) × 2024 × Female Interaction,0.00042014147038571537
+age,emergency_possible,Respondent Age (Years) × Can Raise Emergency Funds,0.0
+wave_2024,gov_bank,Survey Wave (2024 vs. 2021) × Gov. Transfers in Bank,0.0
+emp_in,emergency_possible,In Workforce (Employed) × Can Raise Emergency Funds,0.0
+emp_in,wave_x_urban,In Workforce (Employed) × 2024 × Urban Adoption Shift,0.0
+emp_in,gov_cash,In Workforce (Employed) × Gov. Transfers in Cash Only,0.0
+emp_in,ag_cash,In Workforce (Employed) × Agri. Payments in Cash Only,0.0
+emp_in,wave_2024,In Workforce (Employed) × Survey Wave (2024 vs. 2021),0.0
+is_urban,wave_x_female,Urban Residency × 2024 × Female Interaction,0.0
+is_urban,emergency_possible,Urban Residency × Can Raise Emergency Funds,0.0
+is_urban,gov_cash,Urban Residency × Gov. Transfers in Cash Only,0.0
+is_urban,ag_cash,Urban Residency × Agri. Payments in Cash Only,0.0
+is_urban,gov_bank,Urban Residency × Gov. Transfers in Bank,0.0
+is_urban,saved_formal,Urban Residency × Formal Bank Savings,0.0
+is_urban,borrowed_any,Urban Residency × Active Borrower (Past 12 Mo.),0.0
+inc_q,emergency_possible,Household Income Quintile (1–5) × Can Raise Emergency Funds,0.0
+inc_q,gov_bank,Household Income Quintile (1–5) × Gov. Transfers in Bank,0.0
+is_urban,wage_cash,Urban Residency × Wages Paid in Cash Only,0.0
+inc_q,gov_cash,Household Income Quintile (1–5) × Gov. Transfers in Cash Only,0.0
+inc_q,ag_cash,Household Income Quintile (1–5) × Agri. Payments in Cash Only,0.0
+age,ag_cash,Respondent Age (Years) × Agri. Payments in Cash Only,0.0
+age,gov_cash,Respondent Age (Years) × Gov. Transfers in Cash Only,0.0
+female,ag_cash,Female Gender (Usage Gap) × Agri. Payments in Cash Only,0.0
+female,wave_x_female,Female Gender (Usage Gap) × 2024 × Female Interaction,0.0
+female,gov_bank,Female Gender (Usage Gap) × Gov. Transfers in Bank,0.0
+female,gov_cash,Female Gender (Usage Gap) × Gov. Transfers in Cash Only,0.0
+female,emergency_possible,Female Gender (Usage Gap) × Can Raise Emergency Funds,0.0
+educ,ag_cash,Educational Attainment (1–3) × Agri. Payments in Cash Only,0.0
+educ,gov_bank,Educational Attainment (1–3) × Gov. Transfers in Bank,0.0
+educ,gov_cash,Educational Attainment (1–3) × Gov. Transfers in Cash Only,0.0
+educ,emergency_possible,Educational Attainment (1–3) × Can Raise Emergency Funds,0.0
+wave_2024,ag_cash,Survey Wave (2024 vs. 2021) × Agri. Payments in Cash Only,0.0
+wave_2024,wage_cash,Survey Wave (2024 vs. 2021) × Wages Paid in Cash Only,0.0
+wave_2024,gov_cash,Survey Wave (2024 vs. 2021) × Gov. Transfers in Cash Only,0.0
+gov_bank,wave_x_female,Gov. Transfers in Bank × 2024 × Female Interaction,0.0
+gov_bank,emergency_not_difficult,Gov. Transfers in Bank × Emergency Funds Not Very Difficult,0.0
+gov_bank,bank_inflow_intensity,Gov. Transfers in Bank × Digital Income Channels (Wages+Gov),0.0
+gov_bank,borrowed_any,Gov. Transfers in Bank × Active Borrower (Past 12 Mo.),0.0
+gov_bank,wave_x_urban,Gov. Transfers in Bank × 2024 × Urban Adoption Shift,0.0
+ag_cash,saved_formal,Agri. Payments in Cash Only × Formal Bank Savings,0.0
+ag_cash,has_debit_card,Agri. Payments in Cash Only × Owns Debit / ATM Card,0.0
+gov_bank,ag_cash,Gov. Transfers in Bank × Agri. Payments in Cash Only,0.0
+gov_bank,has_debit_card,Gov. Transfers in Bank × Owns Debit / ATM Card,0.0
+gov_cash,emergency_not_difficult,Gov. Transfers in Cash Only × Emergency Funds Not Very Difficult,0.0
+gov_cash,cash_inflow_intensity,Gov. Transfers in Cash Only × Cash Income Channels (Cash-Out Loop),0.0
+gov_cash,bank_inflow_intensity,Gov. Transfers in Cash Only × Digital Income Channels (Wages+Gov),0.0
+gov_cash,wave_x_urban,Gov. Transfers in Cash Only × 2024 × Urban Adoption Shift,0.0
+gov_cash,has_debit_card,Gov. Transfers in Cash Only × Owns Debit / ATM Card,0.0
+gov_cash,ag_cash,Gov. Transfers in Cash Only × Agri. Payments in Cash Only,0.0
+gov_cash,gov_bank,Gov. Transfers in Cash Only × Gov. Transfers in Bank,0.0
+wage_bank,bank_inflow_intensity,Wages Deposited in Bank × Digital Income Channels (Wages+Gov),0.0
+gov_cash,emergency_possible,Gov. Transfers in Cash Only × Can Raise Emergency Funds,0.0
+gov_cash,borrowed_any,Gov. Transfers in Cash Only × Active Borrower (Past 12 Mo.),0.0
+gov_cash,saved_any,Gov. Transfers in Cash Only × Active Saver (Past 12 Mo.),0.0
+gov_cash,saved_formal,Gov. Transfers in Cash Only × Formal Bank Savings,0.0
+wage_cash,saved_formal,Wages Paid in Cash Only × Formal Bank Savings,0.0
+wage_cash,emergency_possible,Wages Paid in Cash Only × Can Raise Emergency Funds,0.0
+wage_cash,cash_inflow_intensity,Wages Paid in Cash Only × Cash Income Channels (Cash-Out Loop),0.0
+wage_cash,bank_inflow_intensity,Wages Paid in Cash Only × Digital Income Channels (Wages+Gov),0.0
+wage_bank,gov_cash,Wages Deposited in Bank × Gov. Transfers in Cash Only,0.0
+wage_bank,ag_cash,Wages Deposited in Bank × Agri. Payments in Cash Only,0.0
+wage_bank,gov_bank,Wages Deposited in Bank × Gov. Transfers in Bank,0.0
+wage_bank,emergency_possible,Wages Deposited in Bank × Can Raise Emergency Funds,0.0
+wave_2024,wave_x_female,Survey Wave (2024 vs. 2021) × 2024 × Female Interaction,0.0
+wave_2024,wave_x_urban,Survey Wave (2024 vs. 2021) × 2024 × Urban Adoption Shift,0.0
+wave_2024,bank_inflow_intensity,Survey Wave (2024 vs. 2021) × Digital Income Channels (Wages+Gov),0.0
+wave_2024,emergency_possible,Survey Wave (2024 vs. 2021) × Can Raise Emergency Funds,0.0
+wage_cash,ag_cash,Wages Paid in Cash Only × Agri. Payments in Cash Only,0.0
+wage_cash,gov_bank,Wages Paid in Cash Only × Gov. Transfers in Bank,0.0
+wage_cash,gov_cash,Wages Paid in Cash Only × Gov. Transfers in Cash Only,0.0
+gov_bank,emergency_possible,Gov. Transfers in Bank × Can Raise Emergency Funds,0.0
+gov_cash,educ_x_inc,Gov. Transfers in Cash Only × Education × Income Interaction,0.0
+gov_cash,wave_x_female,Gov. Transfers in Cash Only × 2024 × Female Interaction,0.0
+ag_cash,wave_x_female,Agri. Payments in Cash Only × 2024 × Female Interaction,0.0
+has_debit_card,emergency_possible,Owns Debit / ATM Card × Can Raise Emergency Funds,0.0
+ag_cash,educ_x_inc,Agri. Payments in Cash Only × Education × Income Interaction,0.0
+ag_cash,wave_x_urban,Agri. Payments in Cash Only × 2024 × Urban Adoption Shift,0.0
+ag_cash,bank_inflow_intensity,Agri. Payments in Cash Only × Digital Income Channels (Wages+Gov),0.0
+ag_cash,borrowed_any,Agri. Payments in Cash Only × Active Borrower (Past 12 Mo.),0.0
+saved_any,emergency_possible,Active Saver (Past 12 Mo.) × Can Raise Emergency Funds,0.0
+saved_formal,wave_x_urban,Formal Bank Savings × 2024 × Urban Adoption Shift,0.0
+saved_formal,emergency_possible,Formal Bank Savings × Can Raise Emergency Funds,0.0
+ag_cash,cash_inflow_intensity,Agri. Payments in Cash Only × Cash Income Channels (Cash-Out Loop),0.0
+ag_cash,emergency_not_difficult,Agri. Payments in Cash Only × Emergency Funds Not Very Difficult,0.0
+ag_cash,emergency_possible,Agri. Payments in Cash Only × Can Raise Emergency Funds,0.0
+ag_cash,saved_any,Agri. Payments in Cash Only × Active Saver (Past 12 Mo.),0.0
+borrowed_any,emergency_possible,Active Borrower (Past 12 Mo.) × Can Raise Emergency Funds,0.0
+emergency_possible,wave_x_female,Can Raise Emergency Funds × 2024 × Female Interaction,0.0
+emergency_possible,wave_x_urban,Can Raise Emergency Funds × 2024 × Urban Adoption Shift,0.0
+emergency_possible,bank_inflow_intensity,Can Raise Emergency Funds × Digital Income Channels (Wages+Gov),0.0
+emergency_possible,cash_inflow_intensity,Can Raise Emergency Funds × Cash Income Channels (Cash-Out Loop),0.0
+emergency_possible,emergency_not_difficult,Can Raise Emergency Funds × Emergency Funds Not Very Difficult,0.0
+emergency_possible,educ_x_inc,Can Raise Emergency Funds × Education × Income Interaction,0.0
+bank_inflow_intensity,wave_x_female,Digital Income Channels (Wages+Gov) × 2024 × Female Interaction,0.0
+wave_x_female,educ_x_inc,2024 × Female Interaction × Education × Income Interaction,0.0
