@@ -23,19 +23,19 @@
 \title{Analyzing India's Rising Currency in Circulation: An Explainable Machine Learning and Econometric Study of the ``Capable but Cash'' Paradox}
 
 \author{\IEEEauthorblockN{Aarush Garg}
-\IEEEauthorblockA{\textit{Dept. of CSE (AI \& ML)} \\
+\IEEEauthorblockA{\textit{Dept. of Computer Science \& Engineering} \\
 \textit{RV College of Engineering}\\
 Bengaluru, India \\
 aarushgarg.ai24@rvce.edu.in}
 \and
 \IEEEauthorblockN{Arya Wadhwa}
-\IEEEauthorblockA{\textit{Dept. of CSE (AI \& ML)} \\
+\IEEEauthorblockA{\textit{Dept. of Computer Science \& Engineering} \\
 \textit{RV College of Engineering}\\
 Bengaluru, India \\
 aryawadhwa.ai24@rvce.edu.in}
 \and
 \IEEEauthorblockN{Dilraj Singh}
-\IEEEauthorblockA{\textit{Dept. of CSE (AI \& ML)} \\
+\IEEEauthorblockA{\textit{Dept. of Computer Science \& Engineering} \\
 \textit{RV College of Engineering}\\
 Bengaluru, India \\
 dilrajsingh.ai24@rvce.edu.in}
@@ -213,6 +213,13 @@ Table~\ref{tab:ml_perf} presents cross validation, temporal transfer, and holdou
 Within the pooled CV split, discrimination between Spline Logit and XGBoost is statistically comparable (Wilcoxon $p = 0.639$; holdout DeLong $p = 0.364$). However, tree ensembles generalize substantially better under temporal shift: trained on 2024 and evaluated on 2021, XGBoost outperforms Spline Logit by $+3.31$ AUC points ($0.8622$ versus $0.8291$) with lower calibration error (LightGBM ECE $0.0446$ versus $0.0664$), and maintains higher AUC and lower ECE when transferring from 2021 to 2024 ($0.8122$ versus $0.8085$, ECE $0.0596$ versus $0.0856$). On holdout fairness audits, the calibrated ensemble achieves AUC $0.8747$ for women, $0.8257$ for men, $0.8502$ for rural adults, and $0.8304$ for urban adults, with lower accuracy in the smaller age $\ge 40$ group ($0.7606$, $n = 100$).
 
 \subsection{TreeSHAP Attributions, Interactions, and Calibration}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.84\textwidth]{shap_interactions_and_calibration.png}
+\caption{A. Leading pairwise TreeSHAP interaction magnitudes explaining cross wave ensemble generalization. B. Holdout test weighted reliability curves across quantile bins ($n = 435$).}
+\label{fig:shap_inter_cal}
+\end{figure*}
+
 Fig.~\ref{fig:shap_global} and Table~\ref{tab:shap_or} compare mean absolute TreeSHAP values against weighted HC1 GLM Odds Ratios (OR). Debit card possession ranks first ($I_j = 0.9330$, $\text{OR} = 0.12, p < 10^{-34}$), followed by the education and income interaction ($0.3320$), active borrowing ($0.3169$, $\text{OR} = 0.39$), active saving ($0.2843$, $\text{OR} = 0.42$), bank inflow count ($0.1796$), bank deposited wages ($0.1745$, $\text{OR} = 0.42$), and female gender ($0.1455$, $\text{OR} = 1.95, p = 0.004$). Pairwise TreeSHAP interactions in Fig.~\ref{fig:shap_inter_cal}A show that debit card ownership compounds strongly with active saving ($0.158$), education by income ($0.141$), and borrowing ($0.072$), while Fig.~\ref{fig:shap_inter_cal}B confirms tight probability calibration across quantile reliability bins. Diagnostic directional beeswarm, age trajectory, wave shift, and individual waterfall plots are provided in the repository figures archive.
 
 \begin{figure}[t]
@@ -221,13 +228,6 @@ Fig.~\ref{fig:shap_global} and Table~\ref{tab:shap_or} compare mean absolute Tre
 \caption{Top 15 predictors ranked by Mean $|$TreeSHAP$|$ across the pooled capable cohort ($N_{\text{cap}} = 2,172$).}
 \label{fig:shap_global}
 \end{figure}
-
-\begin{figure*}[t]
-\centering
-\includegraphics[width=0.92\textwidth]{shap_interactions_and_calibration.png}
-\caption{A. Leading pairwise TreeSHAP interaction magnitudes explaining cross wave ensemble generalization. B. Holdout test weighted reliability curves across quantile bins ($n = 435$).}
-\label{fig:shap_inter_cal}
-\end{figure*}
 
 \begin{table}[t]
 \caption{Top Predictors: TreeSHAP Importance and HC1 GLM Odds Ratios}
@@ -256,6 +256,13 @@ Fig.~\ref{fig:shap_global} and Table~\ref{tab:shap_or} compare mean absolute Tre
 \end{table}
 
 \subsection{Econometric AMEs, Gap Decomposition, and Robustness}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.84\textwidth]{econ_decomposition_and_barriers.png}
+\caption{A. Order invariant Yun and Fairlie decomposition (2021 to 2024 and gender). B. Reported cash barriers in 2024 (\textit{fin25e4}, $n = 711$).}
+\label{fig:econ_decomp}
+\end{figure*}
+
 Fig.~\ref{fig:econ_ames} displays wave specific HC1 AMEs with 95\% CIs, and Table~\ref{tab:econ_audit} compiles subgroup and robustness specifications:
 \begin{enumerate}
     \item \textbf{Wage Channels and Urban Shift:} Bank wages grew in protective effect from $-4.5$ pp ($p = 0.211$) in 2021 to $-18.9$ pp ($p < 10^{-9}$) in 2024, whereas cash wages increased cash reliance by $+9.4$ pp ($p = 0.008$) overall and $+16.7$ pp ($p < 0.001$) in cities. Urban residency shifted from $+5.5$ pp ($p = 0.105$) in 2021 to $-6.3$ pp ($p = 0.014$) in 2024; separate subgroup regressions confirm a $-9.2$ pp urban drop ($p = 0.002$) alongside flat rural outcomes ($+3.7$ pp, $p = 0.203$).
@@ -264,32 +271,6 @@ Fig.~\ref{fig:econ_ames} displays wave specific HC1 AMEs with 95\% CIs, and Tabl
     \item \textbf{Yun and Fairlie Decomposition (Fig.~\ref{fig:econ_decomp}):} The 2021 to 2024 decline (60.57\% to 54.80\%, $-5.76$ pp) splits into 50.6\% endowment differences (debit cards $+36.7\%$, borrowing and saving $+71.1\%$, bank wages $+17.4\%$, partly offset as internet adoption expanded into lower income strata) and 49.4\% behavioral change. The $+14.87$ pp gender gap (66.92\% female versus 52.05\% male) is 52.1\% explained by endowments (95\% CI: 35.5\% to 71.5\%; debit cards $+30.2\%$, bank wages $+13.4\%$, borrowing $+7.6\%$) and 47.9\% unexplained within household friction.
 \end{enumerate}
 
-\begin{table*}[t]
-\caption{Econometric Sensitivity, Subgroup, Tracker, and Intensive Margin Audits}
-\centering
-\footnotesize
-\setlength{\tabcolsep}{7pt}
-\begin{tabularx}{\textwidth}{@{} l X c r @{}}
-\toprule
-\textbf{Specification / Audit Sample} & \textbf{Focal Predictor and Metric} & \textbf{Estimate} & \textbf{$p$ value} \\
-\midrule
-Age Nonlinearity Test ($N = 2,172$) & Hinge term $\max(0, \text{age} - 40)$ (coef.) & $-0.0087$ & $0.695$ \\
-Subgroup: Age $\ge 40$ ($n = 540$) & Female gender AME & $+14.7$ pp & $0.003$ \\
-Subgroup: Age $\ge 40$ ($n = 540$) & Wave 2024 shift AME & $+5.8$ pp & $0.195$ \\
-No Depth Sensitivity ($N = 2,172$) & Bank deposited wages AME & $-23.8$ pp & $<10^{-20}$ \\
-No Depth Sensitivity ($N = 2,172$) & Cash paid wages AME & $+11.8$ pp & $<0.001$ \\
-Carded Subcohort ($N = 1,435$) & Female gender AME & $+9.4$ pp & $0.001$ \\
-Carded Subcohort ($N = 1,435$) & Bank deposited wages AME & $-17.3$ pp & $<10^{-7}$ \\
-2024 Tracker Model ($n = 1,335$) & Can send SMS (\textit{con16}) AME & $-18.3$ pp & $<10^{-4}$ \\
-2024 Tracker Model ($n = 1,335$) & Can change PIN solo (\textit{con19}) AME & $-7.5$ pp & $0.024$ \\
-2024 Smartphone Owners ($n = 1,276$) & Bank deposited wages AME & $-19.3$ pp & $<10^{-9}$ \\
-Intensive Margin (\textit{fin25e3}, $n = 562$) & Female gender Ordered Logit OR & $0.69$ & $0.036$ \\
-Intensive Margin (\textit{fin25e3}, $n = 562$) & Can read SMS (\textit{con14}) Ordered Logit OR & $2.15$ & $0.013$ \\
-\bottomrule
-\end{tabularx}
-\label{tab:econ_audit}
-\end{table*}
-
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.95\columnwidth]{econ_ames_forest_plot.png}
@@ -297,29 +278,43 @@ Intensive Margin (\textit{fin25e3}, $n = 562$) & Can read SMS (\textit{con14}) O
 \label{fig:econ_ames}
 \end{figure}
 
-\begin{figure*}[t]
+\begin{table}[t]
+\caption{Econometric Sensitivity, Subgroup, Tracker, and Intensive Margin Audits}
 \centering
-\includegraphics[width=0.92\textwidth]{econ_decomposition_and_barriers.png}
-\caption{A. Order invariant Yun and Fairlie decomposition (2021 to 2024 and gender). B. Reported cash barriers in 2024 (\textit{fin25e4}, $n = 711$).}
-\label{fig:econ_decomp}
-\end{figure*}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{@{} >{\raggedright\arraybackslash}X c r @{}}
+\toprule
+\textbf{Specification and Focal Predictor} & \textbf{Estimate} & \textbf{$p$ value} \\
+\midrule
+Age Hinge $\max(0, \text{age}-40)$ ($N=2,172$) & $-0.0087$ & $0.695$ \\
+Age $\ge 40$ ($n=540$): Female AME & $+14.7$ pp & $0.003$ \\
+Age $\ge 40$ ($n=540$): Wave 2024 AME & $+5.8$ pp & $0.195$ \\
+No Depth Controls: Bank Wages AME & $-23.8$ pp & $<10^{-20}$ \\
+No Depth Controls: Cash Wages AME & $+11.8$ pp & $<0.001$ \\
+Carded ($N=1,435$): Female AME & $+9.4$ pp & $0.001$ \\
+Carded ($N=1,435$): Bank Wages AME & $-17.3$ pp & $<10^{-7}$ \\
+2024 Tracker: Send SMS (\textit{con16}) AME & $-18.3$ pp & $<10^{-4}$ \\
+2024 Tracker: Change PIN (\textit{con19}) AME & $-7.5$ pp & $0.024$ \\
+2024 Smartphone Only: Bank Wages AME & $-19.3$ pp & $<10^{-9}$ \\
+Freq. (\textit{fin25e3}, $n=562$): Female OR & $0.69$ & $0.036$ \\
+Freq. (\textit{fin25e3}, $n=562$): Read SMS OR & $2.15$ & $0.013$ \\
+\bottomrule
+\end{tabularx}
+\label{tab:econ_audit}
+\end{table}
 
 \subsection{2024 Connectivity Tracker, Usage Frequency, and Merchant Refusal}
-Adding Digital Connectivity Tracker predictors in 2024 ($n = 1,335$) achieves 5$\times$3 CV XGBoost ROC AUC $= 0.8410 \pm 0.020$ (PR AUC $= 0.8676$). Fig.~\ref{fig:econ_2024}A shows stark unadjusted disparities across smartphone access (\textit{con9}: 53.2\% cash reliant versus 85.6\% on basic phones), SMS reading (\textit{con14}: 48.0\% versus 78.5\%), and solo PIN modification (\textit{con19}: 45.9\% versus 71.0\%). In HC1 regressions, sending SMS ($-18.3$ pp, $p < 10^{-4}$; SHAP $= 0.3372$) and solo PIN modification ($-7.5$ pp, $p = 0.024$; SHAP $= 0.1160$) significantly reduce cash reliance. Restricting to smartphone owners ($n = 1,276$) leaves cash reliance at 53.16\% with steady AMEs (bank wages $-19.3$ pp, debit card $-26.6$ pp, female $+7.3$ pp). On digital payment frequency (\textit{fin25e3}, $n = 562$), ordered logit estimates show women pay digitally less often ($\text{OR} = 0.69, p = 0.036$) whereas SMS literate users transact more than twice as frequently ($\text{OR} = 2.15, p = 0.013$). Conversely, stated merchant refusal (\textit{fin25e4} $= 1$, $n = 711$) exhibits no significant variation across gender, education, income, urban location, cash wages, or debit cards ($p \ge 0.07$; age $p = 0.050$), indicating broad supply side cash preference across markets.
-
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.92\textwidth]{econ_2024_literacy_and_urban_gap.png}
-\caption{A. 2024 device type, SMS literacy, and solo PIN confidence gaps. B. Adjusted urban digitization ($-9.2$ pp) versus rural stagnation ($+3.7$ pp, not significant).}
+\includegraphics[width=0.84\textwidth]{econ_2024_literacy_and_urban_gap.png}
+\caption{A. 2024 device type, SMS literacy, and solo PIN confidence gaps. B. Adjusted urban digitization ($-9.2$ pp, $p = 0.002$) versus rural stagnation ($+3.7$ pp, not significant).}
 \label{fig:econ_2024}
 \end{figure*}
-
-\FloatBarrier
+Adding Digital Connectivity Tracker predictors in 2024 ($n = 1,335$) achieves 5$\times$3 CV XGBoost ROC AUC $= 0.8410 \pm 0.020$ (PR AUC $= 0.8676$). Fig.~\ref{fig:econ_2024}A shows stark unadjusted disparities across smartphone access (\textit{con9}: 53.2\% cash reliant versus 85.6\% on basic phones), SMS reading (\textit{con14}: 48.0\% versus 78.5\%), and solo PIN modification (\textit{con19}: 45.9\% versus 71.0\%). In HC1 regressions, sending SMS ($-18.3$ pp, $p < 10^{-4}$; SHAP $= 0.3372$) and solo PIN modification ($-7.5$ pp, $p = 0.024$; SHAP $= 0.1160$) significantly reduce cash reliance. Restricting to smartphone owners ($n = 1,276$) leaves cash reliance at 53.16\% with steady AMEs (bank wages $-19.3$ pp, debit card $-26.6$ pp, female $+7.3$ pp). On digital payment frequency (\textit{fin25e3}, $n = 562$), ordered logit estimates show women pay digitally less often ($\text{OR} = 0.69, p = 0.036$) whereas SMS literate users transact more than twice as frequently ($\text{OR} = 2.15, p = 0.013$). Conversely, stated merchant refusal (\textit{fin25e4} $= 1$, $n = 711$) exhibits no significant variation across gender, education, income, urban location, cash wages, or debit cards ($p \ge 0.07$; age $p = 0.050$), indicating broad supply side cash preference across markets.
 
 \section{Policy Counterfactuals \& Design Implications}
-Evaluating the calibrated ensemble over the 2024 capable cohort ($n = 1,335$; baseline predicted cash reliance $55.39\%$, observed $54.80\%$) yields associational counterfactual benchmarks summarized in Table~\ref{tab:counterfactuals}.
-
-\begin{table}[!htbp]
+\begin{table}[t]
 \caption{Model Implied Associational Counterfactuals (2024 Cohort)}
 \centering
 \footnotesize
@@ -337,15 +332,15 @@ Combined Onboarding and Payroll Shift & 40.91\% & $-14.48$ pp \\
 \label{tab:counterfactuals}
 \end{table}
 
-\FloatBarrier
-
-Four policy priorities follow from these estimates:
+Evaluating the calibrated ensemble over the 2024 capable cohort ($n = 1,335$; baseline predicted cash reliance $55.39\%$, observed $54.80\%$) yields associational counterfactual benchmarks summarized in Table~\ref{tab:counterfactuals}. Four policy priorities follow from these estimates:
 \begin{enumerate}
     \item \textbf{Default Cardless Aadhaar Onboarding:} Scaling Aadhaar OTP and biometric UPI registration eliminates debit card setup barriers for the 55.7\% cardless segment and associates with an $8.83$ pp drop in cash reliance.
     \item \textbf{Bank Payroll Digitization:} Shifting informal salaries onto direct bank deposits and pairing welfare credits with retail acceptance incentives yields a combined $14.48$ pp shift when paired with cardless onboarding.
     \item \textbf{Aligned GST and Tax Safe Harbors:} Creating a digital turnover GST composition safe harbor calibrated toward Income Tax Section 44AD (INR~3 crore threshold for 95\% digital receipts) mitigates micro merchant fear of Section 63 GST notices triggered via AIS reporting.
     \item \textbf{PIN Free Low Value Wallets and Voice UX:} Making sub INR~500 transactions default to on device UPI Lite wallets alongside automated 60s failure reversals and vernacular voice guidance directly targets the 44.3\% carded habit segment, low PIN confidence (\textit{con19}), and older or female user gaps.
 \end{enumerate}
+
+\FloatBarrier
 
 \section{Limitations}
 First, Global Findex waves form repeated cross sections rather than longitudinal panels; TreeSHAP attributions, AMEs, and policy simulations therefore reflect statistical associations rather than causal treatment effects. Second, linking merchant refusal (\textit{fin25e4}) to AIS and GST compliance rests on institutional analysis consistent with uniform buyer reports rather than paired merchant tax audits. Third, constructs such as habit persistence rely on single survey items rather than multi item psychometric scales.
@@ -354,7 +349,7 @@ First, Global Findex waves form repeated cross sections rather than longitudinal
 Across pooled World Bank Global Findex India waves ($N = 6,000$; $N_{\text{cap}} = 2,172$), regularized tree ensembles, calibrated stacking models, TreeSHAP interactions, HC1 econometrics, and Yun and Fairlie decompositions explain why 54.80\% of banked, phone owning, internet active Indian adults still pay merchants only in cash. Closing India's gap between 89.0\% account access and 18.3\% digital merchant usage requires removing debit card UPI setup barriers, shifting wage payments into bank channels, easing merchant GST and AIS compliance cliffs, and simplifying authentication and vernacular interfaces for women, rural residents, and older adults.
 
 \section*{Acknowledgment}
-The authors express gratitude to RV College of Engineering (RVCE), Bengaluru, including the Department of Computer Science and Engineering (AI \& ML) and the Department of Industrial Engineering and Management, for institutional support under the Experiential Learning program, and acknowledge the World Bank Development Research Group for public access to the Global Findex India microdata.
+The authors express gratitude to RV College of Engineering (RVCE), Bengaluru, including the Department of Computer Science and Engineering and the Department of Industrial Engineering and Management, for institutional support under the Experiential Learning program, and acknowledge the World Bank Development Research Group for public access to the Global Findex India microdata.
 
 \bibliographystyle{IEEEtran}
 \begin{thebibliography}{00}

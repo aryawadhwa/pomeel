@@ -1,7 +1,7 @@
 # Analyzing India's Rising Currency in Circulation: An Explainable Machine Learning and Econometric Study of the "Capable but Cash" Paradox
 
 **Aarush Garg**¹, **Arya Wadhwa**¹, **Dilraj Singh**¹, and **Dr. Vivekanand S Gogi**²  
-¹*Department of Computer Science and Engineering (AI & ML), RV College of Engineering, Bengaluru, India*  
+¹*Department of Computer Science and Engineering, RV College of Engineering, Bengaluru, India*  
 ²*Department of Industrial Engineering and Management, RV College of Engineering, Bengaluru, India*  
 *Emails: `aarushgarg.ai24@rvce.edu.in`, `aryawadhwa.ai24@rvce.edu.in`, `dilrajsingh.ai24@rvce.edu.in`, `vivekanands@rvce.edu.in`*
 
@@ -244,7 +244,7 @@ Table V consolidates wave separated HC1 AMEs, Yun and Fairlie decompositions (30
 *Figure 9: (A) Order invariant Yun and Fairlie gap decomposition; (B) Stated cash only barriers in 2024 (`fin25e4`, $n=711$).*
 
 ![2024 Connectivity Tracker and Spatial Gap](../figures/econ_2024_literacy_and_urban_gap.png)
-*Figure 10: (A) 2024 device, SMS literacy, and solo PIN confidence gaps; (B) Adjusted urban digitization ($-9.2$ pp) versus rural stagnation ($+3.7$ pp, not significant).*
+*Figure 10: (A) 2024 device type, SMS literacy, and solo PIN confidence gaps; (B) Adjusted urban digitization ($-9.2$ pp, $p = 0.002$) versus rural stagnation ($+3.7$ pp, not significant).*
 
 Main econometric findings:
 1. **Older Cohort Inertia ($H_3$):** Formal hinge ($p = 0.695$) and quadratic ($p = 0.385$) tests refute a discontinuous slope break at age 40; instead, `Age >= 40` adults saw zero 2021 to 2024 digitization progress ($+5.8$ pp, $p = 0.195$ versus $-7.1$ pp, $p = 0.003$ under 40) and a doubled $+14.7$ pp female penalty ($p = 0.003$).
@@ -289,7 +289,7 @@ Combining pooled Global Findex India waves ($N=6,000$; $N_{\text{cap}}=2,172$), 
 
 ## Acknowledgment
 
-The authors express gratitude to RV College of Engineering (RVCE), Bengaluru, including the Department of Computer Science and Engineering (AI & ML) and the Department of Industrial Engineering and Management, for institutional support under the Experiential Learning program, and acknowledge the World Bank Development Research Group for public access to the Global Findex India microdata.
+The authors express gratitude to RV College of Engineering (RVCE), Bengaluru, including the Department of Computer Science and Engineering and the Department of Industrial Engineering and Management, for institutional support under the Experiential Learning program, and acknowledge the World Bank Development Research Group for public access to the Global Findex India microdata.
 
 ---
 

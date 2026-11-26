@@ -6,7 +6,7 @@
 
 **Research Project:** *Analyzing India’s Rising Currency in Circulation: An Explainable Machine Learning Approach to the "Capable-but-Cash" Paradox*  
 **Authors:** Aarush Garg, Arya Wadhwa, Dilraj Singh, Dr. Vivekanand S Gogi  
-**Institution:** RV College of Engineering, Bengaluru, India (Dept. of Computer Science & Engineering [AI & ML]; Dept. of Industrial Engineering & Management)  
+**Institution:** RV College of Engineering, Bengaluru, India (Dept. of Computer Science & Engineering; Dept. of Industrial Engineering & Management)  
 
 ---
 

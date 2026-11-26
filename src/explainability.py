@@ -559,10 +559,23 @@ def generate_econometric_figures(
             v = bar.get_height()
             ax2.text(bar.get_x() + bar.get_width() / 2, v + 1.5, f'{v:.1f}%', ha='center', fontweight='bold', fontsize=10)
 
-        ax2.annotate(f'{u24 - u21:+.1f} pp raw\n(adj. -9.0 pp, p=0.001)', xy=(0.16, u24 + 5.5), xytext=(0.24, 78),
+        u_adj_pp, u_adj_p = -9.2, 0.002
+        r_adj_pp = 3.7
+        sub_csv = os.path.join(output_dir, 'subgroup_heterogeneity_ames.csv')
+        if os.path.exists(sub_csv):
+            sub_h = pd.read_csv(sub_csv)
+            u_row = sub_h[(sub_h['Subgroup'] == 'Urban') & (sub_h['Feature'] == 'wave_2024')]
+            r_row = sub_h[(sub_h['Subgroup'] == 'Rural') & (sub_h['Feature'] == 'wave_2024')]
+            if not u_row.empty:
+                u_adj_pp = float(u_row['AME_dy_dx'].iloc[0]) * 100
+                u_adj_p = float(u_row['p_value'].iloc[0])
+            if not r_row.empty:
+                r_adj_pp = float(r_row['AME_dy_dx'].iloc[0]) * 100
+
+        ax2.annotate(f'{u24 - u21:+.1f} pp raw\n(adj. {u_adj_pp:+.1f} pp, p={u_adj_p:.3f})', xy=(0.16, u24 + 5.5), xytext=(0.24, 78),
                      ha='center', fontsize=9, fontweight='bold', color='#1a9850',
                      arrowprops=dict(arrowstyle='->', color='#1a9850', lw=1.5))
-        ax2.annotate(f'{r24 - r21:+.1f} pp raw\n(adj. +3.3 pp, n.s.)', xy=(1.16, r24 + 5.5), xytext=(1.16, 78),
+        ax2.annotate(f'{r24 - r21:+.1f} pp raw\n(adj. {r_adj_pp:+.1f} pp, n.s.)', xy=(1.16, r24 + 5.5), xytext=(1.16, 78),
                      ha='center', fontsize=9, fontweight='bold', color='#b2182b',
                      arrowprops=dict(arrowstyle='->', color='#b2182b', lw=1.5))
 

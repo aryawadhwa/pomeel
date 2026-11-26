@@ -1,7 +1,7 @@
 # Critical Review & Niche Pivot Strategy
 **Project:** *Analyzing India’s Rising Currency in Circulation: An Explainable Machine Learning Approach to the "Capable-but-Cash" Paradox*  
 **Authors:** Aarush Garg, Arya Wadhwa, Dilraj Singh, Dr. Vivekanand S Gogi  
-**Institution:** RV College of Engineering, Bengaluru, India (Dept. of Computer Science & Engineering [AI & ML]; Dept. of Industrial Engineering & Management)  
+**Institution:** RV College of Engineering, Bengaluru, India (Dept. of Computer Science & Engineering; Dept. of Industrial Engineering & Management)  
 
 > **Archival Note (Phase I Planning Memo):** This document records the early Phase I peer-review scoping critique (against earlier 2024 snapshot figures of 14.9B monthly UPI transactions and ₹42.8 lakh crore CiC) that motivated the final two-wave econometrics, TreeSHAP interaction, and 2024 Connectivity Tracker pipeline documented in `paper/paper.tex` and `paper/RESEARCH_PAPER.md`.
 
