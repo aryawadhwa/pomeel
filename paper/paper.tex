@@ -9,6 +9,7 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{array}
+\usepackage{placeins}
 \usepackage{microtype}
 \usepackage[hidelinks]{hyperref}
 
@@ -263,30 +264,6 @@ Fig.~\ref{fig:econ_ames} displays wave specific HC1 AMEs with 95\% CIs, and Tabl
     \item \textbf{Yun and Fairlie Decomposition (Fig.~\ref{fig:econ_decomp}):} The 2021 to 2024 decline (60.57\% to 54.80\%, $-5.76$ pp) splits into 50.6\% endowment differences (debit cards $+36.7\%$, borrowing and saving $+71.1\%$, bank wages $+17.4\%$, partly offset as internet adoption expanded into lower income strata) and 49.4\% behavioral change. The $+14.87$ pp gender gap (66.92\% female versus 52.05\% male) is 52.1\% explained by endowments (95\% CI: 35.5\% to 71.5\%; debit cards $+30.2\%$, bank wages $+13.4\%$, borrowing $+7.6\%$) and 47.9\% unexplained within household friction.
 \end{enumerate}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.95\columnwidth]{econ_ames_forest_plot.png}
-\caption{Wave separated weighted Average Marginal Effects (percentage points with HC1 95\% CIs) in 2021 versus 2024.}
-\label{fig:econ_ames}
-\end{figure}
-
-\begin{figure*}[t]
-\centering
-\includegraphics[width=0.92\textwidth]{econ_decomposition_and_barriers.png}
-\caption{A. Order invariant Yun and Fairlie decomposition (2021 to 2024 and gender). B. Reported cash barriers in 2024 (\textit{fin25e4}, $n = 711$).}
-\label{fig:econ_decomp}
-\end{figure*}
-
-\subsection{2024 Connectivity Tracker, Usage Frequency, and Merchant Refusal}
-Adding Digital Connectivity Tracker predictors in 2024 ($n = 1,335$) achieves 5$\times$3 CV XGBoost ROC AUC $= 0.8410 \pm 0.020$ (PR AUC $= 0.8676$). Fig.~\ref{fig:econ_2024}A shows stark unadjusted disparities across smartphone access (\textit{con9}: 53.2\% cash reliant versus 85.6\% on basic phones), SMS reading (\textit{con14}: 48.0\% versus 78.5\%), and solo PIN modification (\textit{con19}: 45.9\% versus 71.0\%). In HC1 regressions, sending SMS ($-18.3$ pp, $p < 10^{-4}$; SHAP $= 0.3372$) and solo PIN modification ($-7.5$ pp, $p = 0.024$; SHAP $= 0.1160$) significantly reduce cash reliance. Restricting to smartphone owners ($n = 1,276$) leaves cash reliance at 53.16\% with steady AMEs (bank wages $-19.3$ pp, debit card $-26.6$ pp, female $+7.3$ pp). On digital payment frequency (\textit{fin25e3}, $n = 562$), ordered logit estimates show women pay digitally less often ($\text{OR} = 0.69, p = 0.036$) whereas SMS literate users transact more than twice as frequently ($\text{OR} = 2.15, p = 0.013$). Conversely, stated merchant refusal (\textit{fin25e4} $= 1$, $n = 711$) exhibits no significant variation across gender, education, income, urban location, cash wages, or debit cards ($p \ge 0.07$; age $p = 0.050$), indicating broad supply side cash preference across markets.
-
-\begin{figure*}[t]
-\centering
-\includegraphics[width=0.92\textwidth]{econ_2024_literacy_and_urban_gap.png}
-\caption{A. 2024 device type, SMS literacy, and solo PIN confidence gaps. B. Adjusted urban digitization ($-9.2$ pp) versus rural stagnation ($+3.7$ pp, not significant).}
-\label{fig:econ_2024}
-\end{figure*}
-
 \begin{table*}[t]
 \caption{Econometric Sensitivity, Subgroup, Tracker, and Intensive Margin Audits}
 \centering
@@ -313,10 +290,36 @@ Intensive Margin (\textit{fin25e3}, $n = 562$) & Can read SMS (\textit{con14}) O
 \label{tab:econ_audit}
 \end{table*}
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.95\columnwidth]{econ_ames_forest_plot.png}
+\caption{Wave separated weighted Average Marginal Effects (percentage points with HC1 95\% CIs) in 2021 versus 2024.}
+\label{fig:econ_ames}
+\end{figure}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{econ_decomposition_and_barriers.png}
+\caption{A. Order invariant Yun and Fairlie decomposition (2021 to 2024 and gender). B. Reported cash barriers in 2024 (\textit{fin25e4}, $n = 711$).}
+\label{fig:econ_decomp}
+\end{figure*}
+
+\subsection{2024 Connectivity Tracker, Usage Frequency, and Merchant Refusal}
+Adding Digital Connectivity Tracker predictors in 2024 ($n = 1,335$) achieves 5$\times$3 CV XGBoost ROC AUC $= 0.8410 \pm 0.020$ (PR AUC $= 0.8676$). Fig.~\ref{fig:econ_2024}A shows stark unadjusted disparities across smartphone access (\textit{con9}: 53.2\% cash reliant versus 85.6\% on basic phones), SMS reading (\textit{con14}: 48.0\% versus 78.5\%), and solo PIN modification (\textit{con19}: 45.9\% versus 71.0\%). In HC1 regressions, sending SMS ($-18.3$ pp, $p < 10^{-4}$; SHAP $= 0.3372$) and solo PIN modification ($-7.5$ pp, $p = 0.024$; SHAP $= 0.1160$) significantly reduce cash reliance. Restricting to smartphone owners ($n = 1,276$) leaves cash reliance at 53.16\% with steady AMEs (bank wages $-19.3$ pp, debit card $-26.6$ pp, female $+7.3$ pp). On digital payment frequency (\textit{fin25e3}, $n = 562$), ordered logit estimates show women pay digitally less often ($\text{OR} = 0.69, p = 0.036$) whereas SMS literate users transact more than twice as frequently ($\text{OR} = 2.15, p = 0.013$). Conversely, stated merchant refusal (\textit{fin25e4} $= 1$, $n = 711$) exhibits no significant variation across gender, education, income, urban location, cash wages, or debit cards ($p \ge 0.07$; age $p = 0.050$), indicating broad supply side cash preference across markets.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{econ_2024_literacy_and_urban_gap.png}
+\caption{A. 2024 device type, SMS literacy, and solo PIN confidence gaps. B. Adjusted urban digitization ($-9.2$ pp) versus rural stagnation ($+3.7$ pp, not significant).}
+\label{fig:econ_2024}
+\end{figure*}
+
+\FloatBarrier
+
 \section{Policy Counterfactuals \& Design Implications}
 Evaluating the calibrated ensemble over the 2024 capable cohort ($n = 1,335$; baseline predicted cash reliance $55.39\%$, observed $54.80\%$) yields associational counterfactual benchmarks summarized in Table~\ref{tab:counterfactuals}.
 
-\begin{table}[t]
+\begin{table}[!htbp]
 \caption{Model Implied Associational Counterfactuals (2024 Cohort)}
 \centering
 \footnotesize
@@ -334,6 +337,8 @@ Combined Onboarding and Payroll Shift & 40.91\% & $-14.48$ pp \\
 \label{tab:counterfactuals}
 \end{table}
 
+\FloatBarrier
+
 Four policy priorities follow from these estimates:
 \begin{enumerate}
     \item \textbf{Default Cardless Aadhaar Onboarding:} Scaling Aadhaar OTP and biometric UPI registration eliminates debit card setup barriers for the 55.7\% cardless segment and associates with an $8.83$ pp drop in cash reliance.
@@ -347,6 +352,9 @@ First, Global Findex waves form repeated cross sections rather than longitudinal
 
 \section{Conclusion}
 Across pooled World Bank Global Findex India waves ($N = 6,000$; $N_{\text{cap}} = 2,172$), regularized tree ensembles, calibrated stacking models, TreeSHAP interactions, HC1 econometrics, and Yun and Fairlie decompositions explain why 54.80\% of banked, phone owning, internet active Indian adults still pay merchants only in cash. Closing India's gap between 89.0\% account access and 18.3\% digital merchant usage requires removing debit card UPI setup barriers, shifting wage payments into bank channels, easing merchant GST and AIS compliance cliffs, and simplifying authentication and vernacular interfaces for women, rural residents, and older adults.
+
+\section*{Acknowledgment}
+The authors express gratitude to RV College of Engineering (RVCE), Bengaluru, including the Department of Computer Science and Engineering (AI \& ML) and the Department of Industrial Engineering and Management, for institutional support under the Experiential Learning program, and acknowledge the World Bank Development Research Group for public access to the Global Findex India microdata.
 
 \bibliographystyle{IEEEtran}
 \begin{thebibliography}{00}

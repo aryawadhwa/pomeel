@@ -287,6 +287,12 @@ Combining pooled Global Findex India waves ($N=6,000$; $N_{\text{cap}}=2,172$), 
 
 ---
 
+## Acknowledgment
+
+The authors express gratitude to RV College of Engineering (RVCE), Bengaluru, including the Department of Computer Science and Engineering (AI & ML) and the Department of Industrial Engineering and Management, for institutional support under the Experiential Learning program, and acknowledge the World Bank Development Research Group for public access to the Global Findex India microdata.
+
+---
+
 ## References
 
 1. Arango, C., Huynh, K. P., & Sabetti, L. (2015). Consumer payment choice: Merchant card acceptance versus pricing incentives. *Journal of Banking & Finance*, 55, 130–141.

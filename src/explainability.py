@@ -182,7 +182,7 @@ def run_shap_analysis(
     fig, ax = plt.subplots(figsize=(9.5, 6))
     sc = ax.scatter(ages, age_shap, c=cash_vals, cmap='coolwarm', alpha=0.72, s=36, edgecolors='white', linewidth=0.4)
     cbar = plt.colorbar(sc, ax=ax)
-    cbar.set_label('Cash-Inflow Intensity (0–3 Channels)', fontsize=10, fontweight='bold')
+    cbar.set_label('Cash Inflow Intensity (0 to 3 Channels)', fontsize=10, fontweight='bold')
 
     bins = np.arange(15, 70, 6)
     bin_centers, bin_means, bin_ci = [], [], []
@@ -202,11 +202,20 @@ def run_shap_analysis(
     ax.axhline(0, color='#666666', linestyle=':', linewidth=1.2)
     ax.axvline(40, color='#b2182b', linestyle='--', linewidth=1.5, label='Cohort Boundary (Age 40)')
     ax.axvspan(40, max(ages.max() + 2, 42), color='#b2182b', alpha=0.05)
-    ax.text(41.0, age_shap.max() * 0.85, 'Age 40+ Cohort:\nZero 2021→2024 Shift\n(+15.5 pp Gender Gap)', color='#b2182b', fontsize=9.5, fontweight='bold')
+    ax.text(
+        41.5,
+        age_shap.min() * 0.78,
+        'Age 40+ Cohort:\nZero 2021 to 2024 Shift (+5.8 pp, n.s.)\n+14.7 pp Female AME (p = 0.003)',
+        color='#b2182b',
+        fontsize=9.2,
+        fontweight='bold',
+        va='center',
+        bbox=dict(boxstyle='round,pad=0.35', facecolor='white', edgecolor='#b2182b', alpha=0.92),
+    )
 
     ax.set_xlabel('Respondent Age (Years)', fontsize=11, fontweight='bold')
-    ax.set_ylabel('SHAP Impact on Cash Reliance (Log-Odds)', fontsize=11, fontweight='bold')
-    ax.set_title('Age-Gradient Curve in Cash Reliance (TreeSHAP with 95% Binned CI)', fontsize=13, fontweight='bold', pad=12)
+    ax.set_ylabel('SHAP Impact on Cash Reliance (Log Odds)', fontsize=11, fontweight='bold')
+    ax.set_title('Age Dependence Curve in Cash Reliance (TreeSHAP with 95% Binned CI)', fontsize=13, fontweight='bold', pad=12)
     ax.grid(linestyle='--', alpha=0.3)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
