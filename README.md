@@ -43,16 +43,21 @@
 ```
 .
 ├── Capable-but-Cash_Experiential_Learning_Phase_I.pdf   # Phase I Project Presentation
+├── Capable-but-Cash_Experiential_Learning_Phase_II.pdf  # Phase II Project Presentation (PDF)
+├── Capable-but-Cash_Experiential_Learning_Phase_II.pptx # Phase II Project Presentation (Editable Deck)
+├── Capable_but_Cash_Overleaf.zip                        # Overleaf LaTeX compilation bundle
 ├── LITERATURE_REVIEW.md                                 # Systematic literature review (37 scholarly & institutional citations)
 ├── NICHE_PIVOT_ANALYSIS.md                             # Critical peer review & 3 publishable niche pivots (Phase I scoping)
 ├── README.md                                           # Project governance & execution guide
+├── requirements.txt                                    # Python package dependencies
 ├── data/
 │   ├── raw/                                            # Raw World Bank Global Findex microdata (.dta / .csv)
 │   └── processed/                                      # Filtered "Capable" cohort microdata
 ├── figures/                                            # 23 analytical CSVs & 10 publication/diagnostic PNGs
 ├── paper/
 │   ├── RESEARCH_PAPER.md                               # Complete Markdown manuscript (all 10 PNGs & 32 citations)
-│   └── paper.tex                                       # Complete IEEEtran two-column manuscript (5 core figures, 6 tables, 32 citations)
+│   ├── paper.tex                                       # Complete IEEEtran two-column manuscript (5 core figures, 6 tables, 32 citations)
+│   └── references.bib                                  # BibTeX reference file (32 entries matching paper.tex)
 └── src/
     ├── data_loader.py                                  # Strict 2-wave loader pooling 2021 & 2025 Findex microdata
     ├── preprocessor.py                                 # Cohort screening, fin24/fin24a & 4-block leak-free features
@@ -70,8 +75,9 @@ Due to World Bank privacy terms, official survey microdata must be downloaded di
 1. **Option A (2025 Edition / 2024 wave):** Visit [India Global Findex 2025](https://microdata.worldbank.org/index.php/catalog/7916) (`IND_2024_FINDEX_v02_M`) and download `Findex_Microdata_2025_updateIndia.csv` / `.dta`.
 2. **Option B (2021 Benchmark):** Visit [India Global Findex 2021](https://microdata.worldbank.org/index.php/catalog/4653) (`IND_2021_FINDEX_v02_M`) and download `micro_ind.csv` / `.dta`.
 3. Place the file into `data/raw/`.
-4. Run the master pipeline:
+4. Install dependencies and run the master pipeline:
    ```bash
+   pip install -r requirements.txt
    python3 src/main.py
    ```
    *The data loader automatically detects both 2021 and 2025 formats, strictly verifies authentic files, and prevents any synthetic execution.*
